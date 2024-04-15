@@ -1,11 +1,11 @@
-# Movie Explorer
+# MDB Explorer
 
-Movie Explorer is a web application that uses JavaScript to interact with the MovieDB API. It allows users to browse movies, TV shows, and celebrities.
+MDB Explorer is a JavaScript-based Single Page Application (SPA) that interfaces with the MovieDB API, enabling users to navigate through movies, TV shows, and celebrities.
 
 ## Features
 
 - Displays a list of movies, TV shows, and celebrities from the MovieDB API.
-- Users can click on an item to view its details like title, release date, overview, and rating.
+- Users can click on an item to view its details like title, release date, overview, etc.
 - Includes a search bar for easy navigation.
 - Supports saving favorite movies or TV shows.
 - Provides a simple and user-friendly interface.
