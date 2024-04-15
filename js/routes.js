@@ -4,17 +4,17 @@ export default {
     path: '/',
     controller: 'homeController'
   },
-  authors: {
-    path: '/authors',
-    controller: 'authorController'
+  celebs: {
+    path: '/celebs',
+    controller: 'celebController'
   },
   films: {
     path: '/films',
     controller: 'filmController'
   },
-  map: {
-    path: '/map',
-    controller: 'mapController'
+  tvShows: {
+    path: '/tvShows',
+    controller: 'tvShowController'
   },
   about: {
     path: '/about',

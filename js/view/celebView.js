@@ -1,16 +1,16 @@
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 let modal;
 
-function render(films, searchQuery = '') {
+function render(celebrities, searchQuery = '') {
   const container = document.querySelector('#container');
   container.innerHTML = ''; 
 
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
-  const filteredFilms = searchQuery ? films.filter(movie => movie.title.toLowerCase().includes(searchQuery.toLowerCase())) : films;
+  const filteredCelebrities = searchQuery ? celebrities.filter(celeb => celeb.name.toLowerCase().includes(searchQuery.toLowerCase())) : celebrities;
 
-  filteredFilms.forEach(({ title, release_date: year, overview, vote_average: rating, poster_path }) => {
+  filteredCelebrities.forEach(({ name, known_for_department, popularity, profile_path }) => {
     const item = document.createElement('li');
     item.classList.add('movie-item');
 
@@ -18,16 +18,16 @@ function render(films, searchQuery = '') {
     movieContainer.classList.add('movie-container'); 
 
     const image = document.createElement('img');
-    image.src = `${imagePath}${poster_path}`;
-    image.alt = title;
+    image.src = `${imagePath}${profile_path}`;
+    image.alt = name;
 
     image.addEventListener('click', () => {
-      openModal({ title, year, overview, rating, poster_path });
+      openModal({ name, known_for_department, popularity, profile_path });
     });
 
     const titleElement = document.createElement('h5');
     titleElement.classList.add('movie-title');
-    titleElement.textContent = title;
+    titleElement.textContent = name;
 
     movieContainer.appendChild(image);
     movieContainer.appendChild(titleElement);
@@ -38,25 +38,24 @@ function render(films, searchQuery = '') {
   container.appendChild(list);
 }
 
-function openModal(movie) {
+function openModal(celeb) {
 
   if (modal) {
     modal.remove();
   }
 
   const modalHTML = `
-    <div id="movieDetailsModal" class="modal">
+    <div id="celebDetailsModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <div class="modal-body">
-        <div class="moviePosterDiv">
-        <img id="moviePoster" src="${imagePath}${movie.poster_path}" alt="Movie Poster">
+        <div class="celebProfileDiv">
+        <img id="celebProfile" src="${imagePath}${celeb.profile_path}" alt="Celebrity Profile">
         </div>
-          <div id="movieDetails">
-          <h2 id="movieTitle"><strong>${movie.title}</strong></h2><br><br>
-            <p><b>Release date:</b> ${movie.year}</p><br>
-            <p><b>Overview:</b> ${movie.overview}</p><br>
-            <p><b>Rating:</b> ${movie.rating.toFixed(1)}</p>
+          <div id="celebDetails">
+          <h2 id="celebName"><strong>${celeb.name}</strong></h2><br><br>
+            <p><b>Known for:</b> ${celeb.known_for_department}</p><br>
+            <p><b>Popularity:</b> ${celeb.popularity}</p>
             <div class="buttonDiv">
             <button id="goBackBtn">Go Back</button>
             </div>
@@ -68,7 +67,7 @@ function openModal(movie) {
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-  modal = document.getElementById('movieDetailsModal');
+  modal = document.getElementById('celebDetailsModal');
 
   const goBackBtn = document.getElementById('goBackBtn');
   goBackBtn.onclick = () => closeModal();
@@ -78,7 +77,6 @@ function openModal(movie) {
       closeModal();
     }
   };
-  
 }
 
 function closeModal() {

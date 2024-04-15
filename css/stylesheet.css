@@ -4,59 +4,78 @@
   font-family: 'League Spartan', sans-serif;
 }
 
+body {
+  background-color: black;
+}
+
 #anchors {
   display: flex;
   justify-content: space-evenly;
-  align-items: center; 
-  background-color: #f8f9fa; 
-  padding: 10px 20px ; 
-
+  align-items: center;
+  background-color:#fc0000f2;
+  padding: 10px 20px;
+  padding-right: 15px;
 }
+
+
 
 #anchors a {
   text-decoration: none;
-  color: #333; 
-  padding: 10px; 
+  color: white;
+  padding: 10px;
   transition: color 0.3s;
-
+  font-weight: bold
 }
 
 #anchors a:hover {
-  color: #ff0000;
+  color: black
 }
 
 #searchInput {
-  margin-left: auto; 
-  padding: 8px; 
-  border: 1px solid #ced4da; 
-  border-radius: 5px; 
+  margin-left: auto;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }
 
 .movie-list {
+padding: 10px;
+padding-top: 10px;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  column-gap: 30px; 
-  row-gap: 40px; 
+  column-gap: 30px;
+  row-gap: 40px;
 }
 
-  .movie-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+#movieDetailsModal {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+}
 
-  .movie-title {
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px; 
-    margin-top: -9px; 
-  }
+.buttonDiv {
+  padding-bottom: 15px;
+}
+
+.movie-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.movie-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: -9px;
+}
 
 .movie-item img {
   width: 180px;
-  border-radius: 10px; 
+  border-radius: 10px;
   margin-bottom: 20px;
   transition: transform 0.3s ease-in-out;
 }
@@ -64,38 +83,66 @@
 .movie-item img:hover {
   transform: scale(1.05);
   cursor: pointer;
+  box-shadow: 0 0 20px rgba(127, 127, 127, 0.5);
 }
 
 .modal-content {
-  padding: 0 30px; 
+  padding: 0 30px;
+  width: 50%;
+  background-color: black;
+  box-shadow: 0 0 50px rgba(127, 127, 127, 0.5);
+
 }
 
 .modal-content h1 {
-  margin: 60px 0; 
+  margin: 60px 0;
 }
 
 .modal {
   display: flex;
   align-items: center;
+  align-content: center;
   justify-content: center;
   height: 100vh;
 }
 
+.close {
+  display: none;
+}
+
 .modal img {
-  width: 300px;
   border-radius: 10px;
-  margin-bottom: 20px; 
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.moviePosterDiv {
+  width: 90vh;
+  height: auto;
+  padding-right: 15px;
+  overflow: scroll;
+  align-items: center;
+  align-self: center;
+
+}
+
+
+.modal-body {
+  display: flex;
+  background-color: black;
+  color: white;
 }
 
 .modal span {
   font-weight: normal;
-  font-size: 24px; 
-  margin-bottom: 20px; 
+  font-size: 24px;
+  margin-bottom: 20px;
   line-height: 130%;
 }
 
 .modal .release-date {
-  font-size: 24px; 
+  font-size: 24px;
   opacity: 0.5;
 }
 
@@ -105,6 +152,7 @@
   align-items: flex-start;
   margin-left: 60px;
   max-width: 50%;
+  align-content: flex-end
 }
 
 .modal button {
@@ -113,12 +161,23 @@
   cursor: pointer;
   border-radius: 10px;
   color: white;
-  padding: 10px 20px; 
+  padding: 10px 20px;
   margin-top: 20px;
-  font-size: 16px; 
+  font-size: 16px;
   transition: all 0.3s;
+  align-self: flex-end;
 }
 
 .modal button:hover {
-  background-color: #b40101;
+  background-color: #b40101bb;
+}
+
+.movie-list {
+  padding-top: 25px;
+  background-color: black;
+  color: white;
+}
+
+#celebDetails{
+  margin-left: 15px;
 }
