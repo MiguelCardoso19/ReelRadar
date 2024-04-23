@@ -1,24 +1,18 @@
-async function fetchData() {
-  let response = null;
-  const apiKey = 'a7d624ec76cac151d6355506514023eb';
-  const searchInput = document.getElementById('searchInput').value;
-  let apiUrl = 'https://api.themoviedb.org/3/discover/movie';
+const apiKey = 'a7d624ec76cac151d6355506514023eb';
+const apiUrl = 'https://api.themoviedb.org/3/discover/movie?api_key=';
 
-  if (searchInput) {
-    apiUrl = `https://api.themoviedb.org/3/search/movie`;
-  }
-
+async function fetchData(url = apiUrl) {
   try {
-    response = await fetch(`${apiUrl}?api_key=${apiKey}&query=${searchInput}`);
+    const response = await fetch(`${url}${apiKey}`);
 
     if (!response.ok) {
+      
       throw new Error('Network response was not ok');
     }
 
     const json = await response.json();
-    console.log(json.results);
     return json.results;
-    
+
   } catch(ex) {
     console.error(ex);
     throw ex;

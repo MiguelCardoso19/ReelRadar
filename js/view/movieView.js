@@ -1,16 +1,16 @@
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
+const noPosterBG = 'resources/no-poster.png';
+const noResultsImage = 'resources/no-results.png';
 let modal;
 
-function render(movies, searchQuery = '') {
+function render(movies) {
   const container = document.querySelector('#container');
   container.innerHTML = ''; 
 
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
-  const filteredMovies = searchQuery ? movies.filter(movie => movie.title.toLowerCase().includes(searchQuery.toLowerCase())) : movies;
-
-  filteredMovies.forEach(({ title, release_date: year, overview, vote_average: rating, poster_path }) => {
+  movies.forEach(({ title, release_date, overview, vote_average, poster_path }) => {
     const item = document.createElement('li');
     item.classList.add('movie-item');
 
@@ -18,11 +18,11 @@ function render(movies, searchQuery = '') {
     movieContainer.classList.add('movie-container'); 
 
     const image = document.createElement('img');
-    image.src = `${imagePath}${poster_path}`;
+    image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`;
     image.alt = title;
 
     image.addEventListener('click', () => {
-      openModal({ title, year, overview, rating, poster_path });
+      openModal({ title, release_date, overview, vote_average, poster_path});
     });
 
     const titleElement = document.createElement('h5');
@@ -39,7 +39,6 @@ function render(movies, searchQuery = '') {
 }
 
 function openModal(movie) {
-
   if (modal) {
     modal.remove();
   }
@@ -49,16 +48,16 @@ function openModal(movie) {
       <div class="modal-content">
         <span class="close">&times;</span>
         <div class="modal-body">
-        <div class="moviePosterDiv">
-        <img id="moviePoster" src="${imagePath}${movie.poster_path}" alt="Movie Poster">
-        </div>
+          <div class="moviePosterDiv">
+            <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
+          </div>
           <div id="movieDetails">
-          <h2 id="movieTitle"><strong>${movie.title}</strong></h2><br><br>
-            <p><b>Release date:</b> ${movie.year}</p><br>
+            <h2 id="movieTitle"><strong>${movie.title}</strong></h2><br><br>
+            <p><b>Release date:</b> ${movie.release_date}</p><br>
             <p><b>Overview:</b> ${movie.overview}</p><br>
-            <p><b>Rating:</b> ${movie.rating.toFixed(1)}</p>
+            <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
             <div class="buttonDiv">
-            <button id="goBackBtn">Go Back</button>
+              <button id="goBackBtn">Go Back</button>
             </div>
           </div>
         </div>
@@ -78,7 +77,6 @@ function openModal(movie) {
       closeModal();
     }
   };
-  
 }
 
 function closeModal() {
@@ -87,4 +85,22 @@ function closeModal() {
   modal = null;
 }
 
-export default { render };
+function getColor(rating) {
+  if(rating >= 6.5){
+    return 'style="color: lightgreen; font-size: 16px;"';
+  } else if(rating >= 5){
+    return 'style="color: orange; font-size: 16px;"';
+  } else {
+    return 'style="color: red; font-size: 16px;"';
+  }
+}
+
+function renderNotFound() {
+  const container = document.querySelector('#container');
+  container.innerHTML = `
+    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+      <img src="${noResultsImage}" alt="No results found" style="width: 40%;">
+    </div>`;
+}
+
+export default { render, renderNotFound };

@@ -1,32 +1,32 @@
 import celebService from '../service/celebService.js';
 import celebView from '../view/celebView.js';
 
-let timeoutId;
-
 async function init() {
-  const celebs = await celebService.fetchData();
-  celebView.render(celebs);
-  
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('input', handleSearchInput);
-}
+  const allCelebs = await celebService.fetchData();
+  celebView.render(allCelebs);
 
-async function handleSearchInput(event) {
-  clearTimeout(timeoutId);
+  const form = document.getElementById('form');
+  const search = document.getElementById('search');
 
-  const searchQuery = event.target.value.trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  if (!searchQuery) {
-    const allcelebs  = await celebService.fetchData();
-    celebView.render(allcelebs );
-    return;
-  }
+    const searchInput = search.value.trim();
 
-  timeoutId = setTimeout(async () => {
-    const celebs  = await celebService.fetchData(searchQuery);
+    if (searchInput) {
+      let searchResults = await celebService.fetchData(`https://api.themoviedb.org/3/search/person?query=${searchInput}&api_key=`);
+      
+      if (searchResults.length === 0) {
+        celebView.renderNotFound();
 
-    celebView.render(celebs);
-  }, 300); 
+      } else {
+        celebView.render(searchResults);
+      }
+
+    } else {
+      celebView.render(allCelebs);
+    }
+  });
 }
 
 export default { init };

@@ -17,8 +17,6 @@ body {
   padding-right: 15px;
 }
 
-
-
 #anchors a {
   text-decoration: none;
   color: white;
@@ -31,7 +29,7 @@ body {
   color: black
 }
 
-#searchInput {
+#search{
   margin-left: auto;
   padding: 8px;
   border: 1px solid #ced4da;
@@ -121,12 +119,9 @@ padding-top: 10px;
   width: 90vh;
   height: auto;
   padding-right: 15px;
-  overflow: scroll;
   align-items: center;
   align-self: center;
-
 }
-
 
 .modal-body {
   display: flex;
@@ -178,6 +173,18 @@ padding-top: 10px;
   color: white;
 }
 
+.rating-low {
+  color: red !important;
+}
+
+.rating-medium {
+  color: yellow !important;
+}
+
+.rating-high {
+  color: green !important;
+} 
+
 #celebDetails{
-  margin-left: 15px;
+  margin-left: 15px; 
 }

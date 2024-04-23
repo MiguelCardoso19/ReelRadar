@@ -1,32 +1,32 @@
 import movieService from '../service/movieService.js';
 import movieView from '../view/movieView.js';
 
-let timeoutId;
-
 async function init() {
-  const movies = await movieService.fetchData();
-  movieView.render(movies);
+  const allMovies = await movieService.fetchData();
+  movieView.render(allMovies);
   
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('input', handleSearchInput);
-}
+  const form = document.getElementById('form');
+  const search = document.getElementById('search');
 
-async function handleSearchInput(event) {
-  clearTimeout(timeoutId);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const searchQuery = event.target.value.trim();
+    const searchInput = search.value.trim();
 
-  if (!searchQuery) {
-    const allmovies = await movieService.fetchData();
-    movieView.render(allMovies);
-    return;
-  }
+    if (searchInput) {
+      let searchResults = await movieService.fetchData(`https://api.themoviedb.org/3/search/movie?query=${searchInput}&api_key=`);
+     
+      if (searchResults.length === 0) {
+        movieView.renderNotFound();
 
-  timeoutId = setTimeout(async () => {
-    const movies = await movieService.fetchData(searchQuery);
+      } else {
+        movieView.render(searchResults);
+      }
 
-    movieView.render(movies);
-  }, 300); 
+    } else {
+      movieView.render(allMovies);
+    }
+  });
 }
 
 export default { init };

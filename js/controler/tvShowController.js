@@ -1,32 +1,32 @@
 import tvShowService from '../service/tvShowService.js';
 import tvShowView from '../view/tvShowView.js';
 
-let timeoutId;
-
 async function init() {
-  const tvShows = await tvShowService.fetchData();
-  tvShowView.render(tvShows);
-  
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('input', handleSearchInput);
-}
+  const allTVShows = await tvShowService.fetchData();
+  tvShowView.render(allTVShows);
 
-async function handleSearchInput(event) {
-  clearTimeout(timeoutId);
+  const form = document.getElementById('form');
+  const search = document.getElementById('search');
 
-  const searchQuery = event.target.value.trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  if (!searchQuery) {
-    const allTvShows  = await tvShowService.fetchData();
-    tvShowView.render(allTvShows );
-    return;
-  }
+    const searchInput = search.value.trim();
 
-  timeoutId = setTimeout(async () => {
-    const tvShows  = await tvShowService.fetchData(searchQuery);
+    if (searchInput) {
+      let searchResults = await  tvShowService.fetchData(`https://api.themoviedb.org/3/search/tv?query=${searchInput}&api_key=`);
+      
+      if (searchResults.length === 0) {
+        tvShowView.renderNotFound();
 
-    tvShowView.render(tvShows);
-  }, 300); 
+      } else {
+        tvShowView.render(searchResults);
+      } 
+      
+    } else {
+      tvShowView.render(allTVShows);
+    }
+  });
 }
 
 export default { init };

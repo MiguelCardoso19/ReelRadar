@@ -1,16 +1,17 @@
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
+const noPosterBG = 'resources/no-poster.png';
+const noResultsImage = 'resources/no-results.png';
 let modal;
 
-function render(tvShows, searchQuery = '') {
+function render(tvShows) {
+  
   const container = document.querySelector('#container');
   container.innerHTML = ''; 
 
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
-  const filteredTvShows = searchQuery ? tvShows.filter(tvShow => tvShow.name.toLowerCase().includes(searchQuery.toLowerCase())) : tvShows;
-
-  filteredTvShows.forEach(({ name, first_air_date: year, overview, vote_average: rating, poster_path }) => {
+  tvShows.forEach(({ name, first_air_date, overview, vote_average, poster_path }) => {
     const item = document.createElement('li');
     item.classList.add('movie-item');
 
@@ -18,11 +19,11 @@ function render(tvShows, searchQuery = '') {
     movieContainer.classList.add('movie-container'); 
 
     const image = document.createElement('img');
-    image.src = `${imagePath}${poster_path}`;
+    image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`
     image.alt = name;
 
     image.addEventListener('click', () => {
-      openModal({ name, year, overview, rating, poster_path });
+      openModal({ name, first_air_date, overview, vote_average, poster_path });
     });
 
     const titleElement = document.createElement('h5');
@@ -50,13 +51,13 @@ function openModal(tvShow) {
         <span class="close">&times;</span>
         <div class="modal-body">
         <div class="moviePosterDiv">
-        <img id="moviePoster" src="${imagePath}${tvShow.poster_path}" alt="Movie Poster">
+        <img id="moviePoster" src="${tvShow.poster_path ? imagePath + tvShow.poster_path : noPosterBG}" alt="Movie Poster">
         </div>
           <div id="movieDetails">
           <h2 id="movieTitle"><strong>${tvShow.name}</strong></h2><br><br>
-            <p><b>First air date:</b> ${tvShow.year}</p><br>
+            <p><b>First air date:</b> ${tvShow.first_air_date}</p><br>
             <p><b>Overview:</b> ${tvShow.overview}</p><br>
-            <p><b>Rating:</b> ${tvShow.rating.toFixed(1)}</p>
+            <p><b>Rating:</b><span ${getColor(tvShow.vote_average)}> ${tvShow.vote_average.toFixed(1)}</span></p>
             <div class="buttonDiv">
             <button id="goBackBtn">Go Back</button>
             </div>
@@ -86,4 +87,22 @@ function closeModal() {
   modal = null;
 }
 
-export default { render };
+function getColor(rating) {
+  if(rating >= 6.5){
+    return 'style="color: lightgreen; font-size: 16px;"';
+  } else if(rating >= 5){
+    return 'style="color: orange; font-size: 16px;"';
+  } else {
+    return 'style="color: red; font-size: 16px;"';
+  }
+}
+
+function renderNotFound() {
+  const container = document.querySelector('#container');
+  container.innerHTML = `
+    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+      <img src="${noResultsImage}" alt="No results found" style="width: 40%;">
+    </div>`;
+}
+
+export default { render, renderNotFound };
