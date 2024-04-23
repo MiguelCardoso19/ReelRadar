@@ -1,11 +1,11 @@
-import filmService from '../service/filmService.js';
-import filmView from '../view/filmView.js';
+import movieService from '../service/movieService.js';
+import movieView from '../view/movieView.js';
 
 let timeoutId;
 
 async function init() {
-  const films = await filmService.fetchData();
-  filmView.render(films);
+  const movies = await movieService.fetchData();
+  movieView.render(movies);
   
   const searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('input', handleSearchInput);
@@ -17,15 +17,15 @@ async function handleSearchInput(event) {
   const searchQuery = event.target.value.trim();
 
   if (!searchQuery) {
-    const allFilms = await filmService.fetchData();
-    filmView.render(allFilms);
+    const allmovies = await movieService.fetchData();
+    movieView.render(allMovies);
     return;
   }
 
   timeoutId = setTimeout(async () => {
-    const films = await filmService.fetchData(searchQuery);
+    const movies = await movieService.fetchData(searchQuery);
 
-    filmView.render(films);
+    movieView.render(movies);
   }, 300); 
 }
 

@@ -9,8 +9,8 @@ export default {
     controller: 'celebController'
   },
   films: {
-    path: '/films',
-    controller: 'filmController'
+    path: '/movies',
+    controller: 'movieController'
   },
   tvShows: {
     path: '/tvShows',

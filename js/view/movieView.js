@@ -1,16 +1,16 @@
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 let modal;
 
-function render(films, searchQuery = '') {
+function render(movies, searchQuery = '') {
   const container = document.querySelector('#container');
   container.innerHTML = ''; 
 
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
-  const filteredFilms = searchQuery ? films.filter(movie => movie.title.toLowerCase().includes(searchQuery.toLowerCase())) : films;
+  const filteredMovies = searchQuery ? movies.filter(movie => movie.title.toLowerCase().includes(searchQuery.toLowerCase())) : movies;
 
-  filteredFilms.forEach(({ title, release_date: year, overview, vote_average: rating, poster_path }) => {
+  filteredMovies.forEach(({ title, release_date: year, overview, vote_average: rating, poster_path }) => {
     const item = document.createElement('li');
     item.classList.add('movie-item');
 
