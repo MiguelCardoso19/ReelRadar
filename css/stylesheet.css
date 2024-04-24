@@ -178,7 +178,7 @@ padding-top: 10px;
 }
 
 .rating-medium {
-  color: yellow !important;
+  color: yellow
 }
 
 .rating-high {
@@ -188,3 +188,53 @@ padding-top: 10px;
 #celebDetails{
   margin-left: 15px; 
 }
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+}
+
+#movieTitle {
+  flex: 1; 
+}
+
+.favIconContainer {
+  margin-left: 10px; 
+}
+
+#favIcon {
+  width: 35px; 
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+#favIcon:hover{
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; 
+}
+
+  #prevBtn,
+  #nextBtn {
+    background-color: #fc0000b4;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px; 
+    color: white;
+    padding: 8px 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 20px; 
+    font-size: 14px; 
+    transition: all 0.3s;
+    align-self: center;
+  }
+  
+  #prevBtn:hover,
+  #nextBtn:hover {
+    background-color: #b40101bb;
+  }

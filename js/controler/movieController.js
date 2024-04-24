@@ -2,8 +2,9 @@ import movieService from '../service/movieService.js';
 import movieView from '../view/movieView.js';
 
 async function init() {
-  const allMovies = await movieService.fetchData();
-  movieView.render(allMovies);
+  let currentPage = 1; 
+  let allMovies = await movieService.fetchData(null, currentPage);
+  movieView.render(allMovies.results);
   
   const form = document.getElementById('form');
   const search = document.getElementById('search');
@@ -12,21 +13,48 @@ async function init() {
     e.preventDefault();
 
     const searchInput = search.value.trim();
-
+    
     if (searchInput) {
-      let searchResults = await movieService.fetchData(`https://api.themoviedb.org/3/search/movie?query=${searchInput}&api_key=`);
-     
-      if (searchResults.length === 0) {
+      let searchResults = await movieService.fetchData(searchInput);
+
+      if (searchResults.results.length === 0) {
         movieView.renderNotFound();
 
       } else {
-        movieView.render(searchResults);
+        movieView.render(searchResults.results);
       }
-
+      
     } else {
-      movieView.render(allMovies);
+      movieView.render(allMovies.results);
     }
   });
+
+  async function fetchAndRenderNextPage() {
+    currentPage++;
+    const nextPageMovies = await movieService.fetchData(null, currentPage);
+    movieView.render(nextPageMovies.results);
+    document.getElementById('prevBtn').style.display = 'inline-block';
+  }
+
+  async function fetchAndRenderPreviousPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      const previousPageMovies = await movieService.fetchData(null, currentPage);
+      movieView.render(previousPageMovies.results);
+    }
+
+    if (currentPage === 1) {
+      document.getElementById('prevBtn').style.display = 'none';
+    }
+  }
+
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.addEventListener('click', fetchAndRenderNextPage);
+
+  const prevBtn = document.getElementById('prevBtn');
+  prevBtn.addEventListener('click', fetchAndRenderPreviousPage);
+
+  prevBtn.style.display = 'none';
 }
 
 export default { init };

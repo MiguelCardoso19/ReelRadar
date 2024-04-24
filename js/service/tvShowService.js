@@ -6,9 +6,9 @@ async function fetchData(url = apiUrl) {
     const response = await fetch(`${url}${apiKey}`);
 
     if (!response.ok) {
-      
       throw new Error('Network response was not ok');
     }
+    
     const json = await response.json();
     return json.results;
 
