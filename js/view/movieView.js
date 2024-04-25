@@ -1,3 +1,4 @@
+import genreService from '../service/genreService.js'
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
 const noResultsImage = 'resources/no-results.png';
@@ -5,27 +6,29 @@ const FavIconFullStar = 'resources/full-star.png';
 const FavIconEmptyStar = 'resources/empty-star.png';
 let modal;
 
+
+
 function render(movies) {
   const container = document.querySelector('#container');
-  container.innerHTML = '';
+  container.innerHTML = ''; 
 
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
-  movies.forEach(({ title, release_date, overview, vote_average, poster_path, trailer }) => {
+  movies.forEach(({ title, release_date, overview, vote_average, poster_path, genre_ids }) => {
 
     const item = document.createElement('li');
     item.classList.add('movie-item');
 
     const movieContainer = document.createElement('div');
-    movieContainer.classList.add('movie-container');
+    movieContainer.classList.add('movie-container'); 
 
     const image = document.createElement('img');
     image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`;
     image.alt = title;
 
     image.addEventListener('click', () => {
-      openModal({ title, release_date, overview, vote_average, poster_path, trailer });
+      openModal({ title, release_date, overview, vote_average, poster_path, genre_ids });
     });
 
     const titleElement = document.createElement('h5');
@@ -41,12 +44,14 @@ function render(movies) {
   container.appendChild(list);
 }
 
-function openModal(movie) {
+
+async function openModal(movie) {
   if (modal) {
     modal.remove();
   }
 
-  const trailerLink = movie.trailer ? `<p><b><a href="${movie.trailer}" target="_blank">Trailer:</a></b></p>` : '';
+  const genreStrings = movie.genre_ids.map(id => genreService.getGenreName(id));
+  const genreHTML = genreStrings.map(genre => `<span>${genre}</span>`).join('');
 
   const modalHTML = `
     <div id="movieDetailsModal" class="modal">
@@ -63,35 +68,41 @@ function openModal(movie) {
                 <img id="favIcon" src="${FavIconEmptyStar}" alt="Favorite Icon">
               </div>
             </div>
-            ${trailerLink}
-            <br><br>
-            <p><b>Release date:</b> ${movie.release_date}</p><br>
+            <br>
+            <div class="genres">
+            ${genreHTML}
+            </div>
+            <p class="release-date"><b>Release date:</b> ${movie.release_date}</p><br>
             <p><b>Overview:</b> ${movie.overview}</p><br>
             <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
             <div class="buttonDiv">
-              <button id="goBackBtn">Go Back</button>
+            <button id="goBackBtn"">Close</button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   `;
 
+
   document.body.insertAdjacentHTML('beforeend', modalHTML);
   modal = document.getElementById('movieDetailsModal');
 
-  const favIcon = document.getElementById('favIcon');
-  favIcon.addEventListener('click', toggleStarIcon);
+  const favIcon = document.getElementById('favIcon'); 
+  favIcon.addEventListener('click', toggleStarIcon); 
 
   const goBackBtn = document.getElementById('goBackBtn');
   goBackBtn.onclick = () => closeModal();
 
-  window.onclick = function (event) {
+  window.onclick = function(event) {
     if (event.target === modal) {
       closeModal();
     }
   };
 }
+
+
 
 function toggleStarIcon() {
   const favIcon = document.getElementById('favIcon');

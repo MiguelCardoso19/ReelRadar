@@ -137,8 +137,9 @@ padding-top: 10px;
 }
 
 .modal .release-date {
-  font-size: 24px;
-  opacity: 0.5;
+    font-size: 15px;
+    opacity: 0.5;
+
 }
 
 .modal .details {
@@ -154,13 +155,16 @@ padding-top: 10px;
   background-color: #fc0000b4;
   border: none;
   cursor: pointer;
-  border-radius: 10px;
+  box-sizing: border-box;
+  border-radius: 4px;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 16px;
   margin-top: 20px;
-  font-size: 16px;
+  margin-bottom: 10px;
+  margin-right: 20px; 
+  font-size: 14px; 
   transition: all 0.3s;
-  align-self: flex-end;
+  align-self: center;
 }
 
 .modal button:hover {
@@ -223,7 +227,8 @@ padding-top: 10px;
     background-color: #fc0000b4;
     border: none;
     cursor: pointer;
-    border-radius: 30px; 
+    box-sizing: border-box;
+    border-radius: 4px;
     color: white;
     padding: 8px 16px;
     margin-top: 20px;
@@ -237,4 +242,18 @@ padding-top: 10px;
   #prevBtn:hover,
   #nextBtn:hover {
     background-color: #b40101bb;
+  }
+
+  .genres span {
+    margin-right: 5px;
+    max-width: 100%;
+    font-size: 0.8125rem;
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    color: rgb(255, 255, 255);
+    background-color: #b40101bb;
+    border-radius: 16px;
+    cursor: default;
+    padding: 10px;
   }

@@ -18,6 +18,7 @@ async function fetchData(query = '', page = 1) {
     }
 
     const json = await response.json();
+    console.log(json);
     return json;
 
   } catch(ex) {
