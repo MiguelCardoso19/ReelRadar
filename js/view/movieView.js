@@ -2,10 +2,8 @@ import movieService from '../service/movieService.js';
 
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
-const playButton = 'resources/play-button2.png'
+const playButton = 'resources/play-button.png'
 const noResultsImage = 'resources/no-results.png';
-const favIconFullStar = 'resources/full-star.png';
-const favIconEmptyStar = 'resources/empty-star.png';
 let modal;
 
 function renderMovies(movies) {
