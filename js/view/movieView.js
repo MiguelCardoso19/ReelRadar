@@ -1,96 +1,110 @@
-import genreService from '../service/genreService.js'
+import movieService from '../service/movieService.js';
+
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
+const playButton = 'resources/play-button2.png'
 const noResultsImage = 'resources/no-results.png';
-const FavIconFullStar = 'resources/full-star.png';
-const FavIconEmptyStar = 'resources/empty-star.png';
+const favIconFullStar = 'resources/full-star.png';
+const favIconEmptyStar = 'resources/empty-star.png';
 let modal;
 
-
-
-function render(movies) {
+function renderMovies(movies) {
   const container = document.querySelector('#container');
   container.innerHTML = ''; 
 
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
-  movies.forEach(({ title, release_date, overview, vote_average, poster_path, genre_ids }) => {
-
-    const item = document.createElement('li');
-    item.classList.add('movie-item');
-
-    const movieContainer = document.createElement('div');
-    movieContainer.classList.add('movie-container'); 
-
-    const image = document.createElement('img');
-    image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`;
-    image.alt = title;
-
-    image.addEventListener('click', () => {
-      openModal({ title, release_date, overview, vote_average, poster_path, genre_ids });
-    });
-
-    const titleElement = document.createElement('h5');
-    titleElement.classList.add('movie-title');
-    titleElement.textContent = title;
-
-    movieContainer.appendChild(image);
-    movieContainer.appendChild(titleElement);
-    item.appendChild(movieContainer);
+  movies.forEach(movie => {
+    const item = createMovieItem(movie);
     list.appendChild(item);
   });
 
   container.appendChild(list);
 }
 
+function createMovieItem(movie) {
+  const { id, title, release_date, overview, vote_average, poster_path, genre_ids } = movie;
+  const item = document.createElement('li');
+  item.classList.add('movie-item');
 
-async function openModal(movie) {
-  if (modal) {
-    modal.remove();
-  }
+  const movieContainer = document.createElement('div');
+  movieContainer.classList.add('movie-container'); 
 
-  const genreStrings = movie.genre_ids.map(id => genreService.getGenreName(id));
+  const image = document.createElement('img');
+  image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`;
+  image.alt = title;
+
+  image.addEventListener('click', async () => {
+    openModal(await movieService.fetchMovieDetails(id));
+  });
+
+  const titleElement = document.createElement('h5');
+  titleElement.classList.add('movie-title');
+  titleElement.textContent = title;
+
+  movieContainer.appendChild(image);
+  movieContainer.appendChild(titleElement);
+  item.appendChild(movieContainer);
+  return item;
+}
+
+function openModal(movie) {
+  const genreStrings = movie.genres.map(genre => genre.name);
   const genreHTML = genreStrings.map(genre => `<span>${genre}</span>`).join('');
 
   const modalHTML = `
-    <div id="movieDetailsModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="modal-body">
-          <div class="moviePosterDiv">
-            <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
+  <div id="movieDetailsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <div class="moviePosterDiv">
+          <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
+        </div>
+        <div id="movieDetails">
+          <div class="titleContainer">
+            <h2 id="movieTitle"><strong>${movie.title}</strong></h2>
+            <button id="goBackBtn">Close</button>
           </div>
-          <div id="movieDetails">
-            <div class="titleContainer">
-              <h2 id="movieTitle"><strong>${movie.title}</strong></h2>
-              <div class="favIconContainer">
-                <img id="favIcon" src="${FavIconEmptyStar}" alt="Favorite Icon">
-              </div>
-            </div>
-            <br>
-            <div class="genres">
+          <br>
+          <div class="genres">
             ${genreHTML}
-            </div>
-            <p class="release-date"><b>Release date:</b> ${movie.release_date}</p><br>
-            <p><b>Overview:</b> ${movie.overview}</p><br>
-            <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
-            <div class="buttonDiv">
-            <button id="goBackBtn"">Close</button>
-            </div>
           </div>
-
+          <p class="release-date"><b>Release date:</b> ${movie.release_date}</p><br>
+          <p><b>Overview:</b> ${movie.overview}</p><br>
+          <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
+          <div class="buttonContainer">
+         
+            <div class="favIconContainer">
+              <input id="cbx" type="checkbox" />
+              <label for="cbx">
+                <span class="heart">
+                  <span class="ripple"></span>
+                  <svg class="unchecked" viewBox="0 0 24 24">
+                    <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"></path>
+                  </svg>
+                  <svg class="checked" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                  </svg>
+                </span>
+              </label>
+            </div>
+            <div class="watchTraillerBtn">
+            ${movie.videos.results.length > 0 ? generateVideoLinks(movie.videos.results) : ''}
+          </div>
+          </div>
         </div>
       </div>
     </div>
-  `;
+  </div>
+`;
 
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
   modal = document.getElementById('movieDetailsModal');
 
-  const favIcon = document.getElementById('favIcon'); 
-  favIcon.addEventListener('click', toggleStarIcon); 
+  const cbx = document.getElementById('cbx');
+  cbx.addEventListener('change', toggleCheckbox);
 
   const goBackBtn = document.getElementById('goBackBtn');
   goBackBtn.onclick = () => closeModal();
@@ -102,14 +116,54 @@ async function openModal(movie) {
   };
 }
 
-
-
-function toggleStarIcon() {
-  const favIcon = document.getElementById('favIcon');
-  if (favIcon.src.includes(FavIconEmptyStar)) {
-    favIcon.src = FavIconFullStar;
+function toggleCheckbox() {
+  const cbx = document.getElementById('cbx');
+  const favIcon = document.querySelector('.heart');
+  if (cbx.checked) {
+    favIcon.classList.add('checked');
+    favIcon.classList.remove('unchecked');
   } else {
-    favIcon.src = FavIconEmptyStar;
+    favIcon.classList.add('unchecked');
+    favIcon.classList.remove('checked');
+  }
+}
+
+
+function generateVideoLinks(videos) {
+  const officialTrailer = videos.find(video => {
+    const lowerCaseName = video.name.toLowerCase();
+    return lowerCaseName.includes('official') && lowerCaseName.includes('trailer');
+  });
+
+  if (officialTrailer) {
+    return `
+      <p>
+        <a href="https://www.youtube.com/watch?v=${officialTrailer.key}" target="_blank">
+          <button class="trailerButton">
+          <div class="trailerText">Watch Trailer</div>
+            <img src=${playButton} alt="Play Button" class="playButtonIcon">
+          </button>
+        </a>
+      </p>`;
+  } else {
+    const trailer = videos.find(video => {
+      const lowerCaseName = video.name.toLowerCase();
+      return lowerCaseName.includes('trailer');
+    });
+
+    if (trailer) {
+      return `
+        <p>
+          <a href="https://www.youtube.com/watch?v=${trailer.key}" target="_blank">
+            <button class="trailerButton">
+            <div class="trailerText">Watch Trailer</div>
+              <img src=${playButton} alt="Play Button" class="playButtonIcon">
+            </button>
+          </a>
+        </p>`;
+    } else {
+      return '';
+    }
   }
 }
 
@@ -137,4 +191,4 @@ function renderNotFound() {
     </div>`;
 }
 
-export default { render, renderNotFound };
+export default { renderMovies, renderNotFound };

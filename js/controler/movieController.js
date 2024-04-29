@@ -3,8 +3,8 @@ import movieView from '../view/movieView.js';
 
 async function init() {
   let currentPage = 1; 
-  let allMovies = await movieService.fetchData(null, currentPage);
-  movieView.render(allMovies.results);
+  let allMovies = await movieService.fetchMovies(null, currentPage);
+  movieView.renderMovies(allMovies);
   
   const form = document.getElementById('form');
   const search = document.getElementById('search');
@@ -15,32 +15,32 @@ async function init() {
     const searchInput = search.value.trim();
     
     if (searchInput) {
-      let searchResults = await movieService.fetchData(searchInput);
+      let searchResults = await movieService.fetchMovies(searchInput);
 
-      if (searchResults.results.length === 0) {
+      if (searchResults.length === 0) {
         movieView.renderNotFound();
 
       } else {
-        movieView.render(searchResults.results);
+        movieView.renderMovies(searchResults);
       }
       
     } else {
-      movieView.render(allMovies.results);
+      movieView.renderMovies(allMovies);
     }
   });
 
   async function fetchAndRenderNextPage() {
     currentPage++;
-    const nextPageMovies = await movieService.fetchData(null, currentPage);
-    movieView.render(nextPageMovies.results);
+    const nextPageMovies = await movieService.fetchMovies(null, currentPage);
+    movieView.renderMovies(nextPageMovies);
     document.getElementById('prevBtn').style.display = 'inline-block';
   }
 
   async function fetchAndRenderPreviousPage() {
     if (currentPage > 1) {
       currentPage--;
-      const previousPageMovies = await movieService.fetchData(null, currentPage);
-      movieView.render(previousPageMovies.results);
+      const previousPageMovies = await movieService.fetchMovies(null, currentPage);
+      movieView.renderMovies(previousPageMovies);
     }
 
     if (currentPage === 1) {
