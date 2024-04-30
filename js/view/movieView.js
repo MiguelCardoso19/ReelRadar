@@ -44,6 +44,7 @@ function createMovieItem(movie) {
   movieContainer.appendChild(image);
   movieContainer.appendChild(titleElement);
   item.appendChild(movieContainer);
+  
   return item;
 }
 
@@ -53,16 +54,25 @@ function openModal(movie) {
 
   const modalHTML = `
   <div id="movieDetailsModal" class="modal">
+  
     <div class="modal-content">
+    
       <span class="close">&times;</span>
       <div class="modal-body">
+      
         <div class="moviePosterDiv">
           <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
         </div>
         <div id="movieDetails">
+        
           <div class="titleContainer">
-            <h2 id="movieTitle"><strong>${movie.title}</strong></h2>
-            <button id="goBackBtn">Close</button>
+          
+            <h2 id="movieTitle"><strong>${movie.title}</strong> </h2>
+            <div class="close-container-custom" id="goBackBtn">
+              <div class="leftright-custom"></div>
+              <div class="rightleft-custom"></div>
+              <label class="label-custom">close</label>
+            </div>
           </div>
           <br>
           <div class="genres">
@@ -72,7 +82,6 @@ function openModal(movie) {
           <p><b>Overview:</b> ${movie.overview}</p><br>
           <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
           <div class="buttonContainer">
-         
             <div class="favIconContainer">
               <input id="cbx" type="checkbox" />
               <label for="cbx">
@@ -88,14 +97,14 @@ function openModal(movie) {
               </label>
             </div>
             <div class="watchTraillerBtn">
-            ${movie.videos.results.length > 0 ? generateVideoLinks(movie.videos.results) : ''}
-          </div>
+              ${movie.videos.results.length > 0 ? generateVideoLinks(movie.videos.results) : ''}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-`;
+  `;
 
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
