@@ -1,51 +1,128 @@
 import movieService from '../service/movieService.js';
+import tvShowService from '../service/tvShowService.js';
+import celebService from '../service/celebService.js';
 
 const container = document.getElementById('container');
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
-const playButton = 'resources/play-button.png'
+const playButton = 'resources/play-button.png';
+const backgroundImage = 'imagesForTests/black-banner.png';
 let modal;
 
-function renderUpcomingMovies(movies) {
+function render(upcomingMovies, trendingTVShows, topRatedMovies, trendingPeople) {
   container.innerHTML = '';
 
-  const carouselContainer = document.createElement('div');
-  carouselContainer.classList.add('upcoming-movie-slide');
+const elementsWrapperDiv = document.createElement('div');
+elementsWrapperDiv.classList.add('elements-wrapper');
 
-  const owlCarousel = document.createElement('div');
-  owlCarousel.classList.add('owl-carousel');
-  owlCarousel.id = 'upcoming2-movie-slide';
 
-  const upcomingMoviesHeading = document.createElement('h5');
-  upcomingMoviesHeading.textContent = 'UPCOMING MOVIES';
-  upcomingMoviesHeading.classList.add('upcoming-movies-heading');
-  carouselContainer.appendChild(upcomingMoviesHeading);
+const section = document.createElement('section');
+section.classList.add('custom-section');
+section.style.backgroundImage = `url(${backgroundImage})`;
 
-  movies.forEach(movie => {
-    const slide = createUpcomingMovieSlide(movie);
-    owlCarousel.appendChild(slide);
+
+elementsWrapperDiv.appendChild(section);
+
+container.appendChild(elementsWrapperDiv);
+
+
+  const shadow = document.createElement('div');
+  shadow.classList.add('shadow');
+  section.appendChild(shadow);
+
+  const movieCarouselContainer = document.createElement('div');
+  movieCarouselContainer.classList.add('upcoming-carousel');
+
+  const movieOwlCarousel = document.createElement('div');
+  movieOwlCarousel.classList.add('owl-carousel');
+  movieOwlCarousel.id = 'upcoming-movie-carousel';
+
+  const movieHeading = document.createElement('h5');
+  movieHeading.textContent = 'UPCOMING MOVIES';
+  movieHeading.id = 'upcoming-movies-heading';
+  movieCarouselContainer.appendChild(movieHeading);
+
+  upcomingMovies.forEach(movie => {
+    const slide = createMovieSlide(movie);
+    movieOwlCarousel.appendChild(slide);
   });
 
-  carouselContainer.appendChild(owlCarousel);
-  container.appendChild(carouselContainer);
+  movieCarouselContainer.appendChild(movieOwlCarousel);
+  container.appendChild(movieCarouselContainer);
+
+  const tvCarouselContainer = document.createElement('div');
+  tvCarouselContainer.classList.add('upcoming-carousel');
+
+  const tvOwlCarousel = document.createElement('div');
+  tvOwlCarousel.classList.add('owl-carousel');
+  tvOwlCarousel.id = 'trending-tv-carousel';
+
+  const tvHeading = document.createElement('h5');
+  tvHeading.textContent = 'TRENDING TV SHOWS';
+  tvHeading.id = 'trending-tvshows-heading';
+  tvCarouselContainer.appendChild(tvHeading);
+
+  trendingTVShows.forEach(tvShow => {
+    const slide = createTVShowSlide(tvShow);
+    tvOwlCarousel.appendChild(slide);
+  });
+
+  tvCarouselContainer.appendChild(tvOwlCarousel);
+  container.appendChild(tvCarouselContainer);
+
+  const topRatedCarouselContainer = document.createElement('div');
+  topRatedCarouselContainer.classList.add('upcoming-carousel');
+
+  const topRatedOwlCarousel = document.createElement('div');
+  topRatedOwlCarousel.classList.add('owl-carousel');
+  topRatedOwlCarousel.id = 'top-rated-movie-carousel';
+
+  const topRatedHeading = document.createElement('h5');
+  topRatedHeading.textContent = 'TOP RATED MOVIES';
+  topRatedHeading.id = 'top-rated-movies-heading';
+  topRatedCarouselContainer.appendChild(topRatedHeading);
+
+  topRatedMovies.forEach(movie => {
+    const slide = createMovieSlide(movie);
+    topRatedOwlCarousel.appendChild(slide);
+  });
+
+  topRatedCarouselContainer.appendChild(topRatedOwlCarousel);
+  container.appendChild(topRatedCarouselContainer);
+
+  const peopleCarouselContainer = document.createElement('div');
+  peopleCarouselContainer.classList.add('upcoming-carousel');
+
+  const peopleOwlCarousel = document.createElement('div');
+  peopleOwlCarousel.classList.add('owl-carousel');
+  peopleOwlCarousel.id = 'trending-people-carousel';
+
+  const peopleHeading = document.createElement('h5');
+  peopleHeading.textContent = 'TRENDING PEOPLE';
+  peopleHeading.id = 'trending-people-heading';
+  peopleCarouselContainer.appendChild(peopleHeading);
+
+  trendingPeople.forEach(person => {
+    const slide = createPersonSlide(person);
+    peopleOwlCarousel.appendChild(slide);
+  });
+
+  peopleCarouselContainer.appendChild(peopleOwlCarousel);
+  container.appendChild(peopleCarouselContainer);
 
   $(document).ready(function(){
     $('.owl-carousel').owlCarousel({
-      items:10,
-      loop:true,
-      animateOut: 'slideOutDown',
-      animateIn: 'flipInX',
-      stagePadding:30,
-      smartSpeed:1000,
-      margin:10,
-      autoplay:true,
-      autoplayTimeout:2000,
-      autoplayHoverPause:true
+      items: 8,
+      loop: true,
+      margin: 10,
+      autoplay: true,
+      autoplayTimeout: 2000,
+      autoplayHoverPause: true
     });
   });
 }
 
-function createUpcomingMovieSlide(movie) {
+function createMovieSlide(movie) {
   const { id, title, poster_path } = movie;
 
   const slide = document.createElement('div');
@@ -57,6 +134,7 @@ function createUpcomingMovieSlide(movie) {
   const image = document.createElement('img');
   image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`;
   image.alt = title;
+  image.style.width = '90%';
 
   image.addEventListener('click', async () => {
     openModal(await movieService.fetchMovieDetails(id));
@@ -68,8 +146,113 @@ function createUpcomingMovieSlide(movie) {
   return slide;
 }
 
-function openModal(movie) {
-  const genreStrings = movie.genres.map(genre => genre.name);
+function createTVShowSlide(tvShow) {
+  const { id, name, poster_path } = tvShow;
+
+  const slide = document.createElement('div');
+  slide.classList.add('tv-show-item');
+  slide.classList.add('movie-item'); 
+
+  const tvShowItemContent = document.createElement('div');
+  tvShowItemContent.classList.add('tv-show-item-content'); 
+  tvShowItemContent.classList.add('movie-item-content'); 
+
+  const image = document.createElement('img');
+  image.src = `${poster_path ? imagePath + poster_path : noPosterBG}`;
+  image.alt = name;
+  image.style.width = '90%';
+
+  image.addEventListener('click', async () => {
+    openModal(await tvShowService.fetchTVShowDetails(id));
+  });
+
+  tvShowItemContent.appendChild(image);
+  slide.appendChild(tvShowItemContent);
+
+  return slide;
+}
+
+function createPersonSlide(person) {
+  const { id, name, profile_path } = person;
+
+  const slide = document.createElement('div');
+  slide.classList.add('person-item');
+  slide.classList.add('movie-item'); 
+
+  const personItemContent = document.createElement('div');
+  personItemContent.classList.add('person-item-content'); 
+  personItemContent.classList.add('movie-item-content'); 
+
+  const image = document.createElement('img');
+  image.src = `${profile_path ? imagePath + profile_path : noPosterBG}`;
+  image.alt = name;
+  image.style.width = '90%';
+
+  image.addEventListener('click', async () => {
+    openCelebModal(await celebService.fetchCelebDetails(id));
+  });
+
+  personItemContent.appendChild(image);
+  slide.appendChild(personItemContent);
+
+  return slide;
+}
+
+function openCelebModal(celeb) {
+  const knownForHTML = celeb.known_for_department;
+  const homepageLink = celeb.homepage ? `<a href="${celeb.homepage}" target="_blank">Homepage</a>` : '';
+  const imdbLink = celeb.imdb_id ? `<a href="https://www.imdb.com/name/${celeb.imdb_id}" target="_blank">IMDb</a>` : '';
+  
+  const modalHTML = `
+  <div id="celebDetailsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <div class="moviePosterDiv">
+          <img id="moviePoster" src="${celeb.profile_path ? imagePath + celeb.profile_path : noPosterBG}" alt="Celeb Poster">
+        </div>
+        <div id="movieDetails">
+          <div class="titleContainer">
+            <h2 id="movieTitle"><strong>${celeb.name}</strong> </h2>
+            <div class="close-container-custom" id="goBackBtn">
+              <div class="leftright-custom"></div>
+              <div class="rightleft-custom"></div>
+              <label class="label-custom">close</label>
+            </div>
+          </div>
+          <br>
+          <div class="genres">
+            <b>Known For Department:</b> ${knownForHTML}
+          </div>
+          <div id="biography-container" class="biography-container">
+            <p class="biography"><b>Biography:</b> ${truncateBiography(celeb.biography)}</p>
+          </div>
+          <p><b>Birthday:</b> ${celeb.birthday}</p><br>
+          <p><b>Place of Birth:</b> ${celeb.place_of_birth}</p><br>
+          <div>
+            <b>Links:</b> ${homepageLink} ${imdbLink}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  modal = document.getElementById('celebDetailsModal');
+
+  const goBackBtn = document.getElementById('goBackBtn');
+  goBackBtn.onclick = () => closeModal();
+
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
+}
+
+function openModal(item) {
+  const genreStrings = item.genres.map(genre => genre.name);
   const genreHTML = genreStrings.map(genre => `<span>${genre}</span>`).join('');
 
   const modalHTML = `
@@ -78,11 +261,11 @@ function openModal(movie) {
       <span class="close">&times;</span>
       <div class="modal-body">
         <div class="moviePosterDiv">
-          <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
+          <img id="moviePoster" src="${item.poster_path ? imagePath + item.poster_path : noPosterBG}" alt="Movie Poster">
         </div>
         <div id="movieDetails">
           <div class="titleContainer">
-            <h2 id="movieTitle"><strong>${movie.title}</strong> </h2>
+            <h2 id="movieTitle"><strong>${item.title || item.name}</strong> </h2>
             <div class="close-container-custom" id="goBackBtn">
               <div class="leftright-custom"></div>
               <div class="rightleft-custom"></div>
@@ -93,9 +276,11 @@ function openModal(movie) {
           <div class="genres">
             ${genreHTML}
           </div>
-          <p class="release-date"><b>Release date:</b> ${movie.release_date}</p><br>
-          <p><b>Overview:</b> ${movie.overview}</p><br>
-          <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
+          <p class="release-date"><b>Release date:</b> ${item.release_date || item.first_air_date}</p><br>
+          <div id="biography-container" class="biography-container">
+            <p class="biography"><b>Overview:</b> ${truncateOverview(item.overview)}</p>
+          </div>
+          <p><b>Rating:</b> <span ${getColor(item.vote_average)}>${item.vote_average.toFixed(1)}</span></p>
           <div class="buttonContainer">
             <div class="favIconContainer">
               <input id="cbx" type="checkbox" />
@@ -112,7 +297,7 @@ function openModal(movie) {
               </label>
             </div>
             <div class="watchTraillerBtn">
-              ${movie.videos.results.length > 0 ? generateVideoLinks(movie.videos.results) : ''}
+              ${item.videos.results.length > 0 ? generateVideoLinks(item.videos.results) : ''}
             </div>
           </div>
         </div>
@@ -203,4 +388,20 @@ function getColor(rating) {
   }
 } 
 
-export default { renderUpcomingMovies };
+function truncateBiography(biography) {
+  if (biography.length > 500) {
+    return `${biography.slice(0, 500)}...`;
+  } else {
+    return biography;
+  }
+}
+
+function truncateOverview(overview) {
+  if (overview.length > 500) {
+    return `${overview.slice(0, 500)}...`;
+  } else {
+    return overview;
+  }
+}
+
+export default { render };
