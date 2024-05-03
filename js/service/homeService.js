@@ -69,4 +69,34 @@ async function fetchTrendingPeople() {
     }
 }
 
-export default { fetchUpcomingMovies, fetchUpTrendingTVShows, fetchUpTopRatedMovies, fetchTrendingPeople };
+async function getNowPlayingMovies() {
+    try {
+        const url = `${apiUrl}movie/now_playing?api_key=${apiKey}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const moviesData = await response.json();
+
+
+        const moviesWithVideos = await Promise.all(moviesData.results.map(async (movie) => {
+            const videoResponse = await fetch(`${apiUrl}movie/${movie.id}/videos?api_key=${apiKey}`);
+            if (!videoResponse.ok) {
+                throw new Error('Failed to fetch videos');
+            }
+            const videoData = await videoResponse.json();
+            movie.videos = videoData.results;
+            return movie;
+        }));
+
+        return moviesWithVideos;
+        
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export default { fetchUpcomingMovies, fetchUpTrendingTVShows, fetchUpTopRatedMovies, fetchTrendingPeople, getNowPlayingMovies };

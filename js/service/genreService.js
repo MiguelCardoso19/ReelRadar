@@ -82,4 +82,4 @@ function getGenreName(genreId) {
   return genre ? genre.name : "Unknown";
 }
 
-export default { getGenreName };
+export { getGenreName }

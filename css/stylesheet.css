@@ -368,6 +368,10 @@ padding-top: 10px;
   margin-left: 5px; 
 }
 
+watchTraillerBtn-main-carousel{
+  margin-left: 50px;
+}
+
 
 .favIconContainer {
   margin-right: 5px; 
@@ -517,7 +521,7 @@ padding-top: 10px;
 #trending-tvshows-heading,
 #trending-people-heading,
 #top-rated-movies-heading {
-  padding-left: 30px; 
+  padding-left: 40px; 
   padding-top: 30px;
   font-weight: 700;
   font-style: normal;
@@ -530,7 +534,7 @@ padding-top: 10px;
 #top-rated-movies-heading::after {
   content: '';
   position: absolute;
-  left: 30px; 
+  left: 40px; 
   bottom: -5px;
   width: 70px;
   height: 5px;
@@ -578,4 +582,160 @@ padding-top: 10px;
   width: 100%;
   height: 100%;
   background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)); 
+}
+.carousel-wrapper {
+  margin-top: -60px; /* Adjust as needed */
+}
+
+.carousel-item img {
+  max-height: 900px; /* Adjust the max-height as needed */
+  object-fit: cover;
+  object-position: top; 
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)); 
+  z-index: 1; 
+}
+
+#footer-container {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0)); 
+  background-color: #111111;
+  padding: 10px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px; 
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-p {
+  color: #666;
+}
+
+.footer-links {
+  display: flex;
+}
+
+.footer-links a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #555;
+  font-size: 14px; 
+  transition: color 0.3s ease;
+
+}
+
+.footer-links a:hover {
+  color: #fc0000b4;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.back-to-top:hover {
+  background-color: #555;
+}
+
+
+.main-carousel-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 60px; 
+  padding-left: 40px; 
+  font-weight: 1000; 
+  position: absolute; 
+  margin-top: 250px;
+  margin-left: 10%;
+  z-index: 1;
+  position: absolute; 
+  top: 0;
+  word-wrap: break-word; 
+  max-width: 750px;
+}
+
+.main-carousel-details{
+  font-family: "Roboto", sans-serif;
+  font-size: 20px; 
+  padding-left: 40px; 
+  font-weight: 500; 
+  position: absolute; 
+  padding-top: 450px;
+  margin-left: 10%;
+  z-index: 1;
+  position: absolute; 
+  top: 0;
+  word-wrap: break-word; 
+  max-width: 750px;
+}
+
+.trailerButtonMainCarousel {
+  display: inline-block;
+  position: relative;
+  background-color: #fc0000b4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.trailerButtonMainCarousel:hover {
+  background-color: #b40101bb;
+}
+
+.playButtonIconMainCarousel {
+  position: absolute;
+  left: 10px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  width: 27px; 
+  height: auto; 
+}
+
+.trailerTextMainCarousel {
+  padding-left: 25px;
+}
+
+.single-chart {
+  margin-left: 15px;
+  width: 20%;
+  justify-content: space-around;
+}
+.circular-chart {
+  font-weight: bold;
+  display: block;
+  max-width: 60px;
+  max-height: 250px;
+  margin: -10px; 
+  color: white;
+  font-size: 10px;
+  text-anchor: middle;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
 }
