@@ -16,10 +16,6 @@ export default {
     path: '/tvShows',
     controller: 'tvShowController'
   },
-  about: {
-    path: '/about',
-    controller: 'aboutController'
-  },
   currentPath: {
     path: '',
     controller: ''

@@ -54,33 +54,41 @@ function openModal(movie) {
 
   const modalHTML = `
   <div id="movieDetailsModal" class="modal">
-  
-    <div class="modal-content">
-    
-      <span class="close">&times;</span>
+    <div class="modal-content movie-modal-content">
+      <span class="close" id="goBackBtn">&times;</span>
       <div class="modal-body">
-      
         <div class="moviePosterDiv">
-          <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
+          <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster" >
         </div>
         <div id="movieDetails">
-        
           <div class="titleContainer">
-          
-            <h2 id="movieTitle"><strong>${movie.title}</strong> </h2>
-            <div class="close-container-custom" id="goBackBtn">
-              <div class="leftright-custom"></div>
-              <div class="rightleft-custom"></div>
-              <label class="label-custom">close</label>
-            </div>
+            <h2 id="movieTitle"><strong>${movie.title}</strong></h2>
+      
           </div>
           <br>
-          <div class="genres">
-            ${genreHTML}
-          </div>
-          <p class="release-date"><b>Release date:</b> ${movie.release_date}</p><br>
-          <p><b>Overview:</b> ${movie.overview}</p><br>
-          <p><b>Rating:</b> <span ${getColor(movie.vote_average)}>${movie.vote_average.toFixed(1)}</span></p>
+          <div class="details-container">
+            <div class="genres">
+              ${genreHTML}
+            </div>
+            <div class="single-chart custom-single-chart">
+              ${movie.vote_average > 0 ? `
+                <div class="circle-rating-genre-container">
+                  <svg viewBox="0 0 36 36" class="circular-chart">
+                    <path class="circle" 
+                      stroke="${getCircleColor(movie.vote_average)}"
+                      stroke-dasharray="${calculateStrokeDashArray(movie.vote_average)}, 100"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <text x="18" y="20.35" class="percentage" fill="white">${movie.vote_average.toFixed(1)}</text>
+                  </svg>
+                </div>`
+              : ''}
+            </div>
+          </div> <br>
+          <p class="release-date"><b>Release date:</b> ${movie.release_date}</p>
+          <p><b>Overview:</b> ${movie.overview}</p>
           <div class="buttonContainer">
             <div class="favIconContainer">
               <input id="cbx" type="checkbox" />
@@ -104,7 +112,7 @@ function openModal(movie) {
       </div>
     </div>
   </div>
-  `;
+`;
 
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
@@ -196,6 +204,20 @@ function renderNotFound() {
     <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
       <img src="${noResultsImage}" alt="No results found" style="width: 40%;">
     </div>`;
+}
+    
+    function calculateStrokeDashArray(rating) {
+  return (rating / 10) * 100;
+}
+
+function getCircleColor(rating) {
+  if (rating >= 6.5) {
+    return 'lightgreen';
+  } else if (rating >= 5) {
+    return 'orange';
+  } else {
+    return 'red';
+  }
 }
 
 export default { renderMovies, renderNotFound };

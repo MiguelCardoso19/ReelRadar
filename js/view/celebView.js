@@ -2,8 +2,10 @@ import celebService from '../service/celebService.js';
 
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
-
+const imdbIcon = 'resources/imdb.png';
+const websiteIcon = 'resources/website.png';
 const noResultsImage = 'resources/no-results.png';
+
 let modal;
 
 function render(celebs) {
@@ -50,13 +52,13 @@ function createCelebItem(celeb) {
 
 function openModal(celeb) {
   const knownForHTML = celeb.known_for_department;
-  const homepageLink = celeb.homepage ? `<a href="${celeb.homepage}" target="_blank">Homepage</a>` : '';
-  const imdbLink = celeb.imdb_id ? `<a href="https://www.imdb.com/name/${celeb.imdb_id}" target="_blank">IMDb</a>` : '';
-  
+  const homepageLink = celeb.homepage ? `<a href="${celeb.homepage}" target="_blank"><img src="${websiteIcon}" alt="Homepage" class="link-icon"></a>` : '';
+  const imdbLink = celeb.imdb_id ? `<a href="https://www.imdb.com/name/${celeb.imdb_id}" target="_blank"><img src="${imdbIcon}" alt="IMDb" class="link-icon"></a>` : '';
+
   const modalHTML = `
   <div id="celebDetailsModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" id="goBackBtn";>&times;</span>
       <div class="modal-body">
         <div class="moviePosterDiv">
           <img id="moviePoster" src="${celeb.profile_path ? imagePath + celeb.profile_path : noPosterBG}" alt="Celeb Poster">
@@ -64,21 +66,18 @@ function openModal(celeb) {
         <div id="movieDetails">
           <div class="titleContainer">
             <h2 id="movieTitle"><strong>${celeb.name}</strong> </h2>
-            <div class="close-container-custom" id="goBackBtn">
-              <div class="leftright-custom"></div>
-              <div class="rightleft-custom"></div>
-              <label class="label-custom">close</label>
-            </div>
           </div>
           <br>
           <div class="genres">
             <b>Known For Department:</b> ${knownForHTML}
+          </div> <br>
+          <div id="biography-container" class="biography-container">
+            <p class="biography"><b>Biography:</b> ${truncateBiography(celeb.biography)}</p>
           </div>
-          <p class="biography"><b>Biography:</b> ${celeb.biography}</p><br>
           <p><b>Birthday:</b> ${celeb.birthday}</p><br>
-          <p><b>Place of Birth:</b> ${celeb.place_of_birth}</p><br>
+          <p><b>Place of Birth:</b> ${celeb.place_of_birth}</p>
           <div>
-            <b>Links:</b> ${homepageLink} ${imdbLink}
+            ${homepageLink} ${imdbLink}
           </div>
         </div>
       </div>
@@ -104,6 +103,22 @@ function closeModal() {
   modal.style.display = 'none';
   modal.remove();
   modal = null;
+}
+
+function truncateBiography(biography) {
+  if (biography.length > 500) {
+    return `${biography.slice(0, 500)}...`;
+  } else {
+    return biography;
+  }
+}
+
+function truncateOverview(overview) {
+  if (overview.length > 500) {
+    return `${overview.slice(0, 500)}...`;
+  } else {
+    return overview;
+  }
 }
 
 function renderNotFound() {

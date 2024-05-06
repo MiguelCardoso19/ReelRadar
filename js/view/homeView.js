@@ -7,9 +7,8 @@ const container = document.getElementById('container');
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
 const playButton = 'resources/play-button.png';
-const backgroundImage = 'imagesForTests/black-banner.png';
-const backgroundImage2 = 'imagesForTests/supergirl-banner.jpg';
-const backgroundImage3 = 'imagesForTests/transformer-banner.jpg';
+const imdbIcon = 'resources/imdb.png';
+const websiteIcon = 'resources/website.png';
 
 let modal;
 
@@ -75,7 +74,7 @@ function render(upcomingMovies, trendingTVShows, topRatedMovies, trendingPeople,
                 </div>
               </div>
               <div style="margin-top: 30px;">
-                ${movie.overview} cbx${index + 1}
+                ${movie.overview}
               </div>
               <div class="buttonContainer">
                 <div class="watchTraillerBtn">
@@ -291,8 +290,8 @@ function createPersonSlide(person) {
 
 function openCelebModal(celeb) {
   const knownForHTML = celeb.known_for_department;
-  const homepageLink = celeb.homepage ? `<a href="${celeb.homepage}" target="_blank">Homepage</a>` : '';
-  const imdbLink = celeb.imdb_id ? `<a href="https://www.imdb.com/name/${celeb.imdb_id}" target="_blank">IMDb</a>` : '';
+  const homepageLink = celeb.homepage ? `<a href="${celeb.homepage}" target="_blank"><img src="${websiteIcon}" alt="Homepage" class="link-icon"></a>` : '';
+  const imdbLink = celeb.imdb_id ? `<a href="https://www.imdb.com/name/${celeb.imdb_id}" target="_blank"><img src="${imdbIcon}" alt="IMDb" class="link-icon"></a>` : '';
 
   const modalHTML = `
   <div id="celebDetailsModal" class="modal">
@@ -314,14 +313,14 @@ function openCelebModal(celeb) {
           <br>
           <div class="genres">
             <b>Known For Department:</b> ${knownForHTML}
-          </div>
+          </div> <br>
           <div id="biography-container" class="biography-container">
             <p class="biography"><b>Biography:</b> ${truncateBiography(celeb.biography)}</p>
           </div>
           <p><b>Birthday:</b> ${celeb.birthday}</p><br>
-          <p><b>Place of Birth:</b> ${celeb.place_of_birth}</p><br>
+          <p><b>Place of Birth:</b> ${celeb.place_of_birth}</p>
           <div>
-            <b>Links:</b> ${homepageLink} ${imdbLink}
+            ${homepageLink} ${imdbLink}
           </div>
         </div>
       </div>
@@ -364,14 +363,31 @@ function openModal(item) {
             </div>
           </div>
           <br>
-          <div class="genres">
-            ${genreHTML}
+          <div class="details-container">
+            <div class="genres">
+              ${genreHTML}
+            </div>
+            <div class="single-chart custom-single-chart">
+              ${item.vote_average > 0 ? `
+                <div class="circle-rating-genre-container">
+                  <svg viewBox="0 0 36 36" class="circular-chart">
+                    <path class="circle" 
+                      stroke="${getCircleColor(item.vote_average)}"
+                      stroke-dasharray="${calculateStrokeDashArray(item.vote_average)}, 100"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <text x="18" y="20.35" class="percentage" fill="white">${item.vote_average.toFixed(1)}</text>
+                  </svg>
+                </div>`
+              : ''}
+            </div>
           </div>
           <p class="release-date"><b>Release date:</b> ${item.release_date || item.first_air_date}</p><br>
           <div id="biography-container" class="biography-container">
             <p class="biography"><b>Overview:</b> ${truncateOverview(item.overview)}</p>
           </div>
-          <p><b>Rating:</b> <span ${getColor(item.vote_average)}>${item.vote_average.toFixed(1)}</span></p>
           <div class="buttonContainer">
             <div class="favIconContainer">
               <input id="cbx" type="checkbox" />
@@ -395,7 +411,9 @@ function openModal(item) {
       </div>
     </div>
   </div>
-  `;
+`;
+
+
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
   modal = document.getElementById('movieDetailsModal');
@@ -510,4 +528,5 @@ function getCircleColor(rating) {
     return 'red';
   }
 }
+
 export default { render };
