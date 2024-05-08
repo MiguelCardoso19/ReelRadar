@@ -1,12 +1,12 @@
-# MDB Explorer
+# ReedRadar
 
-MDB Explorer is a JavaScript-based Single Page Application (SPA) that interfaces with the MovieDB API, enabling users to navigate through movies, TV shows, and celebrities.
+ReedRadar is a JavaScript-based Single Page Application (SPA) that interfaces with the MovieDB API, enabling users to navigate through movies, TV shows, and celebrities.
 
 ## Features
 
 - Displays a list of movies, TV shows, and celebrities from the MovieDB API.
 - Users can click on an item to view its details like title, release date, overview, etc.
-- Includes a search bar for easy navigation.
+- Includes a search bar and buttons for easy navigation.
 - Supports saving favorite movies or TV shows.
 - Provides a simple and user-friendly interface.
 
@@ -15,7 +15,17 @@ MDB Explorer is a JavaScript-based Single Page Application (SPA) that interfaces
 - JavaScript
 - HTML
 - CSS
+- JQuery
+- BootStrape
+- OwlCarousel
 - MovieDB API
+- Fanart.tv API
+
+## Next Implementations
+
+- Implement user login and register functionality.
+- Improve responsiveness for better user experience on various devices.
+- Add the ability to find items by genres.
 
 ## How to Use
 
@@ -26,5 +36,4 @@ MDB Explorer is a JavaScript-based Single Page Application (SPA) that interfaces
 
 ## Acknowledgements
 
-- The MovieDB API for providing the data used in this project.
-
+- The Farnart.TV and The Movie Database for providing the data used in this project.
