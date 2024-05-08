@@ -16,7 +16,7 @@ ReelRadar is a JavaScript-based Single Page Application (SPA) that interfaces wi
 - HTML
 - CSS
 - JQuery
-- BootStrape
+- BootStrap
 - OwlCarousel
 - MovieDB API
 - Fanart.tv API
