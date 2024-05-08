@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MDB</title>
+    <title>ReelRadar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
@@ -14,7 +14,8 @@
     <nav id="anchors">
         <div class="logo-container">
           <img src="./resources/logo.png" alt="Website Logo" class="logo">
-          <span class="logo-text">MDB</span>
+          <span class="logo-text"><span style="color: #fc0000b4">Reel</span><span style="color: white;  font-weight: 100;">Radar</span></span>
+
         </div>
         <div class="menu">
           <a href="#/" id="home-href">HOME</a>
@@ -26,7 +27,7 @@
             <input type="text" id="search" class="search" placeholder="Search...">
           </form>     
         </div>
-        <button class="signin-btn">Sign In</button>
+        <button class="signin-btn"  id="signinBtn">Sign In</button>
       </nav>
       
     <div id="container">
@@ -38,8 +39,14 @@
 </body>
 <footer id="footer-container">
     <div>
-        <a href="#" class="logo">MDB</a>
-        <p class="footer-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        
+        <a href="#" class="logo"><div class="logo-container">
+            <img src="./resources/logo.png" alt="Website Logo" class="logo">
+            <span href="#" class="logo" class="logo-text"><span style="color: #fc0000b4">Reel</span><span style="color: white;  font-weight: 100;">Radar</span></span>
+          </div>
+         </a>
+          <p class="footer-p">Embark on a cinematic journey with ReelRadar. © 2024 ReelRadar. All rights reserved.</p>
+       
     </div>
     <div class="footer-links">
         <a href="#/movies" id="films-href">MOVIES</a>

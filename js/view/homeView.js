@@ -36,55 +36,55 @@ function render(upcomingMovies, trendingTVShows, topRatedMovies, trendingPeople,
     const carouselItem = document.createElement('div');
     carouselItem.classList.add('carousel-item');
     if (index === 0) {
-      carouselItem.classList.add('active');
+        carouselItem.classList.add('active');
     }
 
-    const posterPath = movie.poster_path ? `${imagePath}${movie.poster_path}` : noPosterBG;
     const title = movie.title;
 
     const genreStrings = movie.genre_ids.map(genreId => getGenreName(genreId));
     const genreHTML = genreStrings.map(genre => `<span>${genre}</span>`).join('');
 
     carouselItem.innerHTML = `
-      <div class="position-relative main-carousel-item">
-        <img class="d-block w-100" src="${posterPath}" alt="${title}">
-        <div class="main-carousel-title">
-          ${title}
-        </div>
-        <div class="movie-details-container">
-          <div id="movieDetails">
-            <div class="main-carousel-details">
-              <div style="display: flex; align-items: center;">
-                <div class="genres" style="display: inline-block;">
-                  ${genreHTML}
-                </div>
-                <div class="single-chart">
-                  ${movie.vote_average > 0 ? `
-                    <svg viewBox="0 0 36 36" class="circular-chart">
-                      <path class="circle" 
-                        stroke="${getCircleColor(movie.vote_average)}"
-                        stroke-dasharray="${calculateStrokeDashArray(movie.vote_average)}, 100"
-                        d="M18 2.0845
-                          a 15.9155 15.9155 0 0 1 0 31.831
-                          a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                      <text x="18" y="20.35" class="percentage" fill="white">${movie.vote_average.toFixed(1)}</text>
-                    </svg>`
-        : ''}
-                </div>
-              </div>
-              <div style="margin-top: 30px;">
-                ${movie.overview}
-              </div>
-              <div class="buttonContainer">
-                <div class="watchTraillerBtn">
-                  ${movie.videos.length > 0 ? generateVideoLinks(movie.videos) : ''}
-                </div>
-              </div>
+        <div class="position-relative main-carousel-item">
+        <img class="d-block" src="${movie.images}" alt="${title}" style="width:auto; float: right;">
+        ; margin-left: auto;">
+            <div class="main-carousel-title">
+                ${title}
             </div>
-          </div>
+            <div class="movie-details-container">
+                <div id="movieDetails">
+                    <div class="main-carousel-details">
+                        <div style="display: flex; align-items: center;">
+                            <div class="genres" style="display: inline-block;">
+                                ${genreHTML}
+                            </div>
+                            <div class="single-chart">
+                                ${movie.vote_average > 0 ? `
+                                    <svg viewBox="0 0 36 36" class="circular-chart">
+                                        <path class="circle" 
+                                            stroke="${getCircleColor(movie.vote_average)}"
+                                            stroke-dasharray="${calculateStrokeDashArray(movie.vote_average)}, 100"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        />
+                                        <text x="18" y="20.35" class="percentage" fill="white">${movie.vote_average.toFixed(1)}</text>
+                                    </svg>`
+        : ''}
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px;">
+                            ${movie.overview}
+                        </div>
+                        <div class="buttonContainer">
+                            <div class="watchTraillerBtn">
+                                ${movie.videos.length > 0 ? generateVideoLinks(movie.videos) : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     `;
 
     carouselInnerDiv.appendChild(carouselItem);
@@ -296,7 +296,7 @@ function openCelebModal(celeb) {
   const modalHTML = `
   <div id="celebDetailsModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" id="goBackBtn";>&times;</span>
       <div class="modal-body">
         <div class="moviePosterDiv">
           <img id="moviePoster" src="${celeb.profile_path ? imagePath + celeb.profile_path : noPosterBG}" alt="Celeb Poster">
@@ -304,11 +304,6 @@ function openCelebModal(celeb) {
         <div id="movieDetails">
           <div class="titleContainer">
             <h2 id="movieTitle"><strong>${celeb.name}</strong> </h2>
-            <div class="close-container-custom" id="goBackBtn">
-              <div class="leftright-custom"></div>
-              <div class="rightleft-custom"></div>
-              <label class="label-custom">close</label>
-            </div>
           </div>
           <br>
           <div class="genres">
@@ -348,7 +343,7 @@ function openModal(item) {
   const modalHTML = `
   <div id="movieDetailsModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" id="goBackBtn";>&times;</span>
       <div class="modal-body">
         <div class="moviePosterDiv">
           <img id="moviePoster" src="${item.poster_path ? imagePath + item.poster_path : noPosterBG}" alt="Movie Poster">
@@ -356,11 +351,6 @@ function openModal(item) {
         <div id="movieDetails">
           <div class="titleContainer">
             <h2 id="movieTitle"><strong>${item.title || item.name}</strong> </h2>
-            <div class="close-container-custom" id="goBackBtn">
-              <div class="leftright-custom"></div>
-              <div class="rightleft-custom"></div>
-              <label class="label-custom">close</label>
-            </div>
           </div>
           <br>
           <div class="details-container">
@@ -383,7 +373,7 @@ function openModal(item) {
                 </div>`
               : ''}
             </div>
-          </div>
+          </div> <br>
           <p class="release-date"><b>Release date:</b> ${item.release_date || item.first_air_date}</p><br>
           <div id="biography-container" class="biography-container">
             <p class="biography"><b>Overview:</b> ${truncateOverview(item.overview)}</p>

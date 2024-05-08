@@ -17,47 +17,47 @@ body {
 }
 
 .logo {
-  width: 50px; 
+  width: 50px;
   height: auto;
-  
+
 }
 
 .logo-text {
-  font-size: 25px; 
-  margin-left: -7px; 
-  font-weight: 1000; 
-  
+  font-size: 25px;
+  margin-left: -7px;
+  font-weight: 1000;
+
 }
 
 #anchors {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; 
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: transparent ; 
+  background-color: transparent;
   padding-right: 15px;
   padding-left: 15px;
-  z-index: 1000 ;
-  transition: background-color 0.7s ;
+  z-index: 1000;
+  transition: background-color 0.3s;
 }
 
 #anchors a {
   text-decoration: none;
   color: white;
   padding: 20px;
-  transition: color 0.3s, transform 0.3s; 
+  transition: color 0.3s, transform 0.3s;
   position: relative;
 }
 
 #anchors a:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
 #anchors a.active {
-  color: #fc0000b4; 
+  color: #fc0000b4;
 }
 
 .sticky {
@@ -95,10 +95,10 @@ body {
 }
 
 .signin-btn:hover {
-  background-color: #b40101bb; 
+  background-color: #b40101bb;
 }
 
-#search{
+#search {
   margin-left: auto;
   padding: 8px;
   border: 1px solid #ced4da;
@@ -106,8 +106,8 @@ body {
 }
 
 .movie-list {
-padding: 10px;
-padding-top: 10px;
+  padding: 10px;
+  padding-top: 10px;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -175,15 +175,15 @@ padding-top: 10px;
 
 .close {
   position: absolute;
-  top: 10px; 
-  right: 10px; 
-  cursor: pointer; 
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
   color: #fc0000b4;
   transition: transform 0.3s ease-in-out;
 }
 
 .close:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
   color: #b40101bb
 }
 
@@ -195,7 +195,7 @@ padding-top: 10px;
   align-self: center;
 }
 
-#moviePoster{
+#moviePoster {
   border-radius: 10px;
   width: 100%;
   max-width: 100%;
@@ -218,8 +218,8 @@ padding-top: 10px;
 }
 
 .modal .release-date {
-    font-size: 15px;
-    opacity: 0.5;
+  font-size: 15px;
+  opacity: 0.5;
 
 }
 
@@ -242,8 +242,8 @@ padding-top: 10px;
   padding: 8px 16px;
   margin-top: 30px;
   margin-bottom: 10px;
-  margin-right: 20px; 
-  font-size: 14px; 
+  margin-right: 20px;
+  font-size: 14px;
   transition: all 0.3s;
   align-self: center;
 }
@@ -258,76 +258,76 @@ padding-top: 10px;
   color: white;
 }
 
-#celebDetails{
-  margin-left: 15px; 
+#celebDetails {
+  margin-left: 15px;
 }
 
 .titleContainer {
-  
+
   display: flex;
   align-items: center;
 }
 
 #movieTitle {
-  font-size:60px;
-  flex: 1; 
+  font-size: 60px;
+  flex: 1;
 }
 
 .favIconContainer {
-  margin-left: 10px; 
+  margin-left: 10px;
 }
 
 #favIcon {
-  width: 35px; 
+  width: 35px;
   height: auto;
   transition: transform 0.3s ease-in-out;
 }
 
-#favIcon:hover{
+#favIcon:hover {
   transform: scale(1.05);
   cursor: pointer;
 }
 
 .button-container {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
-  #prevBtn,
-  #nextBtn {
-    background-color: #fc0000b4;
-    border: none;
-    cursor: pointer;
-    box-sizing: border-box;
-    border-radius: 4px;
-    color: white;
-    padding: 8px 16px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-right: 20px; 
-    font-size: 14px; 
-    transition: all 0.3s;
-    align-self: center;
-  }
-  
-  #prevBtn:hover,
-  #nextBtn:hover {
-    background-color: #b40101bb;
-  }
+#prevBtn,
+#nextBtn {
+  background-color: #fc0000b4;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 16px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  font-size: 14px;
+  transition: all 0.3s;
+  align-self: center;
+}
 
-  .genres span {
-    margin-right: 5px;
-    max-width: 100%;
-    font-size: 0.8125rem;
-    display: inline-flex;
-    align-items: center;
-    height: 32px;
-    color: rgb(255, 255, 255);
-    background-color: #b40101bb;
-    border-radius: 16px;
-    cursor: default;
-    padding: 10px;
-  }
+#prevBtn:hover,
+#nextBtn:hover {
+  background-color: #b40101bb;
+}
+
+.genres span {
+  margin-right: 5px;
+  max-width: 100%;
+  font-size: 0.8125rem;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  color: rgb(255, 255, 255);
+  background-color: #b40101bb;
+  border-radius: 16px;
+  cursor: default;
+  padding: 10px;
+}
 
 .trailerButton {
   display: inline-block;
@@ -336,14 +336,14 @@ padding-top: 10px;
 
 .playButtonIcon {
   position: absolute;
-  left: 10px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  width: 27px; 
-  height: auto; 
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 27px;
+  height: auto;
 }
 
-.trailerText{
+.trailerText {
   padding-left: 25px;
 }
 
@@ -352,97 +352,100 @@ padding-top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
- }
- 
- html,
+}
 
- 
- .root {
+html,
+
+
+.root {
   @include container;
- 
+
   label {
-   @include container;
-   display: inline-flex;
-   user-select: none;
-   cursor: pointer;
+    @include container;
+    display: inline-flex;
+    user-select: none;
+    cursor: pointer;
   }
- 
+
   .heart {
-   width: 50px;
-   height: 50px;
-   padding: 10px;
-   box-sizing: border-box;
-   position: relative;
-   border-radius: 50%;
-   transition: background-color 200ms ease;
- 
-   &:hover {
-    background-color: rgba(220, 0, 78, 0.08);
-   }
- 
-   &:active {
-    background-color: rgba(220, 0, 78, 0.3);
- 
-    .ripple {
-     transform: scale(0);
-     opacity: 1;
-     transition: 0s;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 50%;
+    transition: background-color 200ms ease;
+
+    &:hover {
+      background-color: rgba(220, 0, 78, 0.08);
     }
-   }
-   .checked {
-    fill: #fc0000b4;
-    display: none;
-   }
-   .unchecked {
-    fill: white;
-   }
-  }
- 
-  #cbx {
-   display: none;
- 
-   &:checked + label {
+
+    &:active {
+      background-color: rgba(220, 0, 78, 0.3);
+
+      .ripple {
+        transform: scale(0);
+        opacity: 1;
+        transition: 0s;
+      }
+    }
+
     .checked {
-     display: inline;
+      fill: #fc0000b4;
+      display: none;
     }
+
     .unchecked {
-     display: none;
+      fill: white;
     }
-   }
   }
- 
+
+  #cbx {
+    display: none;
+
+    &:checked+label {
+      .checked {
+        display: inline;
+      }
+
+      .unchecked {
+        display: none;
+      }
+    }
+  }
+
   .ripple {
-   position: absolute;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
-   width: 100%;
-   border-radius: 50%;
-   background-color: rgba(220, 0, 78, 0.8);
-   transform: scale(1.2);
-   opacity: 0;
-   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 50%;
+    background-color: rgba(220, 0, 78, 0.8);
+    transform: scale(1.2);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
- }
- 
- .buttonContainer {
+}
+
+.buttonContainer {
   display: flex;
-  justify-content: flex-start; 
-  align-items: center; 
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .watchTraillerBtn {
-  margin-left: 5px; 
+  margin-left: 5px;
 }
 
-watchTraillerBtn-main-carousel{
+watchTraillerBtn-main-carousel {
   margin-left: 50px;
 }
 
 
 .favIconContainer {
-  margin-right: 5px; 
+  margin-right: 5px;
 }
 
 .close-container-custom {
@@ -455,8 +458,8 @@ watchTraillerBtn-main-carousel{
 
 .leftright-custom,
 .rightleft-custom {
-  height: 2px; 
-  width: 30px; 
+  height: 2px;
+  width: 30px;
   position: absolute;
   top: 50%;
   margin-top: -1px;
@@ -479,27 +482,27 @@ watchTraillerBtn-main-carousel{
   transition: all .3s ease-in;
   opacity: 0;
   position: absolute;
-  top: calc(50% + 15px); 
-  left: 150%; 
+  top: calc(50% + 15px);
+  left: 150%;
   transform: translate(-50%, 0);
 }
 
 .close-custom {
   margin-top: calc(50% + 5px);
   position: absolute;
-  top: calc(50% - 15px); 
+  top: calc(50% - 15px);
   left: 50%;
   transform: translateX(-50%);
 }
 
 .close-container-custom:hover .leftright-custom,
 .close-container-custom:hover .rightleft-custom {
-  transform: rotate(-45deg) translateY(-1px); 
+  transform: rotate(-45deg) translateY(-1px);
   background-color: #b40101bb;
 }
 
 .close-container-custom:hover .rightleft-custom {
-  transform: rotate(45deg) translateY(-1px); 
+  transform: rotate(45deg) translateY(-1px);
 }
 
 .close-container-custom:hover .label-custom {
@@ -507,25 +510,25 @@ watchTraillerBtn-main-carousel{
 }
 
 .upcoming-movies-container {
-  
+
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .upcoming-movies-slide {
-  
-  width: 80%; 
+
+  width: 80%;
   display: flex;
-  justify-content: space-between; 
-  overflow: hidden; 
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .upcoming-movies-slide .movie-item,
 .upcoming-tvshows-slide .tv-show-item {
-  flex: 0 0 auto; 
-  width: 200px; 
-  margin-right: 10px; 
-  
+  flex: 0 0 auto;
+  width: 200px;
+  margin-right: 10px;
+
 }
 
 .upcoming-movies-slide .movie-item-content,
@@ -544,20 +547,20 @@ watchTraillerBtn-main-carousel{
 
 .owl-carousel {
   padding: 0 30px;
-  max-width: 2000px; 
-  margin: 0 auto; 
+  max-width: 2000px;
+  margin: 0 auto;
   display: flex;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
 }
 
 .owl-carousel .owl-item {
-  flex: 0 0 auto; 
+  flex: 0 0 auto;
 }
 
 .owl-carousel .owl-stage {
   display: flex;
-  align-items: center; 
-  transition: transform 0.5s ease; 
+  align-items: center;
+  transition: transform 0.5s ease;
 }
 
 .owl-nav {
@@ -589,11 +592,11 @@ watchTraillerBtn-main-carousel{
 #trending-tvshows-heading,
 #trending-people-heading,
 #top-rated-movies-heading {
-  padding-left: 40px; 
+  padding-left: 40px;
   padding-top: 30px;
   font-weight: 700;
   font-style: normal;
-  position: relative; 
+  position: relative;
 }
 
 #upcoming-movies-heading::after,
@@ -602,7 +605,7 @@ watchTraillerBtn-main-carousel{
 #top-rated-movies-heading::after {
   content: '';
   position: absolute;
-  left: 40px; 
+  left: 40px;
   bottom: -5px;
   width: 70px;
   height: 5px;
@@ -612,16 +615,16 @@ watchTraillerBtn-main-carousel{
 .movie-item img,
 .tv-show-item img,
 .person-item img {
-    width: 90%;
-    margin: 20px auto;
-    display: block;
+  width: 90%;
+  margin: 20px auto;
+  display: block;
 }
 
 
 .custom-section {
   position: relative;
   width: 100%;
-  height: calc(100vh - 60px); 
+  height: calc(100vh - 60px);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -632,7 +635,7 @@ watchTraillerBtn-main-carousel{
   top: 0;
   left: 0;
   width: 100%;
-  padding-top: 60px; 
+  padding-top: 60px;
 }
 
 .elements-wrapper {
@@ -649,15 +652,16 @@ watchTraillerBtn-main-carousel{
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)); 
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
+
 .carousel-wrapper {
-  margin-top: -60px; 
+  margin-top: -60px;
 }
 
 .carousel-item img {
-  max-height: 900px; 
-  object-position: top; 
+  max-height: 900px;
+  object-position: top;
 }
 
 .overlay {
@@ -666,21 +670,25 @@ watchTraillerBtn-main-carousel{
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)); 
-  z-index: 1; 
+  -moz-box-shadow: 0px 0px 0px 0px #000000 inset;
+  box-shadow: 400px 0px 200px 80px #000000 inset;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+  z-index: 1;
 }
 
 #footer-container {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0)); 
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
   background-color: #111111;
-  padding: 10px; 
+  padding-left: 10px;
+  padding-right: 10px;
+  
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .logo {
-  font-size: 20px; 
+  font-size: 20px;
   font-weight: bold;
   text-decoration: none;
   color: #333;
@@ -688,6 +696,7 @@ watchTraillerBtn-main-carousel{
 
 .footer-p {
   color: #666;
+  margin:5px;
 }
 
 .footer-links {
@@ -698,7 +707,7 @@ watchTraillerBtn-main-carousel{
   margin-right: 15px;
   text-decoration: none;
   color: #555;
-  font-size: 14px; 
+  font-size: 14px;
   transition: color 0.3s ease;
 
 }
@@ -725,31 +734,31 @@ watchTraillerBtn-main-carousel{
 
 .main-carousel-title {
   font-family: "Roboto", sans-serif;
-  font-size: 60px; 
-  padding-left: 40px; 
-  font-weight: 1000; 
-  position: absolute; 
+  font-size: 60px;
+  padding-left: 40px;
+  font-weight: 1000;
+  position: absolute;
   margin-top: 250px;
   margin-left: 10%;
   z-index: 1;
-  position: absolute; 
+  position: absolute;
   top: 0;
-  word-wrap: break-word; 
+  word-wrap: break-word;
   max-width: 750px;
 }
 
-.main-carousel-details{
+.main-carousel-details {
   font-family: "Roboto", sans-serif;
-  font-size: 20px; 
-  padding-left: 40px; 
-  font-weight: 500; 
-  position: absolute; 
+  font-size: 20px;
+  padding-left: 40px;
+  font-weight: 500;
+  position: absolute;
   padding-top: 450px;
   margin-left: 10%;
   z-index: 1;
-  position: absolute; 
+  position: absolute;
   top: 0;
-  word-wrap: break-word; 
+  word-wrap: break-word;
   max-width: 750px;
 }
 
@@ -773,11 +782,11 @@ watchTraillerBtn-main-carousel{
 
 .playButtonIconMainCarousel {
   position: absolute;
-  left: 10px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  width: 27px; 
-  height: auto; 
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 27px;
+  height: auto;
 }
 
 .trailerTextMainCarousel {
@@ -789,12 +798,13 @@ watchTraillerBtn-main-carousel{
   width: 20%;
   justify-content: space-around;
 }
+
 .circular-chart {
   font-weight: bold;
   display: block;
   max-width: 60px;
   max-height: 250px;
-  margin: -10px; 
+  margin: -10px;
   color: white;
   font-size: 10px;
   text-anchor: middle;
@@ -819,34 +829,34 @@ watchTraillerBtn-main-carousel{
 .link-icon {
   width: 50px;
   height: 50px;
-  margin-right: 10px; 
+  margin-right: 10px;
   transition: transform 0.3s ease-in-out;
 }
 
 .link-icon:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
 #form {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 #form input.search {
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 20px; 
-  width: 200px; 
+  border-radius: 20px;
+  width: 200px;
 }
 
 #searchIcon {
-  margin-top: 15px; 
+  margin-top: 17px;
   margin-left: 20px;
-  transition: color 0.3s, transform 0.3s; 
+  transition: color 0.3s, transform 0.3s;
 }
 
 #searchIcon:hover {
-transform: scale(1.1); 
+  transform: scale(1.1);
 }

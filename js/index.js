@@ -1,5 +1,12 @@
 import router from '/js/router.js';
 
+const searchIcon = document.getElementById('searchIcon');
+const searchForm = document.getElementById('search');
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+const signinBtn = document.getElementById('signinBtn');
+
+
 addEventListener('DOMContentLoaded', () => {
   router.init();
 
@@ -33,7 +40,29 @@ function updateActiveLink() {
 }
 
 function getCurrentPage() {
+
+
   const hash = window.location.hash;
+  const homePage = hash === '#/';
+
+  switch (hash) {
+    case '#/movies':
+    case '#/tvShows':
+    case '#/celebs':
+      searchIcon.style.visibility = 'visible';
+      searchForm.style.visibility = 'visible';
+      nextBtn.style.visibility = 'visible';
+      prevBtn.style.visibility = 'visible';
+      break;
+    default:
+      nextBtn.style.visibility = 'hidden';
+      prevBtn.style.visibility = 'hidden';
+      searchIcon.style.visibility = homePage ? 'hidden' : 'visible';
+      searchForm.style.visibility = homePage ? 'hidden' : 'visible';
+      break;
+  }
+
+ 
   switch (hash) {
     case '#/movies':
       return 'films-href';
@@ -70,4 +99,13 @@ addEventListener('DOMContentLoaded', () => {
   searchIcon.style.width = '25px'; 
   searchIcon.style.height = '25px'; 
   
+});
+
+
+signinBtn.addEventListener('mouseover', function() {
+  signinBtn.innerText = 'Coming Soon';
+});
+
+signinBtn.addEventListener('mouseout', function() {
+  signinBtn.innerText = 'Sign In';
 });
