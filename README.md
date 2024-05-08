@@ -1,6 +1,6 @@
 # ReelRadar
 
-ReelRadar is a JavaScript-based Single Page Application (SPA) that interfaces with the MovieDB API, enabling users to navigate through movies, TV shows, and celebrities.
+ReelRadar is a JavaScript-based Single Page Application (SPA) that interfaces with the MovieDB API and the Fanart.tv API, enabling users to navigate through movies, TV shows, and celebrities.
 
 ## Features
 
