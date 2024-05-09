@@ -1,5 +1,6 @@
 import movieService from '../service/movieService.js';
 
+const container = document.querySelector('#container');
 const imagePath = 'https://image.tmdb.org/t/p/w500/';
 const noPosterBG = 'resources/no-poster.png';
 const playButton = 'resources/play-button.png'
@@ -7,9 +8,8 @@ const noResultsImage = 'resources/no-results.png';
 let modal;
 
 function renderMovies(movies) {
-  const container = document.querySelector('#container');
   container.innerHTML = ''; 
-
+  
   const list = document.createElement('ul');
   list.classList.add('movie-list');
 
@@ -57,9 +57,11 @@ function openModal(movie) {
     <div class="modal-content movie-modal-content">
       <span class="close" id="goBackBtn">&times;</span>
       <div class="modal-body">
-        <div class="moviePosterDiv">
-          <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster" >
-        </div>
+      <div class="moviePosterDiv">
+      <img id="moviePoster" src="${movie.poster_path ? imagePath + movie.poster_path : noPosterBG}" alt="Movie Poster">
+  </div>
+  
+  
         <div id="movieDetails">
           <div class="titleContainer">
             <h2 id="movieTitle"><strong>${movie.title}</strong></h2>

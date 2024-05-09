@@ -1,60 +1,79 @@
 import movieService from '../service/movieService.js';
 import movieView from '../view/movieView.js';
 
+const loadMoreBtn = document.getElementById('nextBtn');
+const loadLessBtn = document.getElementById('prevBtn');
+
+let currentPage = 1;
+let allMovies = [];
+
 async function init() {
-  let currentPage = 1; 
-  let allMovies = await movieService.fetchMovies(null, currentPage);
-  movieView.renderMovies(allMovies);
-  
-  const form = document.getElementById('form');
-  const search = document.getElementById('search');
+    loadLessBtn.style.display = 'none';
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    await fetchAndRenderNextPage();
 
-    const searchInput = search.value.trim();
-    
-    if (searchInput) {
-      let searchResults = await movieService.fetchMovies(searchInput);
+    loadMoreBtn.addEventListener('click', fetchAndRenderNextPage);
+    loadLessBtn.addEventListener('click', fetchAndRenderPreviousPage);
 
-      if (searchResults.length === 0) {
-        movieView.renderNotFound();
+    const form = document.getElementById('form');
+    const search = document.getElementById('search');
 
-      } else {
-        movieView.renderMovies(searchResults);
-      }
-      
-    } else {
-      movieView.renderMovies(allMovies);
-    }
-  });
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-  async function fetchAndRenderNextPage() {
-    currentPage++;
+        const searchInput = search.value.trim();
+
+        if (searchInput) {
+
+            let searchResults = await movieService.fetchMovies(searchInput);
+
+            if (searchResults.length === 0) {
+
+                loadMoreBtn.style.visibility = 'hidden';
+                loadLessBtn.style.visibility = 'hidden';
+                movieView.renderNotFound();
+            } else {
+
+                loadMoreBtn.style.visibility = 'visible';
+                loadLessBtn.style.visibility = 'visible';
+
+                allMovies = searchResults;
+                movieView.renderMovies(allMovies);
+            }
+        } else {
+
+          loadMoreBtn.style.visibility = 'visible';
+            loadLessBtn.style.visibility = 'visible';
+
+            allMovies = await movieService.fetchMovies(null, 1);
+            movieView.renderMovies(allMovies);
+        }
+    });
+}
+
+async function fetchAndRenderNextPage() {
     const nextPageMovies = await movieService.fetchMovies(null, currentPage);
-    movieView.renderMovies(nextPageMovies);
-    document.getElementById('prevBtn').style.display = 'inline-block';
-  }
+    allMovies.push(...nextPageMovies);
+    movieView.renderMovies(allMovies);
+    currentPage++;
 
-  async function fetchAndRenderPreviousPage() {
+    if (currentPage > 2) {
+        loadLessBtn.style.display = 'inline-block';
+    }
+}
+
+async function fetchAndRenderPreviousPage() {
     if (currentPage > 1) {
-      currentPage--;
-      const previousPageMovies = await movieService.fetchMovies(null, currentPage);
-      movieView.renderMovies(previousPageMovies);
+
+        allMovies.splice(-20); 
+
+        movieView.renderMovies(allMovies);
+        currentPage--;
+
+        if (currentPage === 2) {
+            loadLessBtn.style.display = 'none';
+        }
     }
-
-    if (currentPage === 1) {
-      document.getElementById('prevBtn').style.display = 'none';
-    }
-  }
-
-  const nextBtn = document.getElementById('nextBtn');
-  nextBtn.addEventListener('click', fetchAndRenderNextPage);
-
-  const prevBtn = document.getElementById('prevBtn');
-  prevBtn.addEventListener('click', fetchAndRenderPreviousPage);
-
-  prevBtn.style.display = 'none';
 }
 
 export default { init };

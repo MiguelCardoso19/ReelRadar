@@ -1,59 +1,78 @@
 import celebService from '../service/celebService.js';
 import celebView from '../view/celebView.js';
 
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+
 async function init() {
-  try {
-    let currentPage = 1; 
-    let allCelebs = await celebService.fetchData(null, currentPage); 
-    celebView.render(allCelebs.results); 
+    let allCelebs = []; 
+    let currentPage = 1;
+
+
+    async function fetchAndRenderNextPage() {
+        const nextPageCelebs = await celebService.fetchData(null, currentPage);
+        allCelebs.push(...nextPageCelebs.results);
+        celebView.render(allCelebs);
+        currentPage++;
+        if (currentPage > 1) {
+            document.getElementById('prevBtn').style.display = 'inline-block';
+        }
+    }
+
+
+    async function fetchAndRenderPreviousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            const previousPageCelebs = await celebService.fetchData(null, currentPage);
+            allCelebs.splice(-previousPageCelebs.results.length);
+            celebView.render(allCelebs);
+        }
+
+        if (currentPage === 2) {
+            document.getElementById('prevBtn').style.display = 'none';
+        }
+    }
+
+
+    nextBtn.addEventListener('click', fetchAndRenderNextPage);
+    prevBtn.addEventListener('click', fetchAndRenderPreviousPage);
 
     const form = document.getElementById('form');
     const search = document.getElementById('search');
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+        e.preventDefault();
 
-      const searchInput = search.value.trim();
+        const searchInput = search.value.trim();
 
-      if (searchInput) {
-        let searchResults = await celebService.fetchData(searchInput);
+        if (searchInput) {
+            let searchResults = await celebService.fetchData(searchInput);
 
-        if (searchResults.results.length === 0) {
-          celebView.renderNotFound();
+            if (searchResults.results.length === 0) {
+                nextBtn.style.visibility = 'hidden';
+                prevBtn.style.visibility = 'hidden';
+                celebView.renderNotFound();
+            } else {
+                nextBtn.style.visibility = 'visible';
+                prevBtn.style.visibility = 'visible';
+                allCelebs = searchResults.results; 
+                celebView.render(allCelebs);
+            }
         } else {
-          celebView.render(searchResults.results); 
+            nextBtn.style.visibility = 'visible';
+            prevBtn.style.visibility = 'visible';
+            allCelebs = await celebService.fetchData(null, 1); 
+            celebView.render(allCelebs.results);
         }
-      } else {
-        currentPage = 1; 
-        allCelebs = await celebService.fetchData(null, currentPage);
-        celebView.render(allCelebs.results); 
-      }
     });
 
-    async function fetchAndRenderNextPage() {
-      currentPage++;
-      const nextPageCelebs = await celebService.fetchData(null, currentPage);
-      celebView.render(nextPageCelebs.results); 
+
+    await fetchAndRenderNextPage();
+
+
+    if (currentPage === 2) {
+        prevBtn.style.display = 'none';
     }
-
-    async function fetchAndRenderPreviousPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        const previousPageCelebs = await celebService.fetchData(null, currentPage);
-        celebView.render(previousPageCelebs.results); 
-      }
-    }
-
-    const nextBtn = document.getElementById('nextBtn');
-    nextBtn.addEventListener('click', fetchAndRenderNextPage);
-
-    const prevBtn = document.getElementById('prevBtn');
-    prevBtn.addEventListener('click', fetchAndRenderPreviousPage);
-
-    prevBtn.style.display = 'none';
-  } catch (error) {
-    console.error(error);
-  }
 }
 
 export default { init };

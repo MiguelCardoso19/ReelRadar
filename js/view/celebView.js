@@ -29,7 +29,7 @@ function createCelebItem(celeb) {
   item.classList.add('movie-item'); 
 
   const celebContainer = document.createElement('div');
-  celebContainer.classList.add('movie-container'); // Changed to 'movie-container'
+  celebContainer.classList.add('movie-container'); 
 
   const image = document.createElement('img');
   image.src = `${profile_path ? imagePath + profile_path : noPosterBG}`;
@@ -40,7 +40,7 @@ function createCelebItem(celeb) {
   });
 
   const titleElement = document.createElement('h5');
-  titleElement.classList.add('movie-title'); // Changed to 'movie-title'
+  titleElement.classList.add('movie-title'); 
   titleElement.textContent = name;
 
   celebContainer.appendChild(image);
@@ -121,7 +121,9 @@ function truncateOverview(overview) {
   }
 }
 
+
 function renderNotFound() {
+
   const container = document.querySelector('#container');
   container.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; height: 100%;">

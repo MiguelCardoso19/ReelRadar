@@ -3,7 +3,7 @@ const apiUrl = 'https://api.themoviedb.org/3/';
 
 async function fetchData(query = '', page = 1) {
   try {
-    let url = apiUrl + 'discover/person?api_key=' + apiKey;
+    let url = apiUrl + '/person/popular?api_key=' + apiKey;
 
     if (query) {
       url = apiUrl + 'search/person?api_key=' + apiKey + '&query=' + encodeURIComponent(query);

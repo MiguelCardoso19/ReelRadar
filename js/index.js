@@ -10,6 +10,11 @@ const signinBtn = document.getElementById('signinBtn');
 addEventListener('DOMContentLoaded', () => {
   router.init();
 
+  function topFunction() {
+    document.body.scrollTop = 0; 
+    document.documentElement.scrollTop = 0; 
+  }
+
   const navbar = document.getElementById('anchors');
 
   window.addEventListener('hashchange', () => {
@@ -62,7 +67,6 @@ function getCurrentPage() {
       break;
   }
 
- 
   switch (hash) {
     case '#/movies':
       return 'films-href';
@@ -109,3 +113,17 @@ signinBtn.addEventListener('mouseover', function() {
 signinBtn.addEventListener('mouseout', function() {
   signinBtn.innerText = 'Sign In';
 });
+
+let mybutton = document.getElementById("myBtn");
+
+window.onscroll = function() {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 10000 || document.documentElement.scrollTop > 1000) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
