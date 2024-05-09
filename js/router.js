@@ -1,4 +1,4 @@
-import routes from '/js/routes.js'
+import routes from '../js/routes.js'
 
 function setCurrentRoute({ path, controller }) {
 

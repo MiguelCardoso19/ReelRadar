@@ -1,4 +1,4 @@
-import router from '/js/router.js';
+import router from '../js/router.js';
 
 const searchIcon = document.getElementById('searchIcon');
 const searchForm = document.getElementById('search');
