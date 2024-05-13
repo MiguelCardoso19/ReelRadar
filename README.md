@@ -2,6 +2,12 @@
 
 ReelRadar is a JavaScript-based Single Page Application (SPA) that interfaces with the MovieDB API and the Fanart.tv API, enabling users to navigate through movies, TV shows, and celebrities.
 
+![ReelRadar Landing Page](https://github.com/MiguelCardoso19/ReelRadar/blob/demo/landingpage.jpg)
+
+## Demo
+
+You can try out ReelRadar by visiting the [demo site](https://miguelcardoso19.github.io/ReelRadar/#/).
+
 ## Features
 
 - Displays a list of movies, TV shows, and celebrities from the MovieDB API.
@@ -20,6 +26,9 @@ ReelRadar is a JavaScript-based Single Page Application (SPA) that interfaces wi
 - OwlCarousel
 - MovieDB API
 - Fanart.tv API
+- Java 21
+- PostgreSQL
+- Spring Boot
 
 ## Next Implementations
 
@@ -36,4 +45,4 @@ ReelRadar is a JavaScript-based Single Page Application (SPA) that interfaces wi
 
 ## Acknowledgements
 
-- The Farnart.TV and The Movie Database for providing the data used in this project.
+- The Fanart.TV and The Movie Database for providing the data used in this project.
