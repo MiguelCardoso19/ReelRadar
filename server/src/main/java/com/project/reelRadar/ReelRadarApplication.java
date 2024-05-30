@@ -9,5 +9,4 @@ public class ReelRadarApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ReelRadarApplication.class, args);
 	}
-
 }
