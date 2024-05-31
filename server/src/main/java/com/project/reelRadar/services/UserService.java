@@ -4,5 +4,5 @@ import com.project.reelRadar.exceptions.UserAlreadyExistsException;
 import com.project.reelRadar.models.User;
 
 public interface UserService {
-    User save(User user) throws UserAlreadyExistsException;
+    User save(String password, String username, String email) throws UserAlreadyExistsException;
 }

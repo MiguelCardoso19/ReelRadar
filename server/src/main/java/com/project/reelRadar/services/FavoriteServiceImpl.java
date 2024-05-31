@@ -5,6 +5,8 @@ import com.project.reelRadar.repositories.FavoriteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
@@ -16,17 +18,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public Favorite saveFavorite(Favorite favorite) {
+    public Favorite save(Favorite favorite) {
         return favoriteRepository.save(favorite);
     }
 
     @Override
-    public Favorite updateFavorite(Favorite favorite) {
-        return favoriteRepository.save(favorite); // Save method works for both create and update
-    }
-
-    @Override
     public void deleteFavorite(String favoriteId) {
-        favoriteRepository.deleteById(favoriteId);
+        favoriteRepository.deleteById(UUID.fromString(favoriteId));
     }
 }

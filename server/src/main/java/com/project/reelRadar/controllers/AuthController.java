@@ -1,11 +1,13 @@
 package com.project.reelRadar.controllers;
 
+import com.project.reelRadar.exceptions.UserAlreadyExistsException;
 import com.project.reelRadar.models.User;
 import com.project.reelRadar.dtos.LoginRequestDTO;
 import com.project.reelRadar.dtos.RegisterRequestDTO;
 import com.project.reelRadar.dtos.ResponseDTO;
 import com.project.reelRadar.security.TokenService;
 import com.project.reelRadar.repositories.UserRepository;
+import com.project.reelRadar.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO) {
@@ -36,7 +39,21 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity register(@RequestBody RegisterRequestDTO registerRequestDTO) throws UserAlreadyExistsException {
+        User newUser = userService.save(registerRequestDTO.password(), registerRequestDTO.username(), registerRequestDTO.email());
+
+        if (newUser == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String token = this.tokenService.generateToken(newUser);
+        return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(), token));
+    }
+}
+
+
+
+/*
         Optional<User> user = this.userRepository.findByUsername(registerRequestDTO.email());
 
         if(user.isEmpty()){
@@ -46,10 +63,4 @@ public class AuthController {
             newUser.setEmail(registerRequestDTO.email());
 
             this.userRepository.save(newUser);
-
-            String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(), token));
-        }
-        return ResponseEntity.badRequest().build();
-    }
-}
+ */
