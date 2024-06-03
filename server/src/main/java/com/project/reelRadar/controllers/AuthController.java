@@ -1,6 +1,8 @@
 package com.project.reelRadar.controllers;
 
+import com.project.reelRadar.dtos.DeleteRequestDTO;
 import com.project.reelRadar.exceptions.UserAlreadyExistsException;
+import com.project.reelRadar.exceptions.UserNotFoundException;
 import com.project.reelRadar.models.User;
 import com.project.reelRadar.dtos.LoginRequestDTO;
 import com.project.reelRadar.dtos.RegisterRequestDTO;
@@ -11,10 +13,7 @@ import com.project.reelRadar.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -40,8 +39,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO registerRequestDTO) throws UserAlreadyExistsException {
-        User newUser = userService.save(registerRequestDTO.password(), registerRequestDTO.username(), registerRequestDTO.email());
-
+        User newUser = userService.save(registerRequestDTO);
         if (newUser == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -49,18 +47,10 @@ public class AuthController {
         String token = this.tokenService.generateToken(newUser);
         return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(), token));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity delete(@RequestBody DeleteRequestDTO deleteRequestDTO) throws UserNotFoundException {
+        userService.delete(deleteRequestDTO);
+        return ResponseEntity.ok("User deleted successfully");
+    }
 }
-
-
-
-/*
-        Optional<User> user = this.userRepository.findByUsername(registerRequestDTO.email());
-
-        if(user.isEmpty()){
-            User newUser = new User();
-            newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
-            newUser.setUsername(registerRequestDTO.username());
-            newUser.setEmail(registerRequestDTO.email());
-
-            this.userRepository.save(newUser);
- */
