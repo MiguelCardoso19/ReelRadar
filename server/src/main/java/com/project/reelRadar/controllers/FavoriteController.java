@@ -1,19 +1,19 @@
 package com.project.reelRadar.controllers;
-
+/**
 import com.project.reelRadar.models.Favorite;
 import com.project.reelRadar.services.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+ @RestController
 @RequestMapping("/favorites")
 @RequiredArgsConstructor
 public class FavoriteController {
     private final FavoriteService favoriteService;
 
 
-    @GetMapping("/{userId}")
+  @GetMapping("/{userId}")
     public ResponseEntity<Favorite> getFavoriteByUserId(@PathVariable String userId) {
         Favorite favorite = favoriteService.findByUserId(userId);
         if (favorite == null) {
@@ -33,4 +33,4 @@ public class FavoriteController {
         favoriteService.deleteFavorite(favoriteId);
         return ResponseEntity.noContent().build();
     }
-}
+} */

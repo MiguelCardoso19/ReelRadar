@@ -15,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserRepository userRepository;
@@ -28,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        User user = this.userRepository.findByUsername(loginRequestDTO.email()).orElseThrow(() -> new RuntimeException("Email not found"));
+        User user = this.userRepository.findByUsername(loginRequestDTO.username()).orElseThrow(() -> new RuntimeException("Email not found"));
 
         if (passwordEncoder.matches(loginRequestDTO.password(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
@@ -53,4 +51,10 @@ public class AuthController {
         userService.delete(deleteRequestDTO);
         return ResponseEntity.ok("User deleted successfully");
     }
+
+    @GetMapping("/test")
+    public String rn() {
+return "Hello World";
+    }
 }
+

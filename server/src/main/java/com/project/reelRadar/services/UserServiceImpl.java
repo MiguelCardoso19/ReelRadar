@@ -24,17 +24,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(RegisterRequestDTO registerRequestDTO) throws UserAlreadyExistsException {
         Optional<User> existUser = userRepository.findByUsername(registerRequestDTO.username());
-        if (existUser.isPresent()) {
-            throw new UserAlreadyExistsException(existUser.get().getUsername());
+        if (existUser.isEmpty()) {
+            User newUser = new User();
+            newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
+            newUser.setUsername(registerRequestDTO.username());
+            newUser.setEmail(registerRequestDTO.email());
+
+            this.userRepository.save(newUser);
+            return newUser;
         }
-        User newUser = new User();
-        newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
-        newUser.setUsername(registerRequestDTO.username());
-        newUser.setEmail(registerRequestDTO.email());
 
-        this.userRepository.save(newUser);
-
-        return newUser;
+        throw new UserAlreadyExistsException(existUser.get().getUsername());
     }
 
     @Override

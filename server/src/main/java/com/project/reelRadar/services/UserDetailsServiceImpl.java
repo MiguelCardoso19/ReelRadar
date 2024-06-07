@@ -1,4 +1,4 @@
-package com.project.reelRadar.security;
+package com.project.reelRadar.services;
 
 import com.project.reelRadar.models.User;
 import com.project.reelRadar.repositories.UserRepository;

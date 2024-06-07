@@ -23,33 +23,37 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             String token = JWT.create()
-                    .withIssuer("reelRadar-backend")
-                    .withSubject(user.getUsername())
-                    .withExpiresAt(generateExpirationDate())
+                    .withIssuer("ReelRadar-API")
+                    .withIssuedAt(generateInstantDate())
+                    .withSubject(user.getEmail())
+                    .withExpiresAt(this.generateExpirationDate())
                     .sign(algorithm);
-
             return token;
 
-        } catch (JWTCreationException e) {
-            throw new RuntimeException("Error while generating token");
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Error while authenticating");
         }
     }
 
-    public String validateToken(String token){
+    public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("reelRadar-backend")
+                    .withIssuer("ReelRadar-API")
                     .build()
                     .verify(token)
                     .getSubject();
 
-        } catch (JWTVerificationException e) {
+        } catch (JWTVerificationException exception) {
             return null;
         }
     }
 
     private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(12).toInstant(ZoneOffset.of("+01:00"));
+    }
+
+    private Instant generateInstantDate() {
+        return LocalDateTime.now().toInstant(ZoneOffset.of("+01:00"));
     }
 }

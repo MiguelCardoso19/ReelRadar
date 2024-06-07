@@ -1,5 +1,5 @@
 package com.project.reelRadar.services;
-
+/**
 import com.project.reelRadar.models.Favorite;
 import com.project.reelRadar.repositories.FavoriteRepository;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+ @Service
 @AllArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
@@ -26,4 +26,4 @@ public class FavoriteServiceImpl implements FavoriteService {
     public void deleteFavorite(String favoriteId) {
         favoriteRepository.deleteById(UUID.fromString(favoriteId));
     }
-}
+} */
