@@ -1,3 +1,5 @@
 package com.project.reelRadar.dtos;
 
-public record ResponseDTO (String username, String token) {}
+import java.util.UUID;
+
+public record ResponseDTO (String username, UUID Id, String token) {}

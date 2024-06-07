@@ -30,7 +30,7 @@ public class AuthController {
 
         if (passwordEncoder.matches(loginRequestDTO.password(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
-            return ResponseEntity.ok(new ResponseDTO(user.getUsername(), token));
+            return ResponseEntity.ok(new ResponseDTO(user.getUsername(),user.getId(), token));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -43,18 +43,13 @@ public class AuthController {
         }
 
         String token = this.tokenService.generateToken(newUser);
-        return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(), token));
+        return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(),newUser.getId(), token));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity delete(@RequestBody DeleteRequestDTO deleteRequestDTO) throws UserNotFoundException {
         userService.delete(deleteRequestDTO);
         return ResponseEntity.ok("User deleted successfully");
-    }
-
-    @GetMapping("/test")
-    public String rn() {
-return "Hello World";
     }
 }
 

@@ -1,9 +1,12 @@
 package com.project.reelRadar.services;
-/**
+
 import com.project.reelRadar.models.Favorite;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface FavoriteService {
-    Favorite findByUserId(String userId);
+    List<Object[]> getFavoritesByUserId(UUID userId);
     Favorite save(Favorite favorite);
-    void deleteFavorite(String favoriteId);
-}*/
+    void deleteFavorite(UUID favoriteId);
+}

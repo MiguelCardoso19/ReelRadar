@@ -1,20 +1,21 @@
 package com.project.reelRadar.services;
-/**
+
+import com.project.reelRadar.dtos.FavoriteDTO;
 import com.project.reelRadar.models.Favorite;
 import com.project.reelRadar.repositories.FavoriteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
 
- @Service
+@Service
 @AllArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
 
     @Override
-    public Favorite findByUserId(String userId) {
-        return favoriteRepository.findByUserId(userId);
+    public List<Object[]> getFavoritesByUserId(UUID userId) {
+        return favoriteRepository.getFavoritesByUserId(userId);
     }
 
     @Override
@@ -23,7 +24,20 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public void deleteFavorite(String favoriteId) {
-        favoriteRepository.deleteById(UUID.fromString(favoriteId));
+    public void deleteFavorite(UUID favoriteId) {
+        favoriteRepository.deleteById(favoriteId);
     }
-} */
+
+     public List<Map<String, String>> convertToMap(List<FavoriteDTO> favorites) {
+         List<Map<String, String>> response = new ArrayList<>();
+         for (FavoriteDTO favorite : favorites) {
+             Map<String, String> entry = new HashMap<>();
+             entry.put("tv_shows", favorite.tv_shows());
+             entry.put("movies", favorite.movies());
+             entry.put("people", favorite.people());
+             response.add(entry);
+         }
+         return response;
+     }
+
+ }
