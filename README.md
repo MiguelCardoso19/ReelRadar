@@ -1,6 +1,6 @@
 # ReelRadar
 
-ReelRadar is a web app that helps you explore movies, TV shows, and celebrities. You can also register and log in for a personalized experience.  
+ReelRadar is a single page web app that helps you explore movies, TV shows, and celebrities. You can also register and log in for a personalized experience.  
 Check out ReelRadar on the [demo Website](https://miguelcardoso19.github.io/ReelRadar/#/).
 
 ![ReelRadar Landing Page](https://github.com/MiguelCardoso19/ReelRadar/blob/demo/landingpage.jpg)
