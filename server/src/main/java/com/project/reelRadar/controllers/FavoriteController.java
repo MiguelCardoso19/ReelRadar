@@ -15,8 +15,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FavoriteController {
     private final FavoriteService favoriteService;
-    private final FavoriteRepository favoriteRepository;
-
 
     @GetMapping("/show/{userId}")
     public ResponseEntity<List<Object[]>> getMoviesPeopleTvShowsByUserId(@PathVariable UUID userId) {
@@ -33,7 +31,7 @@ public class FavoriteController {
         return ResponseEntity.ok(createdFavorite);
     }
 
-    @DeleteMapping("/remove")
+    @DeleteMapping("/remove/{favoriteId}")
     public ResponseEntity<Void> deleteFavorite(@PathVariable UUID favoriteId) {
         favoriteService.deleteFavorite(favoriteId);
         return ResponseEntity.noContent().build();

@@ -1,3 +1,9 @@
 package com.project.reelRadar.dtos;
 
-public record RegisterRequestDTO (String username, String email, String password) {}
+import com.project.reelRadar.errors.ErrorMessage;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+
+public record RegisterRequestDTO (@NotNull(message = ErrorMessage.USERNAME_EMPTY) String username,
+                                  @NotNull(message = ErrorMessage.EMAIL_EMPTY) @Email String email,
+                                  @NotNull(message = ErrorMessage.PASSWORD_EMPTY) String password) {}

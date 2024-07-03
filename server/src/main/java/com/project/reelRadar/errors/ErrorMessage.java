@@ -8,5 +8,8 @@ public class ErrorMessage {
     public static final String EMAIL_GENERATING_TOKEN = "Error while generating token";
     public static final String TOKEN_EXPIRED = "Token expired";
     public static final String TOKEN_INVALID = "Token Invalid";
+    public static final String USERNAME_EMPTY = "First name should not be empty";
+    public static final String PASSWORD_EMPTY = "Password should not be empty";
+    public static final String EMAIL_EMPTY = "Email should not be empty";
     public static final String USER_ALREADY_EXISTS = "This user already exists";
 }
