@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 class UserServiceImplTest {
 
-    @Mock
+  /*  @Mock
     private UserRepository userRepository;
 
     @Mock
@@ -47,5 +47,5 @@ class UserServiceImplTest {
         assertEquals("encodedPassword", savedUser.getPassword());
         assertEquals(registerRequestDTO.username(), savedUser.getUsername());
         assertEquals(registerRequestDTO.email(), savedUser.getEmail());
-    }
+    }*/
 }

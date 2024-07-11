@@ -1,14 +1,7 @@
-FROM maven:3.8.8-eclipse-temurin-21 AS build
 
-COPY src /app/src
-COPY pom.xml /app
+FROM openjdk:21
 
-WORKDIR /app
-RUN mvn clean install
-
-FROM openjdk:21-slim
-
-COPY --from=build /app/target/reelradar-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY target/reelradar-0.0.1-SNAPSHOT.jar /app/app.jar
 
 WORKDIR /app
 
