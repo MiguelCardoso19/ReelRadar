@@ -1,4 +1,3 @@
-
 FROM openjdk:21
 
 COPY target/reelradar-0.0.1-SNAPSHOT.jar /app/app.jar

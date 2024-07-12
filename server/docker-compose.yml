@@ -1,0 +1,31 @@
+services:
+
+  postgres:
+    container_name: postgres-sql
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgre
+      POSTGRES_DB: reelradar_docker_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgres/data
+    networks:
+      - reelradar-net
+
+  app:
+    container_name: app
+    image: app
+    ports:
+      - "8088:8080"
+    networks:
+      - reelradar-net
+    depends_on:
+      - postgres
+volumes:
+  postgres:
+
+networks:
+  reelradar-net:
+    driver: bridge
