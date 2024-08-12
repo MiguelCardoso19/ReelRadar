@@ -1,7 +1,7 @@
 package com.project.reelRadar.security;
 
-import com.project.reelRadar.models.User;
-import com.project.reelRadar.repositories.UserRepository;
+import com.project.reelRadar.model.User;
+import com.project.reelRadar.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
