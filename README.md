@@ -36,7 +36,10 @@ Check out ReelRadar on the [demo Website](https://miguelcardoso19.github.io/Reel
 - Spring Data JPA 
 - Lombok
 - JSON Web Token (JWT) 
+- Mockito
+- JUnite 5
 - Maven
+- Docker
 
 ## Next Implementations
 

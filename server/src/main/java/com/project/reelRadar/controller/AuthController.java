@@ -51,13 +51,6 @@ public class AuthController {
         return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(),newUser.getId(), token));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity delete(@RequestBody DeleteRequestDTO deleteRequestDTO) throws UserNotFoundException {
-        userService.delete(deleteRequestDTO);
-        return ResponseEntity.ok("User deleted successfully");
-    }
-
-
     /**
      * This method is triggered when a method argument fails validation.
      * It constructs a response entity with the details of the validation errors.

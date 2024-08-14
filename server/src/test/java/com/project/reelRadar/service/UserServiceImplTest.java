@@ -1,4 +1,4 @@
-package com.project.reelRadar.services;
+package com.project.reelRadar.service;
 
 import com.project.reelRadar.dto.DeleteRequestDTO;
 import com.project.reelRadar.dto.RegisterRequestDTO;
@@ -35,14 +35,20 @@ public class UserServiceImplTest {
     private UserServiceImpl userService;
 
     private RegisterRequestDTO registerRequestDTO;
-
     private User user;
 
 
     @BeforeEach
     void setUp() {
-        registerRequestDTO = new RegisterRequestDTO("testUsername", "testPassword", "testEmail@example.com");
-        user = new User(UUID.randomUUID(),"TestUser","TestPassword", "TestEmail", new Favorite());
+        registerRequestDTO = new RegisterRequestDTO(
+                "testUsername",
+                "testPassword",
+                "testEmail@example.com");
+
+        user = new User(UUID.randomUUID(),
+                "TestUser",
+                "TestPassword",
+                "TestEmail", new Favorite());
     }
 
     @Test

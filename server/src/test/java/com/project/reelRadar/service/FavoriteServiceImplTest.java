@@ -1,4 +1,4 @@
-package com.project.reelRadar.services;
+package com.project.reelRadar.service;
 
 import com.project.reelRadar.dto.FavoriteDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
