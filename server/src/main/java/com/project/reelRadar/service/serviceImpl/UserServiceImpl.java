@@ -2,6 +2,7 @@ package com.project.reelRadar.service.serviceImpl;
 
 import com.project.reelRadar.dto.DeleteRequestDTO;
 import com.project.reelRadar.dto.RegisterRequestDTO;
+import com.project.reelRadar.dto.UpdateRequestDTO;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.User;
@@ -42,5 +43,14 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         }
         userRepository.delete(existUser.get());
+    }
+
+    @Override
+    public void update(UpdateRequestDTO updateRequestDTO) throws UserNotFoundException {
+        Optional<User> existUser = userRepository.findByUsername(updateRequestDTO.username());
+        if (!existUser.isPresent()) {
+            throw new UserNotFoundException();
+        }
+        userRepository.save(existUser.get());
     }
 }

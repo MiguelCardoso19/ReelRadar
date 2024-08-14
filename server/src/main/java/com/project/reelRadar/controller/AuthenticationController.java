@@ -1,8 +1,6 @@
 package com.project.reelRadar.controller;
 
-import com.project.reelRadar.dto.DeleteRequestDTO;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
-import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.dto.LoginRequestDTO;
 import com.project.reelRadar.dto.RegisterRequestDTO;
@@ -10,6 +8,8 @@ import com.project.reelRadar.dto.ResponseDTO;
 import com.project.reelRadar.security.TokenService;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,12 +23,17 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+@Tag(name = "Authentication")
+public class AuthenticationController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final UserService userService;
 
+    @Operation(
+            summary = "User Login",
+            description = "Authenticates a user with their username and password. If successful, returns a JWT token for accessing protected resources."
+    )
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         User user = this.userRepository.findByUsername(loginRequestDTO.username()).orElseThrow(() -> new RuntimeException("Email not found"));
@@ -40,6 +45,10 @@ public class AuthController {
         return ResponseEntity.badRequest().build();
     }
 
+    @Operation(
+            summary = "User Registration",
+            description = "Registers a new user with the provided details. If registration is successful, a JWT token is returned for accessing protected resources."
+    )
     @PostMapping("/register")
     public ResponseEntity register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) throws UserAlreadyExistsException {
         User newUser = userService.save(registerRequestDTO);

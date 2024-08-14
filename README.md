@@ -39,6 +39,7 @@ Check out ReelRadar on the [demo Website](https://miguelcardoso19.github.io/Reel
 - Mockito
 - JUnite 5
 - Maven
+- OpenApi
 - Docker
 
 ## Next Implementations
