@@ -78,7 +78,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void testRegisterSucessfully() throws Exception {
+    public void testRegisterSuccessfully() throws Exception {
         when(userService.save(Mockito.any(RegisterRequestDTO.class))).thenReturn(user);
         when(tokenService.generateToken(user)).thenReturn("testToken");
 
@@ -96,7 +96,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void testRegisterNotSucessfully() throws Exception {
+    public void testRegisterNotSuccessfully() throws Exception {
         when(userService.save(any(RegisterRequestDTO.class)))
                 .thenReturn(null);
 
@@ -127,7 +127,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void testLoginNotSucessfully() throws Exception {
+    public void testLoginNotSuccessfully() throws Exception {
         when(userRepository.findByUsername("userTest")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("passwordTest", encodedPassword)).thenReturn(false);
 

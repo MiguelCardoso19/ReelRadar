@@ -37,7 +37,7 @@ Check out ReelRadar on the [demo Website](https://miguelcardoso19.github.io/Reel
 - Lombok
 - JSON Web Token (JWT) 
 - Mockito
-- JUnite 5
+- JUnit 5
 - Maven
 - OpenApi
 - Docker

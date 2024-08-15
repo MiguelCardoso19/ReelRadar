@@ -61,7 +61,7 @@ public class FavoriteControllerTest {
     }
 
     @Test
-    public void testSaveFavoriteSucessfully() throws Exception {
+    public void testSaveFavoriteSuccessfully() throws Exception {
         mockMvc.perform(post("/api/favorites/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(favoriteDTO)))
@@ -71,7 +71,7 @@ public class FavoriteControllerTest {
     }
 
     @Test
-    public void testDeleteFavoriteSucessfully() throws Exception {
+    public void testDeleteFavoriteSuccessfully() throws Exception {
         mockMvc.perform(delete("/api/favorites/remove/{favoriteId}", randomUUID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -80,7 +80,7 @@ public class FavoriteControllerTest {
     }
 
     @Test
-    public void testGetFavoriteSucessfully() throws Exception {
+    public void testGetFavoriteSuccessfully() throws Exception {
 
         when(favoriteService.getFavoritesByUserId(randomUUID)).thenReturn(favoritesList);
 
@@ -92,7 +92,7 @@ public class FavoriteControllerTest {
     }
 
     @Test
-    public void testGetFavoriteNotSucessfully() throws Exception {
+    public void testGetFavoriteNotSuccessfully() throws Exception {
         mockMvc.perform(get("/api/favorites/show/{userId}", randomUUID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());

@@ -39,7 +39,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testDeleteUserSucessfully() throws Exception {
+    public void testDeleteUserSuccessfully() throws Exception {
         mockMvc.perform(delete("/api/user/delete")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(deleteRequestDTO)))
