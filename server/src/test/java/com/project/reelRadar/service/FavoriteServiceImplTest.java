@@ -7,17 +7,16 @@ import com.project.reelRadar.repository.FavoriteRepository;
 import com.project.reelRadar.service.serviceImpl.FavoriteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@ExtendWith(MockitoExtension.class)
 public class FavoriteServiceImplTest {
 
     @Mock
@@ -31,6 +30,8 @@ public class FavoriteServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        openMocks(this);
+
         favorite = new Favorite();
         favorite.setId(UUID.randomUUID());
         favorite.setMovies(new ArrayList<>());

@@ -1,8 +1,8 @@
 package com.project.reelRadar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.reelRadar.dto.LoginRequestDTO;
-import com.project.reelRadar.dto.RegisterRequestDTO;
+import com.project.reelRadar.dto.UserLoginRequestDTO;
+import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.security.TokenService;
@@ -17,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -50,8 +49,8 @@ public class AuthenticationControllerTest {
     @MockBean
     private PasswordEncoder passwordEncoder;
 
-    private RegisterRequestDTO registerRequestDTO;
-    private LoginRequestDTO loginRequestDTO;
+    private UserRegisterRequestDTO userRegisterRequestDTO;
+    private UserLoginRequestDTO userLoginRequestDTO;
     private User user;
     private String encodedPassword;
 
@@ -66,25 +65,25 @@ public class AuthenticationControllerTest {
         user.setEmail("emailTest@gmail.com");
         user.setId(UUID.randomUUID());
 
-        registerRequestDTO = new RegisterRequestDTO(
+        userRegisterRequestDTO = new UserRegisterRequestDTO(
                 "registerRequestDTOTest",
                 "emailTest@gmail.com",
                 "passwordTest"
         );
 
-        loginRequestDTO = new LoginRequestDTO(
+        userLoginRequestDTO = new UserLoginRequestDTO(
                 "userTest",
                 "passwordTest");
     }
 
     @Test
     public void testRegisterSuccessfully() throws Exception {
-        when(userService.save(Mockito.any(RegisterRequestDTO.class))).thenReturn(user);
+        when(userService.save(Mockito.any(UserRegisterRequestDTO.class))).thenReturn(user);
         when(tokenService.generateToken(user)).thenReturn("testToken");
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(registerRequestDTO)))
+                        .content(objectMapper.writeValueAsString(userRegisterRequestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("userTest"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.Id").value(user.getId().toString()))
@@ -92,20 +91,20 @@ public class AuthenticationControllerTest {
 
 
         verify(tokenService, times(1)).generateToken(user);
-        verify(userService, times(1)).save(Mockito.any(RegisterRequestDTO.class));
+        verify(userService, times(1)).save(Mockito.any(UserRegisterRequestDTO.class));
     }
 
     @Test
     public void testRegisterNotSuccessfully() throws Exception {
-        when(userService.save(any(RegisterRequestDTO.class)))
+        when(userService.save(any(UserRegisterRequestDTO.class)))
                 .thenReturn(null);
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(registerRequestDTO)))
+                        .content(objectMapper.writeValueAsString(userRegisterRequestDTO)))
                 .andExpect(status().isBadRequest());
 
-        verify(userService, times(1)).save(any(RegisterRequestDTO.class));
+        verify(userService, times(1)).save(any(UserRegisterRequestDTO.class));
     }
 
     @Test
@@ -116,7 +115,7 @@ public class AuthenticationControllerTest {
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                        .content(objectMapper.writeValueAsString(userLoginRequestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("userTest"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("testToken"));
@@ -133,7 +132,7 @@ public class AuthenticationControllerTest {
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                        .content(objectMapper.writeValueAsString(userLoginRequestDTO)))
                 .andExpect(status().isBadRequest());
 
         verify(userRepository, times(1)).findByUsername("userTest");

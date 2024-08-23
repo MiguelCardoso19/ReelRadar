@@ -30,6 +30,7 @@ public class FavoriteController {
         if (data.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+
         return ResponseEntity.ok(data);
     }
 

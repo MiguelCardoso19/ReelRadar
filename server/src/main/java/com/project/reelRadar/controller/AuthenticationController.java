@@ -2,8 +2,8 @@ package com.project.reelRadar.controller;
 
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.model.User;
-import com.project.reelRadar.dto.LoginRequestDTO;
-import com.project.reelRadar.dto.RegisterRequestDTO;
+import com.project.reelRadar.dto.UserLoginRequestDTO;
+import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.ResponseDTO;
 import com.project.reelRadar.security.TokenService;
 import com.project.reelRadar.repository.UserRepository;
@@ -35,10 +35,10 @@ public class AuthenticationController {
             description = "Authenticates a user with their username and password. If successful, returns a JWT token for accessing protected resources."
     )
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
-        User user = this.userRepository.findByUsername(loginRequestDTO.username()).orElseThrow(() -> new RuntimeException("Email not found"));
+    public ResponseEntity login(@Valid @RequestBody UserLoginRequestDTO userLoginRequestDTO) {
+        User user = this.userRepository.findByUsername(userLoginRequestDTO.username()).orElseThrow(() -> new RuntimeException("Email not found"));
 
-        if (passwordEncoder.matches(loginRequestDTO.password(), user.getPassword())) {
+        if (passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
             return ResponseEntity.ok(new ResponseDTO(user.getUsername(),user.getId(), token));
         }
@@ -50,8 +50,8 @@ public class AuthenticationController {
             description = "Registers a new user with the provided details. If registration is successful, a JWT token is returned for accessing protected resources."
     )
     @PostMapping("/register")
-    public ResponseEntity register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) throws UserAlreadyExistsException {
-        User newUser = userService.save(registerRequestDTO);
+    public ResponseEntity register(@Valid @RequestBody UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException {
+        User newUser = userService.save(userRegisterRequestDTO);
         if (newUser == null) {
             return ResponseEntity.badRequest().build();
         }

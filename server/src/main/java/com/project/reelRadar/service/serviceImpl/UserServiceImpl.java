@@ -1,12 +1,14 @@
 package com.project.reelRadar.service.serviceImpl;
 
 import com.project.reelRadar.dto.DeleteRequestDTO;
-import com.project.reelRadar.dto.RegisterRequestDTO;
-import com.project.reelRadar.dto.UpdateRequestDTO;
+import com.project.reelRadar.dto.UserDetailsResponseDTO;
+import com.project.reelRadar.dto.UserRegisterRequestDTO;
+import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
+import com.project.reelRadar.service.UserMapperService;
 import com.project.reelRadar.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,18 +20,15 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserMapperService userMapperService;
 
     @Override
-    public User save(RegisterRequestDTO registerRequestDTO) throws UserAlreadyExistsException {
-        Optional<User> existUser = userRepository.findByUsername(registerRequestDTO.username());
+    public User save(UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException {
+        Optional<User> existUser = userRepository.findByUsername(userRegisterRequestDTO.username());
         if (existUser.isEmpty()) {
-            User newUser = new User();
-            newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
-            newUser.setUsername(registerRequestDTO.username());
-            newUser.setEmail(registerRequestDTO.email());
-
+            User newUser = userMapperService.UserRegisterDtoToUser(userRegisterRequestDTO);
             this.userRepository.save(newUser);
+
             return newUser;
         }
 
@@ -46,11 +45,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UpdateRequestDTO updateRequestDTO) throws UserNotFoundException {
-        Optional<User> existUser = userRepository.findByUsername(updateRequestDTO.username());
-        if (!existUser.isPresent()) {
+    public void update(String username, UserUpdateRequestDTO userUpdateRequestDTO) throws UserNotFoundException {
+        Optional<User> existingUser = userRepository.findByUsername(username);
+        if (!existingUser.isPresent()) {
             throw new UserNotFoundException();
         }
-        userRepository.save(existUser.get());
+
+        User user = userMapperService.UserUpdateDtoToUser(userUpdateRequestDTO, existingUser.get());
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserDetailsResponseDTO getUserDetails(String username) throws UserNotFoundException {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (!user.isPresent()) {
+            throw new UserNotFoundException();
+        }
+
+        UserDetailsResponseDTO userDetailsResponseDTO = userMapperService.UserToUserDetailsResponseDto(user);
+
+        return userDetailsResponseDTO;
     }
 }

@@ -56,6 +56,10 @@ public class FavoriteServiceImpl implements FavoriteService {
         favoriteRepository.delete(favorite.get());
     }
 
+    /**
+     * Implement @ getFavoritesByUserId return
+     * Implement tests for this method
+     */
     public List<Map<String, String>> convertToMap(List<FavoriteDTO> favorites) {
         List<Map<String, String>> response = new ArrayList<>();
         for (FavoriteDTO favorite : favorites) {

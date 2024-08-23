@@ -1,14 +1,23 @@
 package com.project.reelRadar.controller;
 
 import com.project.reelRadar.dto.DeleteRequestDTO;
-import com.project.reelRadar.dto.UpdateRequestDTO;
+import com.project.reelRadar.dto.UserDetailsResponseDTO;
+import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.exception.UserNotFoundException;
+import com.project.reelRadar.model.Favorite;
+import com.project.reelRadar.model.User;
+import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.UserService;
+import com.project.reelRadar.service.serviceImpl.UserMapperServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -27,16 +36,23 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    /** **************** **/
-    /** Test this method **/
-    /** **************** **/
     @Operation(
             summary = "Update User",
             description = "Updates a user based on the provided details in the request body. If the user is not found, a `UserNotFoundException` is thrown."
     )
-    @PutMapping("/update")
-    public ResponseEntity<Void> update(@RequestBody UpdateRequestDTO updateRequestDTO) throws UserNotFoundException {
-    userService.update(updateRequestDTO);
-    return ResponseEntity.ok().build();
+    @PutMapping("/update/{username}")
+    public ResponseEntity<Void> update(@PathVariable String username, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) throws UserNotFoundException {
+        userService.update(username, userUpdateRequestDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+            summary = "Get User Details",
+            description = "Retrieves the details of a user based on the provided username. If the user is not found, a `UserNotFoundException` is thrown."
+    )
+    @GetMapping("/details/{username}")
+    public ResponseEntity<UserDetailsResponseDTO> getUserDetails(@PathVariable String username) throws UserNotFoundException {
+        UserDetailsResponseDTO userDetailsResponseDTO = userService.getUserDetails(username);
+        return ResponseEntity.ok(userDetailsResponseDTO);
     }
 }
