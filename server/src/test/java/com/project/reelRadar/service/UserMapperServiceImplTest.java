@@ -142,7 +142,7 @@ class UserMapperServiceImplTest {
 
     @Test
     void testUserToUserDetailsResponseDto() {
-        userMapperServiceImpl.UserToUserDetailsResponseDto(Optional.ofNullable(user));
+        userMapperServiceImpl.userToUserDetailsResponseDto(Optional.ofNullable(user));
 
         assertEquals(user.getUsername(), userDetailsResponseDTO.username());
         assertEquals(user.getEmail(), userDetailsResponseDTO.email());

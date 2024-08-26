@@ -1,75 +1,85 @@
 package com.project.reelRadar.service.serviceImpl;
 
 import com.project.reelRadar.dto.FavoriteDTO;
+import com.project.reelRadar.dto.FavoriteDeleteRequestDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
+import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.Favorite;
+import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.FavoriteRepository;
+import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.FavoriteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
+    private final UserRepository userRepository;
 
-    @Override
-    public List<Favorite> getFavoritesByUserId(UUID userId) {
-        return favoriteRepository.getFavoritesByUserId(userId);
-    }
+    public Favorite save(FavoriteDTO favoriteDTO, UUID userId) throws UserNotFoundException {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+        User user = userOptional.get();
 
-    @Override
-    public Favorite save(FavoriteDTO favoriteDTO) {
-        Favorite favorite = favoriteRepository.findById(favoriteDTO.Id()).orElse(new Favorite());
+        Favorite favorite = favoriteRepository.findByUser(user).orElse(new Favorite());
+        favorite.setUser(user);
 
-        if (favorite.getMovies() == null || !(favorite.getMovies() instanceof ArrayList)) {
-            favorite.setMovies(new ArrayList<>(favorite.getMovies() != null ? favorite.getMovies() : new ArrayList<>()));
+        if (favorite.getMovies() == null) {
+            favorite.setMovies(new ArrayList<>());
         }
-        if (favorite.getTvShows() == null || !(favorite.getTvShows() instanceof ArrayList)) {
-            favorite.setTvShows(new ArrayList<>(favorite.getTvShows() != null ? favorite.getTvShows() : new ArrayList<>()));
+        if (favorite.getTvShows() == null) {
+            favorite.setTvShows(new ArrayList<>());
         }
-        if (favorite.getPeople() == null || !(favorite.getPeople() instanceof ArrayList)) {
-            favorite.setPeople(new ArrayList<>(favorite.getPeople() != null ? favorite.getPeople() : new ArrayList<>()));
+        if (favorite.getPeople() == null) {
+            favorite.setPeople(new ArrayList<>());
         }
 
-        if (favoriteDTO.movies() != null) {
-            favorite.getMovies().addAll(List.of(favoriteDTO.movies().split(",")));
+        if (favoriteDTO.movies() != null && !favoriteDTO.movies().isEmpty()) {
+            favorite.getMovies().addAll(favoriteDTO.movies());
         }
-        if (favoriteDTO.tv_shows() != null) {
-            favorite.getTvShows().addAll(List.of(favoriteDTO.tv_shows().split(",")));
+
+        if (favoriteDTO.tvShows() != null && !favoriteDTO.tvShows().isEmpty()) {
+            favorite.getTvShows().addAll(favoriteDTO.tvShows());
         }
-        if (favoriteDTO.people() != null) {
-            favorite.getPeople().addAll(List.of(favoriteDTO.people().split(",")));
+
+        if (favoriteDTO.people() != null && !favoriteDTO.people().isEmpty()) {
+            favorite.getPeople().addAll(favoriteDTO.people());
         }
 
         return favoriteRepository.save(favorite);
     }
 
-    @Override
-    public void deleteFavorite(UUID favoriteId) throws FavoriteNotFoundException {
-        Optional<Favorite> favorite = favoriteRepository.findById(favoriteId);
-        if (favorite.isEmpty()) {
-            throw new FavoriteNotFoundException();
-        }
-        favoriteRepository.delete(favorite.get());
+    public List<FavoriteDTO> getFavoritesByUserId(UUID userId) {
+        return favoriteRepository.getFavoritesByUserId(userId);
     }
 
-    /**
-     * Implement @ getFavoritesByUserId return
-     * Implement tests for this method
-     */
-    public List<Map<String, String>> convertToMap(List<FavoriteDTO> favorites) {
-        List<Map<String, String>> response = new ArrayList<>();
-        for (FavoriteDTO favorite : favorites) {
-            Map<String, String> entry = new HashMap<>();
-            entry.put("tv_shows", favorite.tv_shows());
-            entry.put("movies", favorite.movies());
-            entry.put("people", favorite.people());
-            response.add(entry);
-        }
-        return response;
-    }
 
+    public void delete(UUID userId, FavoriteDeleteRequestDTO deleteRequest) throws UserNotFoundException, FavoriteNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        Favorite favorite = favoriteRepository.findByUser(user).orElseThrow(FavoriteNotFoundException::new);
+
+        switch (deleteRequest.type().toLowerCase()) {
+            case "movies":
+                favorite.setMovies(favorite.getMovies().stream().filter(movie -> !movie.equals(deleteRequest.value())).collect(Collectors.toList()));
+                break;
+            case "tv_shows":
+                favorite.setTvShows(favorite.getTvShows().stream().filter(tvShow -> !tvShow.equals(deleteRequest.value())).collect(Collectors.toList()));
+                break;
+            case "people":
+                favorite.setPeople(favorite.getPeople().stream().filter(person -> !person.equals(deleteRequest.value())).collect(Collectors.toList()));
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid type: " + deleteRequest.type());
+        }
+
+        favoriteRepository.save(favorite);
+    }
 }

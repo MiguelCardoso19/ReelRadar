@@ -44,12 +44,10 @@ public class UserMapperServiceImpl implements UserMapperService {
     }
 
     @Override
-    public UserDetailsResponseDTO UserToUserDetailsResponseDto(Optional<User> user) {
-        UserDetailsResponseDTO userDetailsResponseDto = new UserDetailsResponseDTO(
-                user.get().getUsername(),
-                user.get().getEmail()
-        );
+    public UserDetailsResponseDTO userToUserDetailsResponseDto(Optional<User> user) {
 
-        return userDetailsResponseDto;
+        return new UserDetailsResponseDTO(
+                user.get().getUsername(),
+                user.get().getEmail());
     }
 }

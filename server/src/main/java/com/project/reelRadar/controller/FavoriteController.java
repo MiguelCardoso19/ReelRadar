@@ -1,8 +1,9 @@
 package com.project.reelRadar.controller;
 
 import com.project.reelRadar.dto.FavoriteDTO;
+import com.project.reelRadar.dto.FavoriteDeleteRequestDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
-import com.project.reelRadar.model.Favorite;
+import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.service.FavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,36 +22,32 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     @Operation(
-            summary = "Get User Favorites",
+            summary = "Show User Favorites",
             description = "Retrieves a list of movies, TV shows, or people favorited by the specified user. If no favorites are found, a 204 No Content response is returned."
     )
     @GetMapping("/show/{userId}")
-    public ResponseEntity<List<Favorite>> getMoviesPeopleTvShowsByUserId(@PathVariable UUID userId) {
-        List<Favorite> data = favoriteService.getFavoritesByUserId(userId);
-        if (data.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(data);
+    public ResponseEntity<List<FavoriteDTO>> getFavoritesByUserId(@PathVariable UUID userId) {
+        List<FavoriteDTO> favorites = favoriteService.getFavoritesByUserId(userId);
+        return ResponseEntity.ok(favorites);
     }
 
     @Operation(
-            summary = "Add Favorite",
-            description = "Adds a new favorite movie, TV show, or person for the user. The created favorite item is returned in the response."
+            summary = "Add Favorite Item",
+            description = "Adds a new favorite movie, TV show, or person for the user. Returns HTTP status 200 OK if successful."
     )
-    @PostMapping("/add")
-    public ResponseEntity<Favorite> createFavorite(@RequestBody FavoriteDTO favorite) {
-        Favorite createdFavorite = favoriteService.save(favorite);
-        return ResponseEntity.ok(createdFavorite);
+    @PostMapping("/add/{userId}")
+    public ResponseEntity<Void> createFavorite(@RequestBody FavoriteDTO favoriteDTO, @PathVariable UUID userId) throws UserNotFoundException {
+        favoriteService.save(favoriteDTO, userId);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(
-            summary = "Remove Favorite",
-            description = "Removes a favorite movie, TV show, or person by its ID. If the favorite item is not found, an exception is thrown."
+            summary = "Delete Favorite Item",
+            description = "Deletes a specific favorite item (movie, TV show, or person) for the user. Provide the favorite type and value in the request body. Returns HTTP status 200 OK if successful."
     )
-    @DeleteMapping("/remove/{favoriteId}")
-    public ResponseEntity<Void> deleteFavorite(@PathVariable UUID favoriteId) throws FavoriteNotFoundException {
-        favoriteService.deleteFavorite(favoriteId);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/remove/{userId}")
+    public ResponseEntity<Void> deleteFavoriteItem(@PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException {
+        favoriteService.delete(userId, deleteRequest);
+        return ResponseEntity.ok().build();
     }
 }

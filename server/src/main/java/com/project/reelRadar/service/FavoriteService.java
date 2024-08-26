@@ -1,16 +1,16 @@
 package com.project.reelRadar.service;
 
 import com.project.reelRadar.dto.FavoriteDTO;
+import com.project.reelRadar.dto.FavoriteDeleteRequestDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
+import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.Favorite;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public interface FavoriteService {
-    List<Favorite> getFavoritesByUserId(UUID userId);
-    Favorite save(FavoriteDTO favorite);
-    void deleteFavorite(UUID favoriteId) throws FavoriteNotFoundException;
-    List<Map<String, String>> convertToMap(List<FavoriteDTO> favorites);
+    List<FavoriteDTO> getFavoritesByUserId(UUID userId);
+    Favorite save(FavoriteDTO favorite, UUID userId) throws UserNotFoundException;
+    void delete(UUID userId, FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException;
 }

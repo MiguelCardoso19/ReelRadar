@@ -96,8 +96,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void testRegisterNotSuccessfully() throws Exception {
-        when(userService.save(any(UserRegisterRequestDTO.class)))
-                .thenReturn(null);
+        when(userService.save(any(UserRegisterRequestDTO.class))).thenReturn(null);
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)

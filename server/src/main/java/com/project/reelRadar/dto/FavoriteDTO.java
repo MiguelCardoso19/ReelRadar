@@ -1,5 +1,5 @@
 package com.project.reelRadar.dto;
 
-import java.util.UUID;
+import java.util.List;
 
-public record FavoriteDTO(UUID Id, String movies, String people, String tv_shows) {}
+public record FavoriteDTO(List<String> movies, List<String> people, List<String> tvShows) {}

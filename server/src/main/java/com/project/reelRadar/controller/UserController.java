@@ -1,23 +1,15 @@
 package com.project.reelRadar.controller;
 
-import com.project.reelRadar.dto.DeleteRequestDTO;
+import com.project.reelRadar.dto.UserDeleteRequestDTO;
 import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.exception.UserNotFoundException;
-import com.project.reelRadar.model.Favorite;
-import com.project.reelRadar.model.User;
-import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.UserService;
-import com.project.reelRadar.service.serviceImpl.UserMapperServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,8 +23,8 @@ public class UserController {
             description = "Deletes a user based on the provided details in the request body. If the user is not found, a `UserNotFoundException` is thrown."
     )
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> delete(@RequestBody DeleteRequestDTO deleteRequestDTO) throws UserNotFoundException {
-        userService.delete(deleteRequestDTO);
+    public ResponseEntity<Void> delete(@RequestBody UserDeleteRequestDTO userDeleteRequestDTO) throws UserNotFoundException {
+        userService.delete(userDeleteRequestDTO);
         return ResponseEntity.ok().build();
     }
 

@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface UserMapperService {
     User UserRegisterDtoToUser(UserRegisterRequestDTO userRegisterRequestDTO);
     User UserUpdateDtoToUser(UserUpdateRequestDTO userUpdateRequestDTO, User user);
-    UserDetailsResponseDTO UserToUserDetailsResponseDto(Optional<User> user);
+    UserDetailsResponseDTO userToUserDetailsResponseDto(Optional<User> user);
 }

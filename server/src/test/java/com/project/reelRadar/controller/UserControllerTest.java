@@ -1,7 +1,7 @@
 package com.project.reelRadar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.reelRadar.dto.DeleteRequestDTO;
+import com.project.reelRadar.dto.UserDeleteRequestDTO;
 import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.service.UserService;
@@ -34,13 +34,13 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    private DeleteRequestDTO deleteRequestDTO;
+    private UserDeleteRequestDTO userDeleteRequestDTO;
     private UserUpdateRequestDTO userUpdateRequestDTO;
     private UserDetailsResponseDTO userDetailsResponseDTO;
 
     @BeforeEach
     void setUp() {
-        deleteRequestDTO = new DeleteRequestDTO("TestUser");
+        userDeleteRequestDTO = new UserDeleteRequestDTO("TestUser");
 
         userUpdateRequestDTO = new UserUpdateRequestDTO(
                 "username",
@@ -56,10 +56,10 @@ public class UserControllerTest {
     public void testDeleteUserSuccessfully() throws Exception {
         mockMvc.perform(delete("/api/user/delete")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(deleteRequestDTO)))
+                        .content(objectMapper.writeValueAsString(userDeleteRequestDTO)))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).delete(any(DeleteRequestDTO.class));
+        verify(userService, times(1)).delete(any(UserDeleteRequestDTO.class));
     }
 
     @Test

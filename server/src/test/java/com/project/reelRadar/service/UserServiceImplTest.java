@@ -1,6 +1,6 @@
 package com.project.reelRadar.service;
 
-import com.project.reelRadar.dto.DeleteRequestDTO;
+import com.project.reelRadar.dto.UserDeleteRequestDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
@@ -59,7 +59,6 @@ public class UserServiceImplTest {
 
     @Test
     public void testSaveUserSuccessfully() throws UserAlreadyExistsException {
-
         when(userRepository.findByUsername(userRegisterRequestDTO.username())).thenReturn(Optional.empty());
         when(userMapperService.UserRegisterDtoToUser(any(UserRegisterRequestDTO.class))).thenReturn(user);
 
@@ -78,7 +77,7 @@ public class UserServiceImplTest {
     public void deleteUserSuccessfully() throws UserNotFoundException {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        userService.delete(new DeleteRequestDTO(user.getUsername()));
+        userService.delete(new UserDeleteRequestDTO(user.getUsername()));
 
         verify(userRepository, times(1)).delete(user);
     }
@@ -87,9 +86,9 @@ public class UserServiceImplTest {
     public void getUserDetailsSuccessfully() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        userMapperService.UserToUserDetailsResponseDto(Optional.of(user));
+        userMapperService.userToUserDetailsResponseDto(Optional.of(user));
 
-        verify(userMapperService, times(1)).UserToUserDetailsResponseDto(Optional.of(user));
+        verify(userMapperService, times(1)).userToUserDetailsResponseDto(Optional.of(user));
     }
 
     @Test

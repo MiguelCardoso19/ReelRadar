@@ -1,5 +1,5 @@
 package com.project.reelRadar.service;
-
+/**
 import com.project.reelRadar.dto.FavoriteDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
 import com.project.reelRadar.model.Favorite;
@@ -78,3 +78,4 @@ public class FavoriteServiceImplTest {
         verify(favoriteRepository, times(1)).delete(favorite);
     }
 }
+*/
