@@ -25,6 +25,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity<Void> delete(@RequestBody UserDeleteRequestDTO userDeleteRequestDTO) throws UserNotFoundException {
         userService.delete(userDeleteRequestDTO);
+
         return ResponseEntity.ok().build();
     }
 
@@ -35,6 +36,7 @@ public class UserController {
     @PutMapping("/update/{username}")
     public ResponseEntity<Void> update(@PathVariable String username, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) throws UserNotFoundException {
         userService.update(username, userUpdateRequestDTO);
+
         return ResponseEntity.ok().build();
     }
 
@@ -45,6 +47,7 @@ public class UserController {
     @GetMapping("/details/{username}")
     public ResponseEntity<UserDetailsResponseDTO> getUserDetails(@PathVariable String username) throws UserNotFoundException {
         UserDetailsResponseDTO userDetailsResponseDTO = userService.getUserDetails(username);
+
         return ResponseEntity.ok(userDetailsResponseDTO);
     }
 }
