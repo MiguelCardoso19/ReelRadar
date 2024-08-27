@@ -7,8 +7,8 @@ import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.Favorite;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.FavoriteRepository;
-import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.FavoriteService;
+import com.project.reelRadar.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public Favorite save(FavoriteDTO favoriteDTO, UUID userId) throws UserNotFoundException {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        User user = userOptional.get();
+        User user = userService.getUser(userId);
+
+        if (user == null) throw new UserNotFoundException();
 
         Favorite favorite = favoriteRepository.findByUser(user).orElse(new Favorite());
         favorite.setUser(user);
@@ -61,8 +59,8 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
 
-    public void delete(UUID userId, FavoriteDeleteRequestDTO deleteRequest) throws UserNotFoundException, FavoriteNotFoundException {
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+    public void delete(UUID userId, FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException {
+        User user = userService.getUser(userId);
 
         Favorite favorite = favoriteRepository.findByUser(user).orElseThrow(FavoriteNotFoundException::new);
 

@@ -1,5 +1,6 @@
 package com.project.reelRadar.controller;
 
+import com.project.reelRadar.exception.EmailNotFoundException;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.dto.UserLoginRequestDTO;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class AuthenticationController {
     )
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody UserLoginRequestDTO userLoginRequestDTO) {
-        User user = this.userRepository.findByUsername(userLoginRequestDTO.username()).orElseThrow(() -> new RuntimeException("Email not found"));
+        User user = this.userRepository.findByUsername(userLoginRequestDTO.username()).orElseThrow(() -> new UsernameNotFoundException(userLoginRequestDTO.username()));
 
         if (passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
@@ -76,4 +78,3 @@ public class AuthenticationController {
                 return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
-

@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -63,5 +64,9 @@ public class UserServiceImpl implements UserService {
         }
 
         return userMapperService.userToUserDetailsResponseDto(user);
+    }
+
+    public User getUser(UUID userId) throws UserNotFoundException {
+        return  userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 }

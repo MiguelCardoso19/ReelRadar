@@ -1,6 +1,7 @@
 package com.project.reelRadar.service;
 
 import com.project.reelRadar.dto.UserDeleteRequestDTO;
+import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
@@ -34,12 +35,17 @@ public class UserServiceImplTest {
 
     private UserRegisterRequestDTO userRegisterRequestDTO;
     private UserUpdateRequestDTO userUpdateRequestDTO;
+    private UserDetailsResponseDTO userDetailsResponseDTO;
     private User user;
 
 
     @BeforeEach
     void setUp() {
         openMocks(this);
+
+        userDetailsResponseDTO = new UserDetailsResponseDTO(
+                "testUsername",
+                "testEmail@example.com");
 
         userRegisterRequestDTO = new UserRegisterRequestDTO(
                 "testUsername",
@@ -83,15 +89,6 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getUserDetailsSuccessfully() {
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
-
-        userMapperService.userToUserDetailsResponseDto(Optional.of(user));
-
-        verify(userMapperService, times(1)).userToUserDetailsResponseDto(Optional.of(user));
-    }
-
-    @Test
     public void testUpdateUserSuccessfully() throws UserNotFoundException {
         when(userRepository.findByUsername(userUpdateRequestDTO.username())).thenReturn(Optional.of(user));
         when(userMapperService.UserUpdateDtoToUser(any(UserUpdateRequestDTO.class), any(User.class))).thenReturn(user);
@@ -105,5 +102,29 @@ public class UserServiceImplTest {
         assertEquals(userUpdateRequestDTO.username(), user.getUsername());
         assertEquals(userUpdateRequestDTO.email(), user.getEmail());
         assertEquals(userUpdateRequestDTO.password(), user.getPassword());
+    }
+
+    @Test
+    public void getUserDetailsSuccessfully() throws UserNotFoundException {
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(userMapperService.userToUserDetailsResponseDto(Optional.ofNullable(user))).thenReturn(userDetailsResponseDTO);
+
+        UserDetailsResponseDTO result = userService.getUserDetails(user.getUsername());
+
+        assertEquals(userDetailsResponseDTO, result);
+        verify(userRepository, times(1)).findByUsername(user.getUsername());
+        verify(userMapperService, times(1)).userToUserDetailsResponseDto(Optional.ofNullable(user));
+
+
+    }
+
+    @Test
+    public void getUserSuccessfully() throws UserNotFoundException {
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        User result = userService.getUser(user.getId());
+
+        assertEquals(user, result);
+        verify(userRepository, times(1)).findById(user.getId());
     }
 }

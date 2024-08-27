@@ -23,7 +23,7 @@ public class FavoriteController {
 
     @Operation(
             summary = "Show User Favorites",
-            description = "Retrieves a list of movies, TV shows, or people favorited by the specified user. If no favorites are found, a 204 No Content response is returned."
+            description = "Retrieves a list of movies, TV shows, or people favorited by the specified user. Returns HTTP status 200 OK if successful."
     )
     @GetMapping("/show/{userId}")
     public ResponseEntity<List<FavoriteDTO>> getFavoritesByUserId(@PathVariable UUID userId) {
