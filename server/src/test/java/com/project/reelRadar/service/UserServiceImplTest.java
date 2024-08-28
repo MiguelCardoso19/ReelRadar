@@ -114,8 +114,6 @@ public class UserServiceImplTest {
         assertEquals(userDetailsResponseDTO, result);
         verify(userRepository, times(1)).findByUsername(user.getUsername());
         verify(userMapperService, times(1)).userToUserDetailsResponseDto(Optional.ofNullable(user));
-
-
     }
 
     @Test

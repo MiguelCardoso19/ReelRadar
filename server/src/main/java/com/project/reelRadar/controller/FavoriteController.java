@@ -3,6 +3,7 @@ package com.project.reelRadar.controller;
 import com.project.reelRadar.dto.FavoriteDTO;
 import com.project.reelRadar.dto.FavoriteDeleteRequestDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
+import com.project.reelRadar.exception.InvalidFavoriteTypeException;
 import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.service.FavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +47,7 @@ public class FavoriteController {
             description = "Deletes a specific favorite item (movie, TV show, or person) for the user. Provide the favorite type and value in the request body. Returns HTTP status 200 OK if successful."
     )
     @DeleteMapping("/remove/{userId}")
-    public ResponseEntity<Void> deleteFavoriteItem(@PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException {
+    public ResponseEntity<Void> deleteFavoriteItem(@PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException, InvalidFavoriteTypeException {
         favoriteService.delete(userId, deleteRequest);
         return ResponseEntity.ok().build();
     }

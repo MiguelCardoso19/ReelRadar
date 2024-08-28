@@ -3,6 +3,7 @@ package com.project.reelRadar.service;
 import com.project.reelRadar.dto.FavoriteDTO;
 import com.project.reelRadar.dto.FavoriteDeleteRequestDTO;
 import com.project.reelRadar.exception.FavoriteNotFoundException;
+import com.project.reelRadar.exception.InvalidFavoriteTypeException;
 import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.Favorite;
 import com.project.reelRadar.model.User;
@@ -83,7 +84,7 @@ public class FavoriteServiceImplTest {
     }
 
     @Test
-    public void deleteFavoriteSuccessfully() throws UserNotFoundException, FavoriteNotFoundException {
+    public void deleteFavoriteSuccessfully() throws UserNotFoundException, FavoriteNotFoundException, InvalidFavoriteTypeException {
         when(userService.getUser(userId)).thenReturn(user);
         when(favoriteRepository.findByUser(user)).thenReturn(Optional.of(favorite));
 

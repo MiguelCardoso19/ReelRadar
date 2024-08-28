@@ -4,6 +4,6 @@ import com.project.reelRadar.exception.error.ErrorMessage;
 
 public class ErrorWhileGeneratingToken extends ReelRadarException{
     public ErrorWhileGeneratingToken() {
-        super(ErrorMessage.EMAIL_GENERATING_TOKEN);
+        super(ErrorMessage.ERROR_WHILE_GENERATING_TOKEN);
     }
 }
