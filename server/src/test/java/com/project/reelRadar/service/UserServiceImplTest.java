@@ -7,6 +7,7 @@ import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.exception.UserNotFoundException;
 import com.project.reelRadar.model.Favorite;
+import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.serviceImpl.UserServiceImpl;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,7 +62,7 @@ public class UserServiceImplTest {
         user = new User(UUID.randomUUID(),
                 "testUsername",
                 "TestPassword",
-                "testEmail@example.com", new Favorite());
+                "testEmail@example.com", (List<Token>) new Token(), new Favorite());
     }
 
     @Test

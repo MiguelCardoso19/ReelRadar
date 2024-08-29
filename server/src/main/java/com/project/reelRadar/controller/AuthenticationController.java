@@ -1,6 +1,7 @@
 package com.project.reelRadar.controller;
 
 import com.project.reelRadar.exception.EmailNotFoundException;
+import com.project.reelRadar.exception.ErrorWhileAuth;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.dto.UserLoginRequestDTO;
@@ -37,7 +38,7 @@ public class AuthenticationController {
             description = "Authenticates a user with their username and password. If successful, returns a JWT token for accessing protected resources."
     )
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody UserLoginRequestDTO userLoginRequestDTO) {
+    public ResponseEntity login(@Valid @RequestBody UserLoginRequestDTO userLoginRequestDTO) throws ErrorWhileAuth {
         User user = this.userRepository.findByUsername(userLoginRequestDTO.username()).orElseThrow(() -> new UsernameNotFoundException(userLoginRequestDTO.username()));
 
         if (passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword())) {
@@ -52,7 +53,7 @@ public class AuthenticationController {
             description = "Registers a new user with the provided details. If registration is successful, a JWT token is returned for accessing protected resources."
     )
     @PostMapping("/register")
-    public ResponseEntity register(@Valid @RequestBody UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException {
+    public ResponseEntity register(@Valid @RequestBody UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException, ErrorWhileAuth {
         User newUser = userService.save(userRegisterRequestDTO);
         if (newUser == null) {
             return ResponseEntity.badRequest().build();
