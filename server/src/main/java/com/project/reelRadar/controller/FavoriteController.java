@@ -37,9 +37,9 @@ public class FavoriteController {
             description = "Adds a new favorite movie, TV show, or person for the user. Returns HTTP status 200 OK if successful."
     )
     @PostMapping("/add/{userId}")
-    public ResponseEntity<Void> createFavorite(@RequestBody FavoriteDTO favoriteDTO, @PathVariable UUID userId) throws UserNotFoundException {
+    public ResponseEntity<String> createFavorite(@RequestBody FavoriteDTO favoriteDTO, @PathVariable UUID userId) throws UserNotFoundException {
         favoriteService.save(favoriteDTO, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Favorite added successfully");
     }
 
     @Operation(
@@ -47,8 +47,8 @@ public class FavoriteController {
             description = "Deletes a specific favorite item (movie, TV show, or person) for the user. Provide the favorite type and value in the request body. Returns HTTP status 200 OK if successful."
     )
     @DeleteMapping("/remove/{userId}")
-    public ResponseEntity<Void> deleteFavoriteItem(@PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException, InvalidFavoriteTypeException {
+    public ResponseEntity<String> deleteFavoriteItem(@PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException, InvalidFavoriteTypeException {
         favoriteService.delete(userId, deleteRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Favorite added successfully");
     }
 }

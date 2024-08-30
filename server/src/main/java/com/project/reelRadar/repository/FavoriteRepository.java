@@ -15,6 +15,9 @@ import java.util.UUID;
 public interface FavoriteRepository extends JpaRepository<Favorite, UUID> {
     Optional<Favorite> findByUser(User user);
 
-    @Query("SELECT new com.project.reelRadar.dto.FavoriteDTO(f.movies, f.people, f.tvShows) FROM Favorite f WHERE f.user.id = ?1")
+    @Query("""
+            SELECT new com.project.reelRadar.dto.FavoriteDTO(f.movies, f.people, f.tvShows)
+             FROM Favorite f WHERE f.user.id = ?1
+             """)
     List<FavoriteDTO> getFavoritesByUserId(UUID userId);
 }

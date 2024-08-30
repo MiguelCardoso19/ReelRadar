@@ -1,6 +1,5 @@
 package com.project.reelRadar.controller;
 
-import com.project.reelRadar.exception.EmailNotFoundException;
 import com.project.reelRadar.exception.ErrorWhileAuth;
 import com.project.reelRadar.exception.UserAlreadyExistsException;
 import com.project.reelRadar.model.User;

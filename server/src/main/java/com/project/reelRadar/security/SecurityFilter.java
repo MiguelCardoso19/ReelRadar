@@ -1,6 +1,7 @@
 package com.project.reelRadar.security;
 
 import com.project.reelRadar.model.User;
+import com.project.reelRadar.repository.TokenRepository;
 import com.project.reelRadar.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,22 +23,33 @@ import java.util.Collections;
 public class SecurityFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        var login = tokenService.validateToken(token);
 
-        if (login != null) {
-            User user = userRepository.findByUsername(login).orElseThrow(() -> new RuntimeException("User Not Found"));
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (token != null) {
+            var login = tokenService.validateToken(token);
+
+            boolean isTokenValid = tokenRepository.findByToken(token)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+
+            if (login != null && isTokenValid) {
+                User user = userRepository.findByUsername(login)
+                        .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+                var authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
         filterChain.doFilter(request, response);
     }
+
 
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");

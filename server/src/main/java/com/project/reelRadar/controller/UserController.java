@@ -23,10 +23,10 @@ public class UserController {
             description = "Deletes a user based on the provided details in the request body. If the user is not found, a `UserNotFoundException` is thrown."
     )
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> delete(@RequestBody UserDeleteRequestDTO userDeleteRequestDTO) throws UserNotFoundException {
+    public ResponseEntity<String> delete(@RequestBody UserDeleteRequestDTO userDeleteRequestDTO) throws UserNotFoundException {
         userService.delete(userDeleteRequestDTO);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("User deleted successfully");
     }
 
     @Operation(
@@ -34,10 +34,10 @@ public class UserController {
             description = "Updates a user based on the provided details in the request body. If the user is not found, a `UserNotFoundException` is thrown."
     )
     @PutMapping("/update/{username}")
-    public ResponseEntity<Void> update(@PathVariable String username, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) throws UserNotFoundException {
+    public ResponseEntity<String> update(@PathVariable String username, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) throws UserNotFoundException {
         userService.update(username, userUpdateRequestDTO);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("User updated successfully");
     }
 
     @Operation(

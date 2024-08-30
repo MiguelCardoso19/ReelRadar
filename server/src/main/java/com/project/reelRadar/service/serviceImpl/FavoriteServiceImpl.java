@@ -58,8 +58,26 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     private void addItemsToFavorite(Favorite favorite, FavoriteDTO favoriteDTO) {
-        favorite.getMovies().addAll(Optional.ofNullable(favoriteDTO.movies()).orElse(Collections.emptyList()));
-        favorite.getTvShows().addAll(Optional.ofNullable(favoriteDTO.tvShows()).orElse(Collections.emptyList()));
-        favorite.getPeople().addAll(Optional.ofNullable(favoriteDTO.people()).orElse(Collections.emptyList()));
+        if (favorite.getMovies() == null) {
+            favorite.setMovies(new ArrayList<>());
+        }
+        if (favorite.getTvShows() == null) {
+            favorite.setTvShows(new ArrayList<>());
+        }
+        if (favorite.getPeople() == null) {
+            favorite.setPeople(new ArrayList<>());
+        }
+
+        if (favoriteDTO.movies() != null && !favoriteDTO.movies().isEmpty()) {
+            favorite.getMovies().addAll(favoriteDTO.movies());
+        }
+
+        if (favoriteDTO.tvShows() != null && !favoriteDTO.tvShows().isEmpty()) {
+            favorite.getTvShows().addAll(favoriteDTO.tvShows());
+        }
+
+        if (favoriteDTO.people() != null && !favoriteDTO.people().isEmpty()) {
+            favorite.getPeople().addAll(favoriteDTO.people());
+        }
     }
 }
