@@ -5,7 +5,7 @@ import com.project.reelRadar.dto.UserLoginRequestDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
-import com.project.reelRadar.security.TokenService;
+import com.project.reelRadar.service.serviceImpl.TokenServiceImpl;
 import com.project.reelRadar.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ public class AuthenticationControllerTest {
     private UserRepository userRepository;
 
     @MockBean
-    private TokenService tokenService;
+    private TokenServiceImpl tokenServiceImpl;
 
     @MockBean
     private PasswordEncoder passwordEncoder;
@@ -79,7 +79,7 @@ public class AuthenticationControllerTest {
     @Test
     public void testRegisterSuccessfully() throws Exception {
         when(userService.save(Mockito.any(UserRegisterRequestDTO.class))).thenReturn(user);
-        when(tokenService.generateToken(user)).thenReturn("testToken");
+        when(tokenServiceImpl.generateToken(user)).thenReturn("testToken");
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +90,7 @@ public class AuthenticationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("testToken"));
 
 
-        verify(tokenService, times(1)).generateToken(user);
+        verify(tokenServiceImpl, times(1)).generateToken(user);
         verify(userService, times(1)).save(Mockito.any(UserRegisterRequestDTO.class));
     }
 
@@ -110,7 +110,7 @@ public class AuthenticationControllerTest {
     public void testLoginSuccessfully() throws Exception {
         when(userRepository.findByUsername("userTest")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("passwordTest", encodedPassword)).thenReturn(true);
-        when(tokenService.generateToken(user)).thenReturn("testToken");
+        when(tokenServiceImpl.generateToken(user)).thenReturn("testToken");
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +121,7 @@ public class AuthenticationControllerTest {
 
         verify(userRepository, times(1)).findByUsername("userTest");
         verify(passwordEncoder, times(1)).matches("passwordTest", encodedPassword);
-        verify(tokenService, times(1)).generateToken(user);
+        verify(tokenServiceImpl, times(1)).generateToken(user);
     }
 
     @Test

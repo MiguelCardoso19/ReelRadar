@@ -1,4 +1,4 @@
-package com.project.reelRadar.security.cors;
+package com.project.reelRadar.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,4 +1,4 @@
-package com.project.reelRadar.security;
+package com.project.reelRadar.service.serviceImpl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -7,6 +7,7 @@ import com.project.reelRadar.exception.ErrorWhileAuth;
 import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.TokenRepository;
+import com.project.reelRadar.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.time.ZoneOffset;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class TokenServiceImpl implements TokenService {
     private final TokenRepository tokenRepository;
 
     @Value("${api.security.token.secret}")

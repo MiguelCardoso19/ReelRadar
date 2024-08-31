@@ -6,7 +6,7 @@ import com.project.reelRadar.model.User;
 import com.project.reelRadar.dto.UserLoginRequestDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.ResponseDTO;
-import com.project.reelRadar.security.TokenService;
+import com.project.reelRadar.service.serviceImpl.TokenServiceImpl;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class AuthenticationController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    private final TokenServiceImpl tokenServiceImpl;
     private final UserService userService;
 
     @Operation(
@@ -41,7 +41,7 @@ public class AuthenticationController {
         User user = this.userRepository.findByUsername(userLoginRequestDTO.username()).orElseThrow(() -> new UsernameNotFoundException(userLoginRequestDTO.username()));
 
         if (passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword())) {
-            String token = this.tokenService.generateToken(user);
+            String token = this.tokenServiceImpl.generateToken(user);
             return ResponseEntity.ok(new ResponseDTO(user.getUsername(),user.getId(), token));
         }
         return ResponseEntity.badRequest().build();
@@ -58,7 +58,7 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
         }
 
-        String token = this.tokenService.generateToken(newUser);
+        String token = this.tokenServiceImpl.generateToken(newUser);
         return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(),newUser.getId(), token));
     }
 
