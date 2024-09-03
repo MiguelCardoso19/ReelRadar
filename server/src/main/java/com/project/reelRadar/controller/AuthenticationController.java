@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class AuthenticationController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenServiceImpl tokenServiceImpl;
+    private final TokenServiceImpl tokenService;
     private final UserService userService;
 
     @Operation(
@@ -41,7 +41,7 @@ public class AuthenticationController {
         User user = this.userRepository.findByUsername(userLoginRequestDTO.username()).orElseThrow(() -> new UsernameNotFoundException(userLoginRequestDTO.username()));
 
         if (passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword())) {
-            String token = this.tokenServiceImpl.generateToken(user);
+            String token = this.tokenService.generateToken(user);
             return ResponseEntity.ok(new ResponseDTO(user.getUsername(),user.getId(), token));
         }
         return ResponseEntity.badRequest().build();
@@ -58,7 +58,7 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
         }
 
-        String token = this.tokenServiceImpl.generateToken(newUser);
+        String token = this.tokenService.generateToken(newUser);
         return ResponseEntity.ok(new ResponseDTO(newUser.getUsername(),newUser.getId(), token));
     }
 
@@ -75,6 +75,7 @@ public class AuthenticationController {
         var errors = new HashMap<String, String>();
                 exception.getBindingResult().getFieldErrors()
                         .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+
                 return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

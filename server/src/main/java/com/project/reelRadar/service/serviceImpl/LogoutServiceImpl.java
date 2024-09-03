@@ -16,11 +16,13 @@ public class LogoutServiceImpl implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         var authHeader = request.getHeader("Authorization");
-        final String jwtToken;
 
-        if (authHeader == null) return;
+        if (authHeader == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
-        jwtToken = authHeader.replace("Bearer ", "");
+        final String jwtToken = authHeader.replace("Bearer ", "");
         var storedToken = tokenRepository.findByToken(jwtToken).orElse(null);
 
         if (storedToken != null) {

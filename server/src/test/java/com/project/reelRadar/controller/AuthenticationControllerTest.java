@@ -3,7 +3,9 @@ package com.project.reelRadar.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.reelRadar.dto.UserLoginRequestDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
+import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
+import com.project.reelRadar.repository.TokenRepository;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.serviceImpl.TokenServiceImpl;
 import com.project.reelRadar.service.UserService;
@@ -23,7 +25,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,15 +48,20 @@ public class AuthenticationControllerTest {
     private UserRepository userRepository;
 
     @MockBean
-    private TokenServiceImpl tokenServiceImpl;
+    private TokenServiceImpl tokenService;
 
     @MockBean
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private TokenRepository tokenRepository;
 
     private UserRegisterRequestDTO userRegisterRequestDTO;
     private UserLoginRequestDTO userLoginRequestDTO;
     private User user;
     private String encodedPassword;
+    private Token storedToken;
+    private String validToken;
 
 
     @BeforeEach
@@ -74,12 +83,19 @@ public class AuthenticationControllerTest {
         userLoginRequestDTO = new UserLoginRequestDTO(
                 "userTest",
                 "passwordTest");
+
+        validToken = "validTestToken";
+
+        storedToken = new Token();
+        storedToken.setToken(validToken);
+        storedToken.setExpired(false);
+        storedToken.setRevoked(false);
     }
 
     @Test
     public void testRegisterSuccessfully() throws Exception {
         when(userService.save(Mockito.any(UserRegisterRequestDTO.class))).thenReturn(user);
-        when(tokenServiceImpl.generateToken(user)).thenReturn("testToken");
+        when(tokenService.generateToken(user)).thenReturn("testToken");
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +106,7 @@ public class AuthenticationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("testToken"));
 
 
-        verify(tokenServiceImpl, times(1)).generateToken(user);
+        verify(tokenService, times(1)).generateToken(user);
         verify(userService, times(1)).save(Mockito.any(UserRegisterRequestDTO.class));
     }
 
@@ -110,7 +126,7 @@ public class AuthenticationControllerTest {
     public void testLoginSuccessfully() throws Exception {
         when(userRepository.findByUsername("userTest")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("passwordTest", encodedPassword)).thenReturn(true);
-        when(tokenServiceImpl.generateToken(user)).thenReturn("testToken");
+        when(tokenService.generateToken(user)).thenReturn("testToken");
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +137,7 @@ public class AuthenticationControllerTest {
 
         verify(userRepository, times(1)).findByUsername("userTest");
         verify(passwordEncoder, times(1)).matches("passwordTest", encodedPassword);
-        verify(tokenServiceImpl, times(1)).generateToken(user);
+        verify(tokenService, times(1)).generateToken(user);
     }
 
     @Test
@@ -136,5 +152,28 @@ public class AuthenticationControllerTest {
 
         verify(userRepository, times(1)).findByUsername("userTest");
         verify(passwordEncoder, times(1)).matches("passwordTest", encodedPassword);
+    }
+
+    @Test
+    public void testLogoutSuccessfully() throws Exception {
+        when(tokenRepository.findByToken(validToken)).thenReturn(Optional.of(storedToken));
+
+        mockMvc.perform(get("/api/auth/logout")
+                        .header("Authorization", "Bearer " + validToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(tokenRepository, times(1)).findByToken(validToken);
+        verify(tokenRepository, times(1)).save(storedToken);
+
+        assertTrue(storedToken.isExpired());
+        assertTrue(storedToken.isRevoked());
+    }
+
+    @Test
+    public void testLogoutWithoutAuthorizationHeader() throws Exception {
+        mockMvc.perform(get("/api/auth/logout")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 }

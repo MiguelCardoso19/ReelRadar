@@ -7,7 +7,6 @@ import com.project.reelRadar.exception.ErrorWhileAuth;
 import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.TokenRepository;
-import com.project.reelRadar.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.time.ZoneOffset;
 
 @Service
 @RequiredArgsConstructor
-public class TokenServiceImpl implements TokenService {
+public class TokenServiceImpl implements com.project.reelRadar.service.TokenService {
     private final TokenRepository tokenRepository;
 
     @Value("${api.security.token.secret}")
