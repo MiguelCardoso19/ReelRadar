@@ -1,9 +1,10 @@
 package com.project.reelRadar.dto;
 
-import com.project.reelRadar.exception.error.ErrorMessage;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-public record UserRegisterRequestDTO(@NotNull(message = ErrorMessage.USERNAME_EMPTY) String username,
-                                     @NotNull(message = ErrorMessage.EMAIL_EMPTY) @Email String email,
-                                     @NotNull(message = ErrorMessage.PASSWORD_EMPTY) String password) {}
+import static com.project.reelRadar.exception.error.ErrorMessage.*;
+
+public record UserRegisterRequestDTO(@NotNull(message = USERNAME_EMPTY) String username,
+                                     @NotNull(message = EMAIL_EMPTY) @Email String email,
+                                     @NotNull(message = PASSWORD_EMPTY) String password) {}

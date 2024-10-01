@@ -1,9 +1,9 @@
-package com.project.reelRadar.service.serviceImpl;
+package com.project.reelRadar.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.project.reelRadar.exception.ErrorWhileAuth;
+import com.project.reelRadar.exception.customException.ErrorWhileAuth;
 import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.TokenRepository;

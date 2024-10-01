@@ -2,7 +2,7 @@ package com.project.reelRadar.service;
 
 import com.project.reelRadar.model.Token;
 import com.project.reelRadar.repository.TokenRepository;
-import com.project.reelRadar.service.serviceImpl.LogoutServiceImpl;
+import com.project.reelRadar.service.impl.LogoutServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;

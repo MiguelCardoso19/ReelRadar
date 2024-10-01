@@ -2,13 +2,13 @@ package com.project.reelRadar.service;
 
 import com.project.reelRadar.dto.FavoriteDTO;
 import com.project.reelRadar.dto.FavoriteDeleteRequestDTO;
-import com.project.reelRadar.exception.FavoriteNotFoundException;
-import com.project.reelRadar.exception.InvalidFavoriteTypeException;
-import com.project.reelRadar.exception.UserNotFoundException;
+import com.project.reelRadar.exception.customException.FavoriteNotFoundException;
+import com.project.reelRadar.exception.customException.InvalidFavoriteTypeException;
+import com.project.reelRadar.exception.customException.UserNotFoundException;
 import com.project.reelRadar.model.Favorite;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.FavoriteRepository;
-import com.project.reelRadar.service.serviceImpl.FavoriteServiceImpl;
+import com.project.reelRadar.service.impl.FavoriteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

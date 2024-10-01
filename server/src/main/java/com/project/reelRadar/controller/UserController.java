@@ -3,7 +3,7 @@ package com.project.reelRadar.controller;
 import com.project.reelRadar.dto.UserDeleteRequestDTO;
 import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
-import com.project.reelRadar.exception.UserNotFoundException;
+import com.project.reelRadar.exception.customException.UserNotFoundException;
 import com.project.reelRadar.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +25,6 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestBody UserDeleteRequestDTO userDeleteRequestDTO) throws UserNotFoundException {
         userService.delete(userDeleteRequestDTO);
-
         return ResponseEntity.ok("User deleted successfully");
     }
 
@@ -36,7 +35,6 @@ public class UserController {
     @PutMapping("/update/{username}")
     public ResponseEntity<String> update(@PathVariable String username, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) throws UserNotFoundException {
         userService.update(username, userUpdateRequestDTO);
-
         return ResponseEntity.ok("User updated successfully");
     }
 
@@ -47,7 +45,6 @@ public class UserController {
     @GetMapping("/details/{username}")
     public ResponseEntity<UserDetailsResponseDTO> getUserDetails(@PathVariable String username) throws UserNotFoundException {
         UserDetailsResponseDTO userDetailsResponseDTO = userService.getUserDetails(username);
-
         return ResponseEntity.ok(userDetailsResponseDTO);
     }
 }

@@ -2,11 +2,11 @@ package com.project.reelRadar.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.project.reelRadar.exception.ErrorWhileAuth;
+import com.project.reelRadar.exception.customException.ErrorWhileAuth;
 import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.TokenRepository;
-import com.project.reelRadar.service.serviceImpl.TokenServiceImpl;
+import com.project.reelRadar.service.impl.TokenServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

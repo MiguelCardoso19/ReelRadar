@@ -12,4 +12,7 @@ public class ErrorMessage {
     public static final String FAVORITE_ALREADY_EXISTS = "This favorite already exists";
     public static final String FAVORITE_NOT_FOUND = "This favorite was not found";
     public static final String INVALID_FAVORITE_TYPE = "Invalid favorite type: ";
+    public static final String USERNAME_NOT_FOUND = "Username not found";
+    public static final String TYPE_EMPTY = "Type should not be empty";
+    public static final String VALUE_EMPTY = "Value should not be empty";;
 }

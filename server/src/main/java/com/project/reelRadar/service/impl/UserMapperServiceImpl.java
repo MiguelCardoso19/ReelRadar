@@ -1,4 +1,4 @@
-package com.project.reelRadar.service.serviceImpl;
+package com.project.reelRadar.service.impl;
 
 import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;

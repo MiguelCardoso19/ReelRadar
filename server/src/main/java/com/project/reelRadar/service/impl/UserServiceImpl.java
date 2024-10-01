@@ -1,11 +1,11 @@
-package com.project.reelRadar.service.serviceImpl;
+package com.project.reelRadar.service.impl;
 
 import com.project.reelRadar.dto.UserDeleteRequestDTO;
 import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
-import com.project.reelRadar.exception.UserAlreadyExistsException;
-import com.project.reelRadar.exception.UserNotFoundException;
+import com.project.reelRadar.exception.customException.UserAlreadyExistsException;
+import com.project.reelRadar.exception.customException.UserNotFoundException;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.UserMapperService;

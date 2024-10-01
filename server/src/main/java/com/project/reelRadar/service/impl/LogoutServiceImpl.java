@@ -1,4 +1,4 @@
-package com.project.reelRadar.service.serviceImpl;
+package com.project.reelRadar.service.impl;
 
 import com.project.reelRadar.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.project.reelRadar.exception;
+package com.project.reelRadar.exception.customException;
 
 import com.project.reelRadar.exception.error.ErrorMessage;
 

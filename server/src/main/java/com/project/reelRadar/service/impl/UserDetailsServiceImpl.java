@@ -1,4 +1,4 @@
-package com.project.reelRadar.service.serviceImpl;
+package com.project.reelRadar.service.impl;
 
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
@@ -19,6 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with the username: " + username));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 }

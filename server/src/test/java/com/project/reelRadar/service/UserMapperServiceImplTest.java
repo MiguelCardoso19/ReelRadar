@@ -4,7 +4,7 @@ import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
 import com.project.reelRadar.model.User;
-import com.project.reelRadar.service.serviceImpl.UserMapperServiceImpl;
+import com.project.reelRadar.service.impl.UserMapperServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

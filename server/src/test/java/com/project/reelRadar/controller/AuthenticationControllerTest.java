@@ -7,7 +7,7 @@ import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.TokenRepository;
 import com.project.reelRadar.repository.UserRepository;
-import com.project.reelRadar.service.serviceImpl.TokenServiceImpl;
+import com.project.reelRadar.service.impl.TokenServiceImpl;
 import com.project.reelRadar.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

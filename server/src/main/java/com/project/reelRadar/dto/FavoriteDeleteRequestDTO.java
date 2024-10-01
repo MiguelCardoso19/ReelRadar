@@ -1,3 +1,8 @@
 package com.project.reelRadar.dto;
 
-public record FavoriteDeleteRequestDTO(String type, String value) {}
+import jakarta.validation.constraints.NotNull;
+
+import static com.project.reelRadar.exception.error.ErrorMessage.*;
+
+public record FavoriteDeleteRequestDTO(@NotNull(message = TYPE_EMPTY)
+                                       String type,@NotNull(message = VALUE_EMPTY) String value) {}
