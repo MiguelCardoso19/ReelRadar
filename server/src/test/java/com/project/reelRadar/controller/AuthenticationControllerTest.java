@@ -11,7 +11,6 @@ import com.project.reelRadar.service.impl.TokenServiceImpl;
 import com.project.reelRadar.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,38 +62,45 @@ public class AuthenticationControllerTest {
     private Token storedToken;
     private String validToken;
 
-
     @BeforeEach
     void setUp() {
         encodedPassword = new BCryptPasswordEncoder().encode("passwordTest");
+        validToken = "validTestToken";
 
-        user = new User();
+        user = setupUser();
+        userRegisterRequestDTO = setupUserRegisterDTO();
+        userLoginRequestDTO = setupUserLoginDTO();
+        storedToken = setupStoredToken(validToken);
+    }
+
+    private User setupUser() {
+        User user = new User();
         user.setUsername("userTest");
         user.setPassword(encodedPassword);
         user.setEmail("emailTest@gmail.com");
         user.setId(UUID.randomUUID());
+        return user;
+    }
 
-        userRegisterRequestDTO = new UserRegisterRequestDTO(
-                "registerRequestDTOTest",
-                "emailTest@gmail.com",
-                "passwordTest"
-        );
+    private UserRegisterRequestDTO setupUserRegisterDTO() {
+        return new UserRegisterRequestDTO("registerRequestDTOTest", "emailTest@gmail.com", "passwordTest");
+    }
 
-        userLoginRequestDTO = new UserLoginRequestDTO(
-                "userTest",
-                "passwordTest");
+    private UserLoginRequestDTO setupUserLoginDTO() {
+        return new UserLoginRequestDTO("userTest", "passwordTest");
+    }
 
-        validToken = "validTestToken";
-
-        storedToken = new Token();
-        storedToken.setToken(validToken);
+    private Token setupStoredToken(String token) {
+        Token storedToken = new Token();
+        storedToken.setToken(token);
         storedToken.setExpired(false);
         storedToken.setRevoked(false);
+        return storedToken;
     }
 
     @Test
     public void testRegisterSuccessfully() throws Exception {
-        when(userService.save(Mockito.any(UserRegisterRequestDTO.class))).thenReturn(user);
+        when(userService.save(any(UserRegisterRequestDTO.class))).thenReturn(user);
         when(tokenService.generateToken(user)).thenReturn("testToken");
 
         mockMvc.perform(post("/api/auth/register")
@@ -105,9 +111,8 @@ public class AuthenticationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.Id").value(user.getId().toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("testToken"));
 
-
+        verify(userService, times(1)).save(any(UserRegisterRequestDTO.class));
         verify(tokenService, times(1)).generateToken(user);
-        verify(userService, times(1)).save(Mockito.any(UserRegisterRequestDTO.class));
     }
 
     @Test

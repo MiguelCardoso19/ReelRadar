@@ -2,14 +2,12 @@ package com.project.reelRadar.exception;
 
 import com.project.reelRadar.exception.customException.ErrorWhileAuth;
 import com.project.reelRadar.exception.customException.UserAlreadyExistsException;
+import com.project.reelRadar.exception.customException.UsernameAlreadyExistsException;
+import com.project.reelRadar.exception.customException.EmailAlreadyExistsException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.project.reelRadar.exception.error.ErrorMessage.*;
 import static org.springframework.http.HttpStatus.*;
@@ -35,12 +33,15 @@ public class GlobalExceptionHandler {
                 .body(USER_ALREADY_EXISTS);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
-        );
-        return new ResponseEntity<>(errors, BAD_REQUEST);
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<String> handleUsernameAlreadyExistsException() {
+        return ResponseEntity.status(CONFLICT)
+                .body(USERNAME_ALREADY_EXISTS);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<String> handleEmailAlreadyExistsException() {
+        return ResponseEntity.status(CONFLICT)
+                .body(EMAIL_ALREADY_EXISTS);
     }
 }

@@ -2,6 +2,8 @@ package com.project.reelRadar.exception.error;
 
 public class ErrorMessage {
     public static final String USER_NOT_FOUND = "This user does not exist";
+    public static final String USERNAME_ALREADY_EXISTS = "This username already exists";
+    public static final String EMAIL_ALREADY_EXISTS = "This email already exists";
     public static final String ERROR_WHILE_AUTH = "Error while authenticating";
     public static final String EMAIL_NOT_FOUND = "Email not found";
     public static final String ERROR_WHILE_GENERATING_TOKEN = "Error while generating token";

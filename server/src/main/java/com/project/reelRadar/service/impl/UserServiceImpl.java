@@ -4,8 +4,10 @@ import com.project.reelRadar.dto.UserDeleteRequestDTO;
 import com.project.reelRadar.dto.UserDetailsResponseDTO;
 import com.project.reelRadar.dto.UserRegisterRequestDTO;
 import com.project.reelRadar.dto.UserUpdateRequestDTO;
+import com.project.reelRadar.exception.customException.EmailAlreadyExistsException;
 import com.project.reelRadar.exception.customException.UserAlreadyExistsException;
 import com.project.reelRadar.exception.customException.UserNotFoundException;
+import com.project.reelRadar.exception.customException.UsernameAlreadyExistsException;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.UserRepository;
 import com.project.reelRadar.service.UserMapperService;
@@ -23,17 +25,23 @@ public class UserServiceImpl implements UserService {
     private final UserMapperService userMapperService;
 
     @Override
-    public User save(UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException {
-        Optional<User> existUser = userRepository.findByUsername(userRegisterRequestDTO.username());
-        if (existUser.isEmpty()) {
-            User newUser = userMapperService.UserRegisterDtoToUser(userRegisterRequestDTO);
-            this.userRepository.save(newUser);
+    public User save(UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException,
+            UsernameAlreadyExistsException, EmailAlreadyExistsException {
+        Optional<User> existingUserByUsername = userRepository.findByUsername(userRegisterRequestDTO.username());
+        Optional<User> existingUserByEmail = userRepository.findByEmail(userRegisterRequestDTO.email());
 
-            return newUser;
+        if (existingUserByUsername.isPresent() && existingUserByEmail.isPresent()) {
+            throw new UserAlreadyExistsException();
+        } else if (existingUserByUsername.isPresent()) {
+            throw new UsernameAlreadyExistsException();
+        } else if (existingUserByEmail.isPresent()) {
+            throw new EmailAlreadyExistsException();
         }
 
-        throw new UserAlreadyExistsException();
+        User newUser = userMapperService.UserRegisterDtoToUser(userRegisterRequestDTO);
+        return userRepository.save(newUser);
     }
+
 
     @Override
     public void delete(UserDeleteRequestDTO userDeleteRequestDTO) throws UserNotFoundException {
@@ -67,6 +75,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUser(UUID userId) throws UserNotFoundException {
-        return  userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 }
