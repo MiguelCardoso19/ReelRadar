@@ -30,16 +30,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findByUsername(userLoginRequestDTO.username())
                 .orElseThrow(() -> new UsernameNotFoundException(userLoginRequestDTO.username()));
 
-        if (!passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword())) {
+        if (!passwordEncoder.matches(userLoginRequestDTO.password(), user.getPassword()))
             throw new ErrorWhileAuth();
-        }
+
 
         String token = tokenService.generateToken(user);
         return new AuthenticationResponseDTO(user.getUsername(), user.getId(), token);
     }
 
     @Override
-    public AuthenticationResponseDTO register(UserRegisterRequestDTO userRegisterRequestDTO) throws UserAlreadyExistsException, ErrorWhileAuth, UsernameAlreadyExistsException, EmailAlreadyExistsException {
+    public AuthenticationResponseDTO register(UserRegisterRequestDTO userRegisterRequestDTO)
+            throws UserAlreadyExistsException, ErrorWhileAuth,
+            UsernameAlreadyExistsException, EmailAlreadyExistsException {
 
         User newUser = userService.save(userRegisterRequestDTO);
 

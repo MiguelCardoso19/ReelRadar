@@ -8,15 +8,18 @@ import com.project.reelRadar.model.Token;
 import com.project.reelRadar.model.User;
 import com.project.reelRadar.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TokenServiceImpl implements com.project.reelRadar.service.TokenService {
     private final TokenRepository tokenRepository;
 
@@ -45,7 +48,8 @@ public class TokenServiceImpl implements com.project.reelRadar.service.TokenServ
     }
 
     public String validateToken(String token) {
-        try {            Algorithm algorithm = Algorithm.HMAC256(secret);
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.require(algorithm)
                     .withIssuer("ReelRadar-API")
@@ -54,13 +58,13 @@ public class TokenServiceImpl implements com.project.reelRadar.service.TokenServ
                     .getSubject();
 
         } catch (RuntimeException e) {
-            System.err.println("JWT verification failed: " + e.getMessage());
+            log.info("JWT verification failed: {}", e.getMessage());
             return null;
         }
     }
 
     private void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
+        Token token = Token.builder()
                 .user(user)
                 .token(jwtToken)
                 .expired(false)
@@ -71,7 +75,7 @@ public class TokenServiceImpl implements com.project.reelRadar.service.TokenServ
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty()) return;
 
         validUserTokens.forEach(token -> {
