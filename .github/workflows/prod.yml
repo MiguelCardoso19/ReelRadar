@@ -1,3 +1,12 @@
+name: Deploy Server
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,13 +22,13 @@ jobs:
           java-version: '21'
 
       - name: Build project
-        run: mvn clean install -DskipTests
+        run: mvn clean install -D skipTests
         working-directory: server
 
-      - name: Check target directory
-        run: ls -la server/target 
+      - name: Check target directory 
+        run: ls -la server/target
 
-      - name: Login to Docker Hub
+      - name: Login Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
 
       - name: Build Docker image
