@@ -10,3 +10,17 @@ on:
       steps:
         - name: Checkout code
           uses: actions/checkout@v4
+
+        - name: Setup Java
+          uses: actions/setup-java@v4
+          with:
+            distribution: "temurin"
+            java-version: "21"
+        - name: Build project
+          run: mvn clean install
+        - name: Login Docker Hub
+          run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+        - name: Build Docker image
+          run: docker build -t miguel184/app .
+        - name: Push image Docker
+          run: docker push miguel184/app
