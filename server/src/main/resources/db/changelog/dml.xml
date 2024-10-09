@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1728500199509-10" author="Miguel">
+        <insert tableName="users">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="username" value="testuser"/>
+            <column name="password" value="hashed_password"/>
+            <column name="email" value="testuser@example.com"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1728500199509-11" author="Miguel">
+        <insert tableName="tokens">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440001"/>
+            <column name="user_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="token" value="sample_token"/>
+            <column name="expired" value="false"/>
+            <column name="revoked" value="false"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1728500199509-12" author="Miguel">
+        <insert tableName="favorites">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440002"/>
+            <column name="user_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="tv_shows" value="{Show1,Show2}"/>
+            <column name="movies" value="{Movie1,Movie2}"/>
+            <column name="people" value="{Person1,Person2}"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

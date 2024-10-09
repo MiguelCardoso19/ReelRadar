@@ -17,13 +17,16 @@ import java.util.UUID;
 public class Token {
     @Id
     @GeneratedValue
+    @Column
     private UUID id;
 
     @Column(unique = true)
     private String token;
 
+    @Column
     private boolean expired;
 
+    @Column
     private boolean revoked;
 
     @ManyToOne(fetch = FetchType.LAZY)

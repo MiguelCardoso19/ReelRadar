@@ -44,12 +44,12 @@ public class FavoriteController {
     }
 
     @Operation(
-            summary = "Delete Favorite Item",
-            description = "Deletes a specific favorite item (movie, TV show, or person) for the user. Provide the favorite type and value in the request body. Returns HTTP status 200 OK if successful."
+            summary = "Remove Favorite Item",
+            description = "Removes a specific favorite item (movie, TV show, or person) for the user. Provide the favorite type and value in the request body. Returns HTTP status 200 OK if successful."
     )
     @DeleteMapping("/remove/{userId}")
-    public ResponseEntity<String> deleteFavoriteItem(@Valid @PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException, InvalidFavoriteTypeException {
+    public ResponseEntity<String> removeFavoriteItem(@Valid @PathVariable UUID userId, @RequestBody FavoriteDeleteRequestDTO deleteRequest) throws FavoriteNotFoundException, UserNotFoundException, InvalidFavoriteTypeException {
         favoriteService.delete(userId, deleteRequest);
-        return ResponseEntity.ok("Favorite added successfully");
+        return ResponseEntity.ok("Favorite removed successfully");
     }
 }

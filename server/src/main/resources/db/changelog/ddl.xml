@@ -1,0 +1,101 @@
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<property name="uuid.type" value="UUID" dbms="postgresql"/>
+<property name="uuid.type" value="VARCHAR(36)" dbms="mysql, oracle"/>
+
+<property name="varcharArray.type" value="VARCHAR[]" dbms="postgresql"/>
+<property name="varcharArray.type" value="CLOB" dbms="mysql, oracle"/>
+
+<property name="boolean.type" value="BOOLEAN" dbms="postgresql, mysql"/>
+<property name="boolean.type" value="NUMBER(1)" dbms="oracle"/>
+
+<changeSet id="1728500199509-1" author="Miguel">
+    <createTable tableName="favorites">
+        <column name="id" type="${uuid.type}">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="user_id" type="${uuid.type}">
+            <constraints nullable="false"/>
+        </column>
+        <column name="movies" type="${varcharArray.type}"/>
+        <column name="people" type="${varcharArray.type}"/>
+        <column name="tv_shows" type="${varcharArray.type}"/>
+    </createTable>
+</changeSet>
+
+<changeSet id="1728500199509-2" author="Miguel">
+    <createTable tableName="tokens">
+        <column name="expired" type="${boolean.type}">
+            <constraints nullable="false"/>
+        </column>
+        <column name="revoked" type="${boolean.type}">
+            <constraints nullable="false"/>
+        </column>
+        <column name="id" type="${uuid.type}">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="user_id" type="${uuid.type}"/>
+        <column name="token" type="VARCHAR(255)"/>
+    </createTable>
+</changeSet>
+
+<changeSet id="1728500199509-3" author="Miguel">
+    <createTable tableName="users">
+        <column name="id" type="${uuid.type}">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="email" type="VARCHAR(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="password" type="VARCHAR(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="username" type="VARCHAR(255)">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+</changeSet>
+
+<changeSet id="1728500199509-4" author="Miguel">
+    <addUniqueConstraint columnNames="user_id" constraintName="favorites_user_id_key" tableName="favorites"/>
+</changeSet>
+
+<changeSet id="1728500199509-5" author="Miguel">
+    <addUniqueConstraint columnNames="token" constraintName="tokens_token_key" tableName="tokens"/>
+</changeSet>
+
+<changeSet id="1728500199509-6" author="Miguel">
+    <addUniqueConstraint columnNames="email" constraintName="users_email_key" tableName="users"/>
+</changeSet>
+
+<changeSet id="1728500199509-7" author="Miguel">
+    <addUniqueConstraint columnNames="username" constraintName="users_username_key" tableName="users"/>
+</changeSet>
+
+<!-- Add foreign key constraint from 'tokens.user_id' to 'users.id' -->
+<changeSet id="1728500199509-8" author="Miguel">
+    <addForeignKeyConstraint baseColumnNames="user_id"
+                             baseTableName="tokens"
+                             constraintName="fk_tokens_user_id"
+                             referencedColumnNames="id"
+                             referencedTableName="users"
+                             onDelete="NO ACTION"
+                             onUpdate="NO ACTION"/>
+</changeSet>
+
+<!-- Add foreign key constraint from 'favorites.user_id' to 'users.id' -->
+<changeSet id="1728500199509-9" author="Miguel">
+    <addForeignKeyConstraint baseColumnNames="user_id"
+                             baseTableName="favorites"
+                             constraintName="fk_favorites_user_id"
+                             referencedColumnNames="id"
+                             referencedTableName="users"
+                             onDelete="NO ACTION"
+                             onUpdate="NO ACTION"/>
+</changeSet>
+
+</databaseChangeLog>

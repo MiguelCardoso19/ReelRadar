@@ -17,13 +17,19 @@ public class Favorite implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private UUID id;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column
     private List<String> tvShows;
+
+    @Column
     private List<String> movies;
+
+    @Column
     private List<String> people;
 }
