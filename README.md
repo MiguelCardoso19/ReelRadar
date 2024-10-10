@@ -41,6 +41,7 @@ Check out ReelRadar on the [demo Website](https://miguelcardoso19.github.io/Reel
 - Maven
 - OpenAPI/Swagger
 - Docker
+- Liquibase
 
 ## Next Implementations
 
