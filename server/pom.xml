@@ -78,19 +78,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>4.22.0</version> <!-- Use the latest version -->
-                <configuration>
-                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
-                    <url>jdbc:postgresql://localhost:5432/reelRadarDB</url>
-                    <username>postgres</username>
-                    <password>postgre</password>
-                    <driver>org.postgresql.Driver</driver>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
