@@ -16,6 +16,18 @@ export default {
     path: '/tvShows',
     controller: 'tvShowController'
   },
+  auth: {
+    path: '/auth', 
+    controller: 'authenticationController',
+  },
+  user: {
+    path: '/user',
+    controller: 'userController',
+  },
+  favorites: {
+    path: '/favorites',
+    controller: 'favoriteController',
+  },
   currentPath: {
     path: '',
     controller: ''
